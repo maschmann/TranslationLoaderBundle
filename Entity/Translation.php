@@ -116,6 +116,4 @@ class Translation
         return $this->translation;
     }
 
-
-
 } 

@@ -16,9 +16,4 @@ use Doctrine\ORM\EntityRepository;
 class TranslationRepository extends EntityRepository
 {
 
-    public function findByLocaleMessageDomain( $locale, $messageDomain='messages' )
-    {
-
-    }
-
 } 
