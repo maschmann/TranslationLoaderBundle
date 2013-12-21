@@ -50,7 +50,7 @@ class DatabaseLoader implements LoaderInterface
             ->getRepository('AsmTranslationLoaderBundle:Translation')
             ->findBy(
                 array(
-                    'locale' => $locale,
+                    'locale'        => $locale,
                     'messageDomain' => $messageDomain,
                 )
             );

@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @uses Symfony\Component\Console\Input\InputOption
  * @uses Symfony\Component\Console\Output\OutputInterface
  */
-class GenerateDummyFilesFilesCommand extends ContainerAwareCommand
+class ImportTranslationFilesCommand extends ContainerAwareCommand
 {
     /**
      * command configuration
@@ -29,8 +29,24 @@ class GenerateDummyFilesFilesCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('asm:translations:dummy')
-            ->setDescription('generate dummy files for translation');
+            ->setName('asm:translations:import')
+            ->setDescription('dump translations from database to files')
+            ->addArgument(
+                'domain',
+                InputArgument::OPTIONAL,
+                'specific message domain to dump'
+            )
+            ->addArgument(
+                'loacle',
+                InputArgument::OPTIONAL,
+                'specific locale to dump'
+            )
+            ->addOption(
+                'clear',
+                'c',
+                null,
+                'clear database before import'
+            );
     }
 
 
