@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @uses Symfony\Component\Console\Input\InputOption
  * @uses Symfony\Component\Console\Output\OutputInterface
  */
-class GenerateDummyFilesFilesCommand extends ContainerAwareCommand
+class GenerateDummyFilesCommand extends ContainerAwareCommand
 {
     /**
      * command configuration
