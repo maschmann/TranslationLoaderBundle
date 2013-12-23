@@ -28,6 +28,8 @@ use Asm\TranslationLoaderBundle\Entity\Translation;
  * @uses Symfony\Component\Translation\Catalogue\DiffOperation
  * @uses Symfony\Component\Translation\Catalogue\MergeOperation
  * @uses Symfony\Component\Translation\MessageCatalogue
+ * @uses Symfony\Component\Finder\Finder
+ * @uses Asm\TranslationLoaderBundle\Entity\Translation
  */
 class ImportTranslationsCommand extends ContainerAwareCommand
 {
