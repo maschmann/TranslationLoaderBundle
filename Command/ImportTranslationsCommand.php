@@ -203,10 +203,13 @@ class ImportTranslationsCommand extends ContainerAwareCommand
                         $translation->setTransKey($key);
                         $translation->setTransLocale($locale);
                         $translation->setMessageDomain($domain);
+                        $translation->setDateCreated();
                     }
 
                     // and in either case we want to add a message :-)
                     $translation->setTranslation($message);
+                    $translation->setDateUpdated();
+
                     $em->persist($translation);
                     $em->flush();
                 }

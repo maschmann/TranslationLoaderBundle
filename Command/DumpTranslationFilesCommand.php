@@ -37,7 +37,7 @@ class DumpTranslationFilesCommand extends ContainerAwareCommand
                 'specific message domain to dump'
             )
             ->addArgument(
-                'loacle',
+                'locale',
                 InputArgument::OPTIONAL,
                 'specific locale to dump'
             );

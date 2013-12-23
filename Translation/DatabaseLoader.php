@@ -50,7 +50,7 @@ class DatabaseLoader implements LoaderInterface
             ->getRepository('AsmTranslationLoaderBundle:Translation')
             ->findBy(
                 array(
-                    'locale'        => $locale,
+                    'transLocale'   => $locale,
                     'messageDomain' => $messageDomain,
                 )
             );
@@ -59,7 +59,7 @@ class DatabaseLoader implements LoaderInterface
 
         /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
         foreach ($translations as $translation) {
-            $catalogue->set($translation->getKey(), $translation->getTranslation(), $messageDomain);
+            $catalogue->set($translation->getTransKey(), $translation->getTranslation(), $messageDomain);
         }
 
         return $catalogue;

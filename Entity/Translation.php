@@ -5,6 +5,7 @@
 namespace Asm\TranslationLoaderBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime as DateTime;
 
 /**
  * translation entity
@@ -42,6 +43,21 @@ class Translation
      * @ORM\Column(type="text")
      */
     private $translation;
+
+
+    /**
+     * @var string $dateCreated
+     * @ORM\Column(name="date_created", type="datetime")
+     */
+    private $dateCreated;
+
+
+    /**
+     * @var string $dateUpdated
+     * @ORM\Column(name="date_updated", type="datetime")
+     */
+    private $dateUpdated;
+
 
     /**
      * @param string $transKey
@@ -107,4 +123,41 @@ class Translation
         return $this->translation;
     }
 
+    /**
+     * @param mixed $dateCreated
+     */
+    public function setDateCreated($dateCreated = null)
+    {
+        if (empty($dateCreated)) {
+            $dateCreated = new \DateTime();
+        }
+        $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * @param mixed $dateUpdated
+     */
+    public function setDateUpdated($dateUpdated = null)
+    {
+        if (empty($dateUpdated)) {
+            $dateUpdated = new \DateTime();
+        }
+        $this->dateUpdated = $dateUpdated;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated;
+    }
 }
