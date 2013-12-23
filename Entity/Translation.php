@@ -16,28 +16,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Translation
 {
-
     /**
-     * @var integer $id
-     * @ORM\Column(type="integer")
+     * @var string $transKey
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="trans_key", type="string", length=255)
      */
-    private $id;
+    private $transKey;
 
     /**
-     * @var string $key
-     * @ORM\Id()
-     * @ORM\Column(type="string", length=255)
-     */
-    private $key;
-
-    /**
-     * @var string $locale
+     * @var string $transLocale
 ´    * @ORM\Id()
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(name="trans_locale", type="string", length=5)
      */
-    private $locale;
+    private $transLocale;
 
     /**
      * @var string $messageDomain
@@ -53,35 +44,35 @@ class Translation
     private $translation;
 
     /**
-     * @param string $key
+     * @param string $transKey
      */
-    public function setKey($key)
+    public function setTransKey($transKey)
     {
-        $this->key = $key;
+        $this->transKey = $transKey;
     }
 
     /**
      * @return string
      */
-    public function getKey()
+    public function getTransKey()
     {
-        return $this->key;
+        return $this->transKey;
     }
 
     /**
-     * @param string $locale
+     * @param string $transLocale
      */
-    public function setLocale($locale)
+    public function setTransLocale($transLocale)
     {
-        $this->locale = $locale;
+        $this->transLocale = $transLocale;
     }
 
     /**
      * @return string
      */
-    public function getLocale()
+    public function getTransLocale()
     {
-        return $this->locale;
+        return $this->transLocale;
     }
 
     /**
@@ -116,4 +107,4 @@ class Translation
         return $this->translation;
     }
 
-} 
+}
