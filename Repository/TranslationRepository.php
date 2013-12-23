@@ -16,4 +16,17 @@ use Doctrine\ORM\EntityRepository;
 class TranslationRepository extends EntityRepository
 {
 
-} 
+    /**
+     * get all message domain/locale combinations
+     *
+     * @return array
+     */
+    public function findByKeys()
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('DISTINCT CONCAT( t.messageDomain, \'.\', t.transLocale, \'.db\' ) AS filename')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+}

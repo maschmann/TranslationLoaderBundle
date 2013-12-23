@@ -41,6 +41,30 @@ class GenerateDummyFilesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln('<info>generating dummy files</info>');
+        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
 
+        $container = $this->getContainer();
+        $translationPath = $container->get('kernel')->getRootDir().'/Resources/translations/';
+
+        // create directory for translations if not exists
+        if (!is_dir($translationPath)) {
+            mkdir($translationPath);
+        }
+
+        $fileList = $container->get('doctrine')
+            ->getManager()
+            ->getRepository('AsmTranslationLoaderBundle:Translation')
+            ->findByKeys();
+
+        foreach ($fileList as $file) {
+            $output->writeln('<comment>generating ' . $translationPath . $file['filename'] . '</comment>');
+            file_put_contents($translationPath . $file['filename'], '');
+        }
+
+        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln('<info>finished!</info>');
+        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
     }
 }
