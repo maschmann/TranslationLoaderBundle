@@ -64,7 +64,8 @@ class CreateTranslationCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $domain     = $input->getArgument('domain');
-        $em         = $this->getContainer()->get('doctrine')->getManager();
+        $manager    = $this->getContainer()->getParameter('translation_loader.database.entity_manager');
+        $em         = $this->getContainer()->get('doctrine')->getManager($manager);
         $repository = $em->getRepository('AsmTranslationLoaderBundle:Translation');
         $action     = 'updated';
 

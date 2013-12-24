@@ -32,9 +32,9 @@ Getting started
 You can tell the bundle to use an EntityManager other than your default manager.
 Therefore you need to add a configuration node to your app/config/config.yml
 ```yml
-translation_loader:
+asm_translation_loader:
     database:
-        entity_manager: <yourmanager_here>
+        entity_manager: <yourmanager_here> # default: null
 ```
 
 ###Setup the translation table

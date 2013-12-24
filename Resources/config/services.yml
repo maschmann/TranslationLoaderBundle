@@ -1,4 +1,5 @@
 parameters:
+    translation_loader.database.entity_manager: ~
 
 services:
     translation.loader.db:

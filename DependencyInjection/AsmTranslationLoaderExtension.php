@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @namespace Asm\TranslationLoaderBundle\DependencyInjection
+ */
 namespace Asm\TranslationLoaderBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,7 +12,12 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * This is the class that loads and manages your bundle configuration
  *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * @package Asm\TranslationLoaderBundle\DependencyInjection
+ * @author marc aschmann <maschmann@gmail.com>
+ * @uses Symfony\Component\DependencyInjection\ContainerBuilder
+ * @uses Symfony\Component\Config\FileLocator
+ * @uses Symfony\Component\HttpKernel\DependencyInjection\Extension
+ * @uses Symfony\Component\DependencyInjection\Loader
  */
 class AsmTranslationLoaderExtension extends Extension
 {
@@ -24,5 +31,7 @@ class AsmTranslationLoaderExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $container->setParameter('translation_loader.database.entity_manager', $config['database']['entity_manager']);
     }
 }

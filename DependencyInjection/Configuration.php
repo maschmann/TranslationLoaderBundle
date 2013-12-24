@@ -24,14 +24,19 @@ class Configuration implements ConfigurationInterface
     {
         /** @var \Symfony\Component\Config\Definition\Builder\TreeBuilder $treeBuilder */
         $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('asm_translation_loader');
 
-        return $treeBuilder->root('translation_loader')
+        $rootNode
         ->children()
             ->arrayNode('database')
                 ->children()
-                    ->scalarNode('entity_manager')->defaultNull()->end()
+                    ->scalarNode('entity_manager')
+                        ->defaultNull()
+                    ->end()
                 ->end()
             ->end()
         ->end();
+
+        return $treeBuilder;
     }
 }
