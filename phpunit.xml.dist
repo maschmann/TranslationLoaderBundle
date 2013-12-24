@@ -9,12 +9,22 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="bootstrap.php"
+         bootstrap="./vendor/autoload.php"
         >
     <testsuites>
         <testsuite name="TranslationLoaderBundle testsuite">
-            <directory>.</directory>
-            <exclude>./vendor</exclude>
+            <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
