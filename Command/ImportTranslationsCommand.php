@@ -175,7 +175,7 @@ class ImportTranslationsCommand extends ContainerAwareCommand
     private function importCatalogues($output)
     {
         $manager = $this->container->getParameter('translation_loader.database.entity_manager');
-print_r($manager);
+
         /**
          * since performance might be an issue and also there's no usefull way using
          * INSERT ON DUPICATE KEY UPDATE with doctrine.. maybe use dbal to batch process...
