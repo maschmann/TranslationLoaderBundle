@@ -30,7 +30,7 @@ class GenerateDummyFilesCommand extends ContainerAwareCommand
     {
         $this
             ->setName('asm:translations:dummy')
-            ->setDescription('generate dummy files for translation');
+            ->setDescription('generate dummy files for translation loader');
     }
 
 
@@ -46,7 +46,6 @@ class GenerateDummyFilesCommand extends ContainerAwareCommand
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');
 
         $container = $this->getContainer();
-        $manager   = $container->getParameter('translation_loader.database.entity_manager');
         $translationPath = $container->get('kernel')->getRootDir().'/Resources/translations/';
 
         // create directory for translations if not exists
@@ -55,7 +54,7 @@ class GenerateDummyFilesCommand extends ContainerAwareCommand
         }
 
         $fileList = $container->get('doctrine')
-            ->getManager($manager)
+            ->getManager($container->getParameter('translation_loader.database.entity_manager'))
             ->getRepository('AsmTranslationLoaderBundle:Translation')
             ->findByKeys();
 

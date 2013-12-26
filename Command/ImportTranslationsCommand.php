@@ -59,13 +59,21 @@ class ImportTranslationsCommand extends ContainerAwareCommand
 
 
     /**
+     * manager to use for doctrine connection
+     *
+     * @var null
+     */
+    private $manager = null;
+
+
+    /**
      * command configuration
      */
     protected function configure()
     {
         $this
             ->setName('asm:translations:import')
-            ->setDescription('Import translations from all bundles.')
+            ->setDescription('Import translations from all bundles')
             ->addOption(
                 'clear',
                 'c',
@@ -88,14 +96,14 @@ class ImportTranslationsCommand extends ContainerAwareCommand
         $output->writeln('<info>importing all available translation files ...</info>');
 
         $this->container = $this->getContainer();
-        $manager         = $this->container->getParameter('translation_loader.database.entity_manager');
+        $this->manager   = $this->container->getParameter('translation_loader.database.entity_manager');
 
         if ($input->getOption('clear')) {
             $output->writeln('<comment>deleting all translations from database...</comment>');
             $output->writeln('<info>--------------------------------------------------------------------------------</info>');
             $output->writeln('');
             $this->container->get('doctrine')
-                ->getManager()
+                ->getManager($this->manager)
                 ->createQuery('DELETE FROM AsmTranslationLoaderBundle:Translation')
                 ->execute();
         }
@@ -174,15 +182,13 @@ class ImportTranslationsCommand extends ContainerAwareCommand
      */
     private function importCatalogues($output)
     {
-        $manager = $this->container->getParameter('translation_loader.database.entity_manager');
-
         /**
          * since performance might be an issue and also there's no usefull way using
          * INSERT ON DUPICATE KEY UPDATE with doctrine.. maybe use dbal to batch process...
          * @todo make this configurable, so different databases/ems could be used
          */
         /** @var \Doctrine\ORM\EntityManager $em */
-        $em = $this->container->get('doctrine')->getManager($manager);
+        $em = $this->container->get('doctrine')->getManager($this->manager);
         $repository = $em->getRepository('AsmTranslationLoaderBundle:Translation');
         $output->writeln('<info>inserting all translations</info>');
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');

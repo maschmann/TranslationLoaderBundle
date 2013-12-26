@@ -32,6 +32,11 @@ class AsmTranslationLoaderExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('translation_loader.database.entity_manager', $config['database']['entity_manager']);
+        $em = false;
+        if (isset($config['database']['entity_manager'])) {
+            $em = $config['database']['entity_manager'];
+        }
+
+        $container->setParameter('translation_loader.database.entity_manager', $em);
     }
 }

@@ -65,8 +65,7 @@ class DumpTranslationFilesCommand extends ContainerAwareCommand
         $output->writeln('<info>generating translation files</info>');
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');
 
-        $container = $this->getContainer();
-        $manager   = $container->getParameter('translation_loader.database.entity_manager');
+        $container       = $this->getContainer();
         $translationPath = $container->get('kernel')->getRootDir().'/Resources/translations/';
 
         // create directory for translations if not exists
@@ -75,7 +74,7 @@ class DumpTranslationFilesCommand extends ContainerAwareCommand
         }
 
         $repository = $container->get('doctrine')
-            ->getManager($manager)
+            ->getManager($container->getParameter('translation_loader.database.entity_manager'))
             ->getRepository('AsmTranslationLoaderBundle:Translation');
         $transList = $repository->findByLocaleDomain(
             $input->getArgument('locale'),

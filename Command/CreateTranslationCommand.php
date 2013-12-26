@@ -31,7 +31,7 @@ class CreateTranslationCommand extends ContainerAwareCommand
     {
         $this
             ->setName('asm:translations:create')
-            ->setDescription('create new translation in db')
+            ->setDescription('add new translation to db')
             ->addArgument(
                 'key',
                 InputArgument::REQUIRED,
@@ -64,8 +64,9 @@ class CreateTranslationCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $domain     = $input->getArgument('domain');
-        $manager    = $this->getContainer()->getParameter('translation_loader.database.entity_manager');
-        $em         = $this->getContainer()->get('doctrine')->getManager($manager);
+        $em         = $this
+            ->getContainer()->get('doctrine')
+            ->getManager($this->getContainer()->getParameter('translation_loader.database.entity_manager'));
         $repository = $em->getRepository('AsmTranslationLoaderBundle:Translation');
         $action     = 'updated';
 
