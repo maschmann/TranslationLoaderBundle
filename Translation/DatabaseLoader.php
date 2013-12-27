@@ -45,15 +45,19 @@ class DatabaseLoader implements LoaderInterface
      */
     public function load($resource, $locale, $messageDomain = 'messages')
     {
+        $find = array(
+            'transLocale'   => $locale,
+            'messageDomain' => $messageDomain,
+        );
+
+        if (!empty($resource)) {
+            $find['translation'] = $resource;
+        }
+
         // get our translations, obviously
         $translations = $this->doctrine
             ->getRepository('AsmTranslationLoaderBundle:Translation')
-            ->findBy(
-                array(
-                    'transLocale'   => $locale,
-                    'messageDomain' => $messageDomain,
-                )
-            );
+            ->findBy($find);
 
         $catalogue = new MessageCatalogue($locale);
 

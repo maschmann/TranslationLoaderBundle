@@ -49,6 +49,42 @@ class LoadTranslationData implements FixtureInterface
             'domain'      => 'test',
             'translation' => 'domain test4',
         ),
+        array(
+            'key'         => 'test5',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test5',
+        ),
+        array(
+            'key'         => 'test6',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test6',
+        ),
+        array(
+            'key'         => 'test7',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test7',
+        ),
+        array(
+            'key'         => 'test8',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test8',
+        ),
+        array(
+            'key'         => 'test9',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test9',
+        ),
+        array(
+            'key'         => 'test10',
+            'locale'      => 'en_US',
+            'domain'      => 'messages',
+            'translation' => 'This is test10',
+        ),
     );
 
 

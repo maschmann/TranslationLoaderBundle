@@ -4,6 +4,7 @@
  */
 namespace Asm\TranslationLoaderBundle\Tests\Command;
 
+use Asm\TranslationLoaderBundle\TestCase\DatabaseTestCase;
 
 /**
  * Class CreateTranslationCommandTest
@@ -11,7 +12,7 @@ namespace Asm\TranslationLoaderBundle\Tests\Command;
  * @package Asm\TranslationLoaderBundle\Tests\Command
  * @author marc aschmann <maschmann@gmail.com>
  */
-class CreateTranslationCommandTest extends \PHPUnit_Framework_TestCase
+class CreateTranslationCommandTest extends DatabaseTestCase
 {
 
 }

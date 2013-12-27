@@ -23,6 +23,9 @@
             <exclude>
                 <directory>./Resources</directory>
                 <directory>./Tests</directory>
+                <directory>./TestCase</directory>
+                <directory>./Repository</directory>
+                <directory>./Entity</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>
