@@ -64,6 +64,14 @@ php app/console ca:cl
 ```
 and check your symfony cache dir for the brand new MessageCatalogue we've now filled from the db :-)
 
+###Activate administration
+Add following lines to your app/config/routing.yml
+```yml
+# TranslationLoaderBundle routes
+asm_translation_loader:
+    resource: "@AsmTranslationLoaderBundle/Resources/config/routing.yml"
+```
+
 ###Funstuff
 If you're tired of database-translations, don't despair: Just use the file dumper and re-generate your files!
 ```sh
