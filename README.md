@@ -72,7 +72,7 @@ php app/console asm:translations:dump
 Check out your translation files in app/Resources/translations and if you remove all *.db files, your're back on file-mode!
 
 ###Testing
-The UnitTests need doctrine fixtures bundle to be present, since most of the stuff relies on a database.
+I've not yet completed my test-setup and be glad to get a little contribution here ;-)
 
 Contributions
 ---------
