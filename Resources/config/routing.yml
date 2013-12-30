@@ -1,4 +1,15 @@
 asm_translationloader_admin_index:
-    path:  /admin/translations
+    path:  /admin/translations.html
     defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:index }
 
+asm_translationloader_admin_create:
+    path:  /admin/translations/create.html
+    defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:create }
+
+asm_translationloader_admin_edit:
+    path:  /admin/translations/edit.html
+    defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:edit }
+
+asm_translationloader_admin_delete:
+    path:  /admin/translations/delete.html
+    defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:delete }

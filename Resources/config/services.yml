@@ -1,5 +1,6 @@
 parameters:
-    translation_loader.database.entity_manager: ~
+    translation_loader.database.entity_manager: default
+    translation_loader.history.enabled:         false
 
 services:
     translation.loader.db:
@@ -7,3 +8,8 @@ services:
         arguments: [ '@doctrine.orm.entity_manager' ]
         tags:
             - { name: translation.loader, alias: db}
+
+    asm_translation_loader.subscriber:
+        class: Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: "%translation_loader.database.entity_manager%" }

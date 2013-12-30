@@ -12,6 +12,8 @@ use \DateTime as DateTime;
  *
  * @package Asm\TranslationLoaderBundle\Entity
  * @author  marc aschmann <maschmann@gmail.com>
+ * @uses Doctrine\ORM\Mapping ORM
+ * @uses \DateTime
  * @ORM\Table(name="translation")
  * @ORM\Entity(repositoryClass="Asm\TranslationLoaderBundle\Repository\TranslationRepository")
  */

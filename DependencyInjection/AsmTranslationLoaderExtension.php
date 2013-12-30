@@ -32,11 +32,48 @@ class AsmTranslationLoaderExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $em = false;
-        if (isset($config['database']['entity_manager'])) {
+        // set entity manager for translations
+        $em = 'default';
+        if (isset($config['database']['entity_manager'])
+            && $config['database']['entity_manager'] != 'default'
+        ) {
             $em = $config['database']['entity_manager'];
         }
 
+        // check if history feature is enabled
+        $historyEnabled = false;
+        if (isset($config['history']['enabled'])
+            && true == $config['history']['enabled']
+        ) {
+            $historyEnabled = $config['history']['enabled'];
+        }
+
+        $rolesEnabled = false;
+        $rolesCreate  = array();
+        $rolesRead    = array();
+        $rolesUpdate  = array();
+        $rolesDelete  = array();
+
+        // check if we should use roles to check if the user has rights to do stuff
+        if (isset($config['roles']['enabled'])
+            && true == $config['roles']['enabled']
+        ) {
+            $rolesEnabled = $config['roles']['enabled'];
+
+            // since the sub nodes are reqired & checked, we can just add the values
+            $rolesCreate = $config['roles']['create'];
+            $rolesRead   = $config['roles']['read'];
+            $rolesUpdate = $config['roles']['update'];
+            $rolesDelete = $config['roles']['delete'];
+
+        }
+
         $container->setParameter('translation_loader.database.entity_manager', $em);
+        $container->setParameter('translation_loader.history.enabled', $historyEnabled);
+        $container->setParameter('translation_loader.roles.enabled', $rolesEnabled);
+        $container->setParameter('translation_loader.roles.create', $rolesCreate);
+        $container->setParameter('translation_loader.roles.read', $rolesRead);
+        $container->setParameter('translation_loader.roles.update', $rolesUpdate);
+        $container->setParameter('translation_loader.roles.delete', $rolesDelete);
     }
 }
