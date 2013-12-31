@@ -54,7 +54,7 @@ class GenerateDummyFilesCommand extends ContainerAwareCommand
         }
 
         $fileList = $container->get('doctrine')
-            ->getManager($container->getParameter('translation_loader.database.entity_manager'))
+            ->getManager($container->getParameter('asm_translation_loader.database.entity_manager'))
             ->getRepository('AsmTranslationLoaderBundle:Translation')
             ->findByKeys();
 

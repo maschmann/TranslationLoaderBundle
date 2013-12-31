@@ -58,9 +58,9 @@ class TranslationHistory {
 
     /**
      * @var string $transValueBefore
-     * @ORM\Column(name="trans_value_before", type="text")
+     * @ORM\Column(name="translation", type="text")
      */
-    private $transValueBefore;
+    private $translation;
 
     /**
      * @var string $transValueAfter
@@ -150,35 +150,19 @@ class TranslationHistory {
     }
 
     /**
-     * @param string $transValueAfter
+     * @param string $translation
      */
-    public function setTransValueAfter($transValueAfter)
+    public function setTranslation($translation)
     {
-        $this->transValueAfter = $transValueAfter;
+        $this->translation = $translation;
     }
 
     /**
      * @return string
      */
-    public function getTransValueAfter()
+    public function getTranslation()
     {
-        return $this->transValueAfter;
-    }
-
-    /**
-     * @param string $transValueBefore
-     */
-    public function setTransValueBefore($transValueBefore)
-    {
-        $this->transValueBefore = $transValueBefore;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTransValueBefore()
-    {
-        return $this->transValueBefore;
+        return $this->translation;
     }
 
     /**

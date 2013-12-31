@@ -68,12 +68,12 @@ class AsmTranslationLoaderExtension extends Extension
 
         }
 
-        $container->setParameter('translation_loader.database.entity_manager', $em);
-        $container->setParameter('translation_loader.history.enabled', $historyEnabled);
-        $container->setParameter('translation_loader.roles.enabled', $rolesEnabled);
-        $container->setParameter('translation_loader.roles.create', $rolesCreate);
-        $container->setParameter('translation_loader.roles.read', $rolesRead);
-        $container->setParameter('translation_loader.roles.update', $rolesUpdate);
-        $container->setParameter('translation_loader.roles.delete', $rolesDelete);
+        $container->setParameter('asm_translation_loader.database.entity_manager', $em);
+        $container->setParameter('asm_translation_loader.history.enabled', $historyEnabled);
+        $container->setParameter('asm_translation_loader.roles.enabled', $rolesEnabled);
+        $container->setParameter('asm_translation_loader.roles.create', $rolesCreate);
+        $container->setParameter('asm_translation_loader.roles.read', $rolesRead);
+        $container->setParameter('asm_translation_loader.roles.update', $rolesUpdate);
+        $container->setParameter('asm_translation_loader.roles.delete', $rolesDelete);
     }
 }
