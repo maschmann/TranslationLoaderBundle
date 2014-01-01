@@ -3,7 +3,7 @@ asm_translationloader_admin_show:
     defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:show }
 
 asm_translationloader_admin_show_filter:
-    path:  /admin/translations/show/{locale}/{domain}
+    path:  /admin/translations/show/{domain}/{locale}
     defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:show }
 
 asm_translationloader_admin_create:

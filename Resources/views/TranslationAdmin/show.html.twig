@@ -1,3 +1,5 @@
 {% extends "AsmTranslationLoaderBundle::layout.html.twig" %}
 {% block title %}show{% endblock %}
-{% block content %}show{% endblock %}
+{% block content %}
+{{ include('AsmTranslationLoaderBundle:TranslationAdmin:translationList.html.twig', {'translations': translations}) }}
+{% endblock %}

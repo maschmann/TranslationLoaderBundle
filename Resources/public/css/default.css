@@ -1,0 +1,23 @@
+#translation-loader {}
+
+#translation-loader .translation-list {
+    border: 1px dotted #ccc;
+}
+
+#translation-loader .translation-list tr,
+#translation-loader .translation-list td {
+    margin: 2px;
+}
+
+#translation-loader .translation-list th {
+    font-weight: bold;
+    padding: 0 2px;
+}
+
+#translation-loader .translation-list tr {
+    border-bottom: 1px solid #ccc;
+}
+
+#translation-loader .translation-list td {
+    font-size: smaller;
+}

@@ -3,11 +3,13 @@
 {% block head %}
     <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
     <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/asmtranslationloader/css/default.css') }}" />
 {% endblock %}
 
 {% block title 'TranslationLoader Bundle' %}
 
 {% block body %}
+<div id="translation-loader">
     {% for flashMessage in app.session.flashbag.get('notice') %}
         <div class="flash-message">
             <em>Notice</em>: {{ flashMessage }}
@@ -17,5 +19,5 @@
     <div class="block">
         {% block content %}{% endblock %}
     </div>
-
+</div>
 {% endblock %}

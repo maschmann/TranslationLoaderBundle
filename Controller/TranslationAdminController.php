@@ -15,17 +15,34 @@ class TranslationAdminController extends Controller
 {
     /**
      * default page
+     *
+     * @param string $domain
+     * @param string $locale
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction()
+    public function showAction($domain=null, $locale=null)
     {
-        $translations = $this->get('doctrine')
-            ->getManager($this->getContainer()->getParameter('asm_translation_loader.database.entity_manager'))
-            ->getRepository('AsmTranslationLoaderBundle:Translation')
-            ->findAll();
+        $repository = $this->get('doctrine')
+            ->getManager($this->container->getParameter('asm_translation_loader.database.entity_manager'))
+            ->getRepository('AsmTranslationLoaderBundle:Translation');
+
+        if (!empty($locale) || !empty($domain)) {
+            if ($locale) {
+                $params['transLocale'] = $locale;
+            }
+            if ($domain) {
+                $params['messageDomain'] = $domain;
+            }
+            $translations = $repository->findBy($params);
+        } else {
+            $translations = $repository->findAll();
+        }
 
         return $this->render(
             'AsmTranslationLoaderBundle:TranslationAdmin:show.html.twig',
-            array()
+            array(
+                'translations' => $translations,
+            )
         );
     }
 

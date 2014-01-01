@@ -1,5 +1,5 @@
 {% if translations %}
-<table>
+<table class="translation-list">
     <tr>
         <th>{{ 'message_domain'|trans }}</th>
         <th>{{ 'trans_key'|trans }}</th>
@@ -10,11 +10,16 @@
     </tr>
     {% for translation in translations %}
     <tr>
-        <td>row 1, cell 1</td>
-        <td>row 1, cell 2</td>
+        <td>{{ translation.messageDomain }}</td>
+        <td>{{ translation.transKey }}</td>
+        <td>{{ translation.transLocale }}</td>
+        <td>{{ translation.translation }}</td>
+        <td>{{ translation.dateCreated.format('Y-m-d H:i:s') }}</td>
+        <td>{{ translation.dateUpdated.format('Y-m-d H:i:s') }}</td>
     </tr>
     {% endfor %}
 </table>
+<p>{{ 'translations' }}: {{ translations|length }}</p>
 {% else %}
 <h3>{{ 'no.table.data.yet'|trans }}</h3>
 {% endif %}
