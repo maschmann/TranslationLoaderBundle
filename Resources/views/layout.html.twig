@@ -1,0 +1,21 @@
+{% extends "TwigBundle::layout.html.twig" %}
+
+{% block head %}
+    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+{% endblock %}
+
+{% block title 'TranslationLoader Bundle' %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-message">
+            <em>Notice</em>: {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="block">
+        {% block content %}{% endblock %}
+    </div>
+
+{% endblock %}

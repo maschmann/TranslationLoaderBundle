@@ -14,7 +14,7 @@ use \DateTime as DateTime;
  * @author marc aschmann <maschmann@gmail.com>
  * @uses Doctrine\ORM\Mapping ORM
  * @uses \DateTime
- * @ORM\Table(name="translation_history",indexes={@index(name="search_idx", columns={"trans_key", "trans_locale", "message_domain"})})
+ * @ORM\Table(name="translation_history",indexes={@ORM\Index(name="search_idx", columns={"trans_key", "trans_locale", "message_domain"})})
  * @ORM\Entity(repositoryClass="Asm\TranslationLoaderBundle\Repository\TranslationHistoryRepository")
  */
 class TranslationHistory {

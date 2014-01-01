@@ -1,0 +1,20 @@
+{% if translations %}
+<table>
+    <tr>
+        <th>{{ 'message_domain'|trans }}</th>
+        <th>{{ 'trans_key'|trans }}</th>
+        <th>{{ 'trans_locale'|trans }}</th>
+        <th>{{ 'translation'|trans }}</th>
+        <th>{{ 'date_created'|trans }}</th>
+        <th>{{ 'date_updated'|trans }}</th>
+    </tr>
+    {% for translation in translations %}
+    <tr>
+        <td>row 1, cell 1</td>
+        <td>row 1, cell 2</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h3>{{ 'no.table.data.yet'|trans }}</h3>
+{% endif %}
