@@ -27,6 +27,13 @@ class TranslationHistorySubscriber implements EventSubscriber {
      */
     private $isEnabled = false;
 
+
+    /**
+     * @var \Symfony\Component\Security\Core\SecurityContext $seccurityContext
+     */
+    private $securityContext;
+
+
     /**
      * @return array
      */
@@ -75,6 +82,13 @@ class TranslationHistorySubscriber implements EventSubscriber {
 
             /** @var \Asm\TranslationLoaderBundle\ $entity */
             if ($entity instanceof Translation) {
+
+                $token    = $this->securityContext->getToken();
+                $userName = 'anonymous';
+                if (!empty($token)) {
+                    $userName = $token->getUsername();
+                }
+
                 /** @var \Asm\TranslationLoaderBundle\Entity\TranslationHistory $historyEvent */
                 $historyEvent = new TranslationHistory();
                 $historyEvent->setTransKey($entity->getTransKey());
@@ -82,7 +96,10 @@ class TranslationHistorySubscriber implements EventSubscriber {
                 $historyEvent->setMessageDomain($entity->getMessageDomain());
                 $historyEvent->setTranslation($entity->getTranslation());
                 $historyEvent->setUserAction($type);
-                $historyEvent->setUserId(0);
+                $historyEvent->setUserName($userName);
+
+                $entityManager->persist($historyEvent);
+                $entityManager->flush();
             }
         }
     }
@@ -99,8 +116,11 @@ class TranslationHistorySubscriber implements EventSubscriber {
     }
 
 
-    public function setUser($user)
+    /**
+     * @param $securityContext
+     */
+    public function setSecurityContext($securityContext)
     {
-        //$this->user = $user;
+        $this->securityContext = $securityContext;
     }
 }

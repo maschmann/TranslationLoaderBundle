@@ -45,10 +45,10 @@ class TranslationHistory {
     private $messageDomain;
 
     /**
-     * @var integer $userId
-     * @ORM\Column(name="user_id", type="integer")
+     * @var string $userName
+     * @ORM\Column(name="user_name", type="string", length=255)
      */
-    private $userId;
+    private $userName;
 
     /**
      * @var string $userAction
@@ -182,18 +182,18 @@ class TranslationHistory {
     }
 
     /**
-     * @param int $userId
+     * @param string $userName
      */
-    public function setUserId($userId=null)
+    public function setUserName($userName='anonymous')
     {
-        $this->userId = $userId;
+        $this->userName = $userName;
     }
 
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserName()
     {
-        return $this->userId;
+        return $this->userName;
     }
 }
