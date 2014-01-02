@@ -43,7 +43,7 @@ class TranslationRepository extends EntityRepository
         if (!empty($locale) && !empty($domain)) {
 
             $query = $this->createQueryBuilder('t')
-                ->select('t.messageDomain, t.transLocale')
+                ->select('DISTINCT t.messageDomain, t.transLocale')
                 ->where('t.messageDomain = :domain')
                 ->andWhere('t.transLocale = :locale')
                 ->setParameter('domain', $domain)
