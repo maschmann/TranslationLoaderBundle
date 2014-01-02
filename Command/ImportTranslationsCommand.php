@@ -185,10 +185,11 @@ class ImportTranslationsCommand extends ContainerAwareCommand
         /**
          * since performance might be an issue and also there's no usefull way using
          * INSERT ON DUPICATE KEY UPDATE with doctrine.. maybe use dbal to batch process...
-         * @todo make this configurable, so different databases/ems could be used
          */
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $this->container->get('doctrine')->getManager($this->manager);
+        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+
         $repository = $em->getRepository('AsmTranslationLoaderBundle:Translation');
         $output->writeln('<info>inserting all translations</info>');
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');
@@ -223,8 +224,13 @@ class ImportTranslationsCommand extends ContainerAwareCommand
 
                     $em->persist($translation);
                     $em->flush();
+                    // cleanup
+                    $em->detach($translation);
+                    $em->clear();
                 }
                 $output->write('<info> ... ' . $domain . '.' . $locale . '</info>');
+                // force garbage collection
+                gc_collect_cycles();
             }
             $output->writeln('');
         }
