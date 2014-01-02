@@ -4,7 +4,7 @@
  */
 namespace Asm\TranslationLoaderBundle\Translation;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
@@ -21,18 +21,29 @@ class DatabaseLoader implements LoaderInterface
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager $doctrine
+     * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
      */
     private $doctrine;
+
+
+    /**
+     * manager to use for db loading
+     *
+     * @var string
+     */
+    private $manager;
+
 
     /**
      * default constructor
      *
-     * @param \Doctrine\ORM\EntityManager $doctrine EntityManager
+     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine Registry
+     * @param string $manager
      */
-    public function __construct(EntityManager $doctrine)
+    public function __construct(Registry $doctrine, $manager)
     {
         $this->doctrine = $doctrine;
+        $this->manager  = $manager;
     }
 
     /**
@@ -56,6 +67,7 @@ class DatabaseLoader implements LoaderInterface
 
         // get our translations, obviously
         $translations = $this->doctrine
+            ->getManager($this->manager)
             ->getRepository('AsmTranslationLoaderBundle:Translation')
             ->findBy($find);
 
