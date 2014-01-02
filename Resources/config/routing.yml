@@ -1,4 +1,2 @@
-asm_translationloader_admin_index:
-    path:  /admin/translations
-    defaults: { _controller: AsmTranslationLoaderBundle:TranslationAdmin:index }
+
 

@@ -13,7 +13,7 @@ use Symfony\Component\Translation\MessageCatalogue;
  *
  * @package Asm\TranslationLoaderBundle\Service
  * @author marc aschmann <maschmann@gmail.com>
- * @uses Doctrine\ORM\EntityManager
+ * @uses Doctrine\Bundle\DoctrineBundle\Registry
  * @uses Symfony\Component\Translation\Loader\LoaderInterface
  * @uses Symfony\Component\Translation\MessageCatalogue
  */
@@ -49,6 +49,7 @@ class DatabaseLoader implements LoaderInterface
     /**
      * load messages from db
      *
+     * @todo check what kind of resource this is and maybe create database resource?
      * @param string $resource translation key
      * @param string $locale current locale
      * @param string $messageDomain message domain
@@ -56,20 +57,16 @@ class DatabaseLoader implements LoaderInterface
      */
     public function load($resource, $locale, $messageDomain = 'messages')
     {
-        $find = array(
-            'transLocale'   => $locale,
-            'messageDomain' => $messageDomain,
-        );
-
-        if (!empty($resource)) {
-            $find['translation'] = $resource;
-        }
-
         // get our translations, obviously
         $translations = $this->doctrine
             ->getManager($this->manager)
             ->getRepository('AsmTranslationLoaderBundle:Translation')
-            ->findBy($find);
+            ->findBy(
+                array(
+                    'transLocale'   => $locale,
+                    'messageDomain' => $messageDomain,
+                )
+            );
 
         $catalogue = new MessageCatalogue($locale);
 
