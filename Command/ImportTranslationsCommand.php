@@ -199,34 +199,36 @@ class ImportTranslationsCommand extends ContainerAwareCommand
             $output->write('<comment>' . $locale . ': </comment>');
             foreach ($catalogue->getDomains() as $domain) {
                 foreach ($catalogue->all($domain) as $key => $message) {
-                    /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
-                    $translation = $repository->findOneBy(
-                        array(
-                            'transKey'      => $key,
-                            'transLocale'   => $locale,
-                            'messageDomain' => $domain,
-                        )
-                    );
-
-                    // insert if no entry exists
-                    if (!$translation) {
+                    if ('' !== $key) {
                         /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
-                        $translation = new Translation();
-                        $translation->setTransKey($key);
-                        $translation->setTransLocale($locale);
-                        $translation->setMessageDomain($domain);
-                        $translation->setDateCreated();
+                        $translation = $repository->findOneBy(
+                            array(
+                                'transKey'      => $key,
+                                'transLocale'   => $locale,
+                                'messageDomain' => $domain,
+                            )
+                        );
+
+                        // insert if no entry exists
+                        if (!$translation) {
+                            /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
+                            $translation = new Translation();
+                            $translation->setTransKey($key);
+                            $translation->setTransLocale($locale);
+                            $translation->setMessageDomain($domain);
+                            $translation->setDateCreated();
+                        }
+
+                        // and in either case we want to add a message :-)
+                        $translation->setTranslation($message);
+                        $translation->setDateUpdated();
+
+                        $em->persist($translation);
+                        $em->flush();
+                        // cleanup
+                        $em->detach($translation);
+                        $em->clear();
                     }
-
-                    // and in either case we want to add a message :-)
-                    $translation->setTranslation($message);
-                    $translation->setDateUpdated();
-
-                    $em->persist($translation);
-                    $em->flush();
-                    // cleanup
-                    $em->detach($translation);
-                    $em->clear();
                 }
                 $output->write('<info> ... ' . $domain . '.' . $locale . '</info>');
                 // force garbage collection
