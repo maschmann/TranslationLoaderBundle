@@ -61,18 +61,12 @@ class DatabaseLoader implements LoaderInterface
         $translations = $this->doctrine
             ->getManager($this->manager)
             ->getRepository('AsmTranslationLoaderBundle:Translation')
-            ->findBy(
-                array(
-                    'transLocale'   => $locale,
-                    'messageDomain' => $messageDomain,
-                )
-            );
+            ->findByLocaleDomainTranslation($locale, $messageDomain);
 
         $catalogue = new MessageCatalogue($locale);
 
-        /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
         foreach ($translations as $translation) {
-            $catalogue->set($translation->getTransKey(), $translation->getTranslation(), $messageDomain);
+            $catalogue->set($translation['transKey'], $translation['translation'], $messageDomain);
         }
 
         return $catalogue;
