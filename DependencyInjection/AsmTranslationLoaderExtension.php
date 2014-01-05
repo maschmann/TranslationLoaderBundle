@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -50,5 +51,13 @@ class AsmTranslationLoaderExtension extends Extension
 
         $container->setParameter('asm_translation_loader.database.entity_manager', $em);
         $container->setParameter('asm_translation_loader.history.enabled', $historyEnabled);
+
+        $loader = new XmlFileLoader(
+            $container,
+            new FileLocator(__DIR__.'/../Resources/config')
+        );
+        if ('orm' == $config['driver']) {
+            $loader->load('orm.xml');
+        }
     }
 }

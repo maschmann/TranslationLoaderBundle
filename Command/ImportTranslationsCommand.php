@@ -1,26 +1,29 @@
 <?php
-/**
- * @namespace Asm\TranslationLoaderBundle\Command
+
+/*
+ * This file is part of the AsmTranslationLoaderBundle package.
+ *
+ * (c) Marc Aschmann <maschmann@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace Asm\TranslationLoaderBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Translation\Catalogue\DiffOperation;
-use Symfony\Component\Translation\Catalogue\MergeOperation;
-use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Finder\Finder;
-use Asm\TranslationLoaderBundle\Entity\Translation;
+use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Translation\Loader\LoaderInterface;
+use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 
 /**
  * Class DumpTranslationFiles
  *
  * @package Asm\TranslationLoaderBundle\Command
  * @author marc aschmann <maschmann@gmail.com>
- * @uses Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand
  * @uses Symfony\Component\Console\Input\InputArgument
  * @uses Symfony\Component\Console\Input\InputInterface
  * @uses Symfony\Component\Console\Input\InputOption
@@ -31,43 +34,24 @@ use Asm\TranslationLoaderBundle\Entity\Translation;
  * @uses Symfony\Component\Finder\Finder
  * @uses Asm\TranslationLoaderBundle\Entity\Translation
  */
-class ImportTranslationsCommand extends ContainerAwareCommand
+class ImportTranslationsCommand extends BaseTranslationCommand
 {
-
     /**
      * message catalogue container
      *
-     * @var array
+     * @var MessageCatalogueInterface[]
      */
     private $catalogues = array();
-
 
     /**
      * translation loader container
      *
-     * @var array
+     * @var LoaderInterface[]
      */
     private $loaders = array();
 
-
     /**
-     * symfony di container
-     *
-     * @var null
-     */
-    private $container = null;
-
-
-    /**
-     * manager to use for doctrine connection
-     *
-     * @var null
-     */
-    private $manager = null;
-
-
-    /**
-     * command configuration
+     * {@inheritDoc}
      */
     protected function configure()
     {
@@ -84,9 +68,7 @@ class ImportTranslationsCommand extends ContainerAwareCommand
 
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int|null|void
+     * {@inheritDoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -95,17 +77,16 @@ class ImportTranslationsCommand extends ContainerAwareCommand
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');
         $output->writeln('<info>importing all available translation files ...</info>');
 
-        $this->container = $this->getContainer();
-        $this->manager   = $this->container->getParameter('asm_translation_loader.database.entity_manager');
-
         if ($input->getOption('clear')) {
             $output->writeln('<comment>deleting all translations from database...</comment>');
             $output->writeln('<info>--------------------------------------------------------------------------------</info>');
             $output->writeln('');
-            $this->container->get('doctrine')
-                ->getManager($this->manager)
-                ->createQuery('DELETE FROM AsmTranslationLoaderBundle:Translation')
-                ->execute();
+
+            $translationManager = $this->getTranslationManager();
+            $translations = $translationManager->findTranslationsBy(array());
+            foreach ($translations as $translation) {
+                $translationManager->removeTranslation($translation);
+            }
         }
 
         $this->generateCatalogues($output);
@@ -124,12 +105,12 @@ class ImportTranslationsCommand extends ContainerAwareCommand
      */
     private function generateCatalogues($output)
     {
-        $translationWriter = $this->container->get('translation.writer');
+        $translationWriter = $this->getTranslationWriter();
         $supportedFormats  = $translationWriter->getFormats();
 
         // iterate all bundles and get their translations
         foreach (array_keys($this->container->getParameter('kernel.bundles')) as $bundle) {
-            $currentBundle   = $this->getApplication()->getKernel()->getBundle($bundle);
+            $currentBundle   = $this->getKernel()->getBundle($bundle);
             $translationPath = $currentBundle->getPath().'/Resources/translations';
 
             // load any existing translation files
@@ -143,6 +124,8 @@ class ImportTranslationsCommand extends ContainerAwareCommand
                     ->in($translationPath);
 
                 foreach ($files as $file) {
+                    /** @var SplFileInfo $file */
+
                     $extension = explode('.', $file->getFilename());
                     // domain.locale.extension
                     if (3 == count($extension)) {
@@ -182,15 +165,8 @@ class ImportTranslationsCommand extends ContainerAwareCommand
      */
     private function importCatalogues($output)
     {
-        /**
-         * since performance might be an issue and also there's no usefull way using
-         * INSERT ON DUPICATE KEY UPDATE with doctrine.. maybe use dbal to batch process...
-         */
-        /** @var \Doctrine\ORM\EntityManager $em */
-        $em = $this->container->get('doctrine')->getManager($this->manager);
-        $em->getConnection()->getConfiguration()->setSQLLogger(null);
+        $translationManager = $this->getTranslationManager();
 
-        $repository = $em->getRepository('AsmTranslationLoaderBundle:Translation');
         $output->writeln('<info>inserting all translations</info>');
         $output->writeln('<info>--------------------------------------------------------------------------------</info>');
 
@@ -200,8 +176,7 @@ class ImportTranslationsCommand extends ContainerAwareCommand
             foreach ($catalogue->getDomains() as $domain) {
                 foreach ($catalogue->all($domain) as $key => $message) {
                     if ('' !== $key) {
-                        /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
-                        $translation = $repository->findOneBy(
+                        $translation = $translationManager->findTranslationBy(
                             array(
                                 'transKey'      => $key,
                                 'transLocale'   => $locale,
@@ -211,23 +186,16 @@ class ImportTranslationsCommand extends ContainerAwareCommand
 
                         // insert if no entry exists
                         if (!$translation) {
-                            /** @var \Asm\TranslationLoaderBundle\Entity\Translation $translation */
-                            $translation = new Translation();
+                            $translation = $translationManager->createTranslation();
                             $translation->setTransKey($key);
                             $translation->setTransLocale($locale);
                             $translation->setMessageDomain($domain);
-                            $translation->setDateCreated();
                         }
 
                         // and in either case we want to add a message :-)
                         $translation->setTranslation($message);
-                        $translation->setDateUpdated();
 
-                        $em->persist($translation);
-                        $em->flush();
-                        // cleanup
-                        $em->detach($translation);
-                        $em->clear();
+                        $translationManager->updateTranslation($translation);
                     }
                 }
                 $output->write('<info> ... ' . $domain . '.' . $locale . '</info>');

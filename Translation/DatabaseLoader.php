@@ -4,7 +4,7 @@
  */
 namespace Asm\TranslationLoaderBundle\Translation;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Asm\TranslationLoaderBundle\Model\TranslationManagerInterface;
 use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 
@@ -13,37 +13,24 @@ use Symfony\Component\Translation\MessageCatalogue;
  *
  * @package Asm\TranslationLoaderBundle\Service
  * @author marc aschmann <maschmann@gmail.com>
- * @uses Doctrine\Bundle\DoctrineBundle\Registry
  * @uses Symfony\Component\Translation\Loader\LoaderInterface
  * @uses Symfony\Component\Translation\MessageCatalogue
  */
 class DatabaseLoader implements LoaderInterface
 {
-
     /**
-     * @var \Doctrine\Bundle\DoctrineBundle\Registry $doctrine
+     * @var TranslationManagerInterface
      */
-    private $doctrine;
-
-
-    /**
-     * manager to use for db loading
-     *
-     * @var string
-     */
-    private $manager;
-
+    private $translationManager;
 
     /**
      * default constructor
      *
-     * @param \Doctrine\Bundle\DoctrineBundle\Registry $doctrine Registry
-     * @param string $manager
+     * @param TranslationManagerInterface $translationManager
      */
-    public function __construct(Registry $doctrine, $manager)
+    public function __construct(TranslationManagerInterface $translationManager)
     {
-        $this->doctrine = $doctrine;
-        $this->manager  = $manager;
+        $this->translationManager = $translationManager;
     }
 
     /**
@@ -58,10 +45,8 @@ class DatabaseLoader implements LoaderInterface
     public function load($resource, $locale, $messageDomain = 'messages')
     {
         // get our translations, obviously
-        $translations = $this->doctrine
-            ->getManager($this->manager)
-            ->getRepository('AsmTranslationLoaderBundle:Translation')
-            ->findByLocaleDomainTranslation($locale, $messageDomain);
+        $translations = $this->translationManager
+            ->findTranslationsByLocaleAndDomain($locale, $messageDomain);
 
         $catalogue = new MessageCatalogue($locale);
 
