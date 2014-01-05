@@ -37,6 +37,17 @@ asm_translation_loader:
         entity_manager: <yourmanager_here> # default: null
 ```
 
+###History & permissions
+If you have users maintaining your translations, you might want to restict specific groups to specific actions.
+Therefore a simple pre create/read/update/delete check (listener) is implemented, which throws according excpetions.
+Also, if enabled, for each create, update or delete operation done on a translation entity via doctrine, a event subsciber adds a new line to a history table, referring to the currently logged-in user. It logs datetime and before/after value of the translation itself.
+
+```yml
+asm_translation_loader:
+    history:
+        enabled: false # default: false
+```
+
 ###Setup the translation table
 ```sh
 php app/console doctrine:schema:update --force
@@ -63,14 +74,6 @@ Type a short
 php app/console ca:cl
 ```
 and check your symfony cache dir for the brand new MessageCatalogue we've now filled from the db :-)
-
-###Activate administration
-Add following lines to your app/config/routing.yml
-```yml
-# TranslationLoaderBundle routes
-asm_translation_loader:
-    resource: "@AsmTranslationLoaderBundle/Resources/config/routing.yml"
-```
 
 ###Funstuff
 If you're tired of database-translations, don't despair: Just use the file dumper and re-generate your files!

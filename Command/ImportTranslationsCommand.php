@@ -96,7 +96,7 @@ class ImportTranslationsCommand extends ContainerAwareCommand
         $output->writeln('<info>importing all available translation files ...</info>');
 
         $this->container = $this->getContainer();
-        $this->manager   = $this->container->getParameter('translation_loader.database.entity_manager');
+        $this->manager   = $this->container->getParameter('asm_translation_loader.database.entity_manager');
 
         if ($input->getOption('clear')) {
             $output->writeln('<comment>deleting all translations from database...</comment>');

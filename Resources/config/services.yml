@@ -1,9 +1,18 @@
 parameters:
-    translation_loader.database.entity_manager: ~
 
 services:
+    # database loader
     translation.loader.db:
         class:     Asm\TranslationLoaderBundle\Translation\DatabaseLoader
-        arguments: [ '@doctrine', '%translation_loader.database.entity_manager%' ]
+        arguments: [ '@doctrine', '%asm_translation_loader.database.entity_manager%' ]
         tags:
             - { name: translation.loader, alias: db}
+
+    # history writer
+    asm_translation_loader.history.subscriber:
+        class: Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber
+        calls:
+            - [ setEnabled, [ "%asm_translation_loader.history.enabled%" ] ]
+            - [ setSecurityContext, [ "@security.context" ] ]
+        tags:
+            - { name: doctrine.event_subscriber }

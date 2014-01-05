@@ -32,11 +32,23 @@ class AsmTranslationLoaderExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $em = false;
-        if (isset($config['database']['entity_manager'])) {
+        // set entity manager for translations
+        $em = 'default';
+        if (isset($config['database']['entity_manager'])
+            && $config['database']['entity_manager'] != 'default'
+        ) {
             $em = $config['database']['entity_manager'];
         }
 
-        $container->setParameter('translation_loader.database.entity_manager', $em);
+        // check if history feature is enabled
+        $historyEnabled = false;
+        if (isset($config['history']['enabled'])
+            && true == $config['history']['enabled']
+        ) {
+            $historyEnabled = $config['history']['enabled'];
+        }
+
+        $container->setParameter('asm_translation_loader.database.entity_manager', $em);
+        $container->setParameter('asm_translation_loader.history.enabled', $historyEnabled);
     }
 }

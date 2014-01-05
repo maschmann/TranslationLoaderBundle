@@ -27,16 +27,25 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('asm_translation_loader');
 
         $rootNode
-        ->children()
-            ->arrayNode('database')
-                ->children()
-                    ->scalarNode('entity_manager')
-                        ->defaultNull()
+            ->children()
+                ->arrayNode('database')
+                    ->children()
+                        ->scalarNode('entity_manager')
+                            ->defaultValue('default')
+                            ->info('Optional entity manager for separate translations handling.')
+                        ->end()
                     ->end()
                 ->end()
-            ->end()
-        ->end();
-
+                ->arrayNode('history')
+                    ->canBeEnabled()
+                    ->children()
+                            ->booleanNode('enabled')
+                            ->defaultFalse()
+                            ->info('Enables historytracking for translation changes. Uses user id from registered users as reference')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
         return $treeBuilder;
     }
 }
