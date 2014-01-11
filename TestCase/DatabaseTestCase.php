@@ -32,7 +32,7 @@ abstract class DatabaseTestCase extends WebTestCase
     /**
      * initialize fixtures and stuff
      */
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
