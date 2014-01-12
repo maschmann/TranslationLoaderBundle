@@ -4,7 +4,7 @@ services:
     # database loader
     translation.loader.db:
         class:     Asm\TranslationLoaderBundle\Translation\DatabaseLoader
-        arguments: [ '@doctrine', '%asm_translation_loader.database.entity_manager%' ]
+        arguments: [ 'asm_translation_loader.translation_manager' ]
         tags:
             - { name: translation.loader, alias: db}
 

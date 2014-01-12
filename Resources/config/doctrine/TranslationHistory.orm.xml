@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Asm\TranslationLoaderBundle\Entity\TranslationHistory"
+        table="translation_history"
+    >
+        <indexes>
+            <index name="search_idx" columns="trans_key,trans_locale,message_domain"/>
+        </indexes>
+        <id name="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="transKey" type="string" column="trans_key" length="255" nullable="false" />
+        <field name="transLocale" type="string" column="trans_locale" length="5" nullable="false" />
+        <field name="messageDomain" type="string" column="message_domain" length="255" nullable="false" />
+        <field name="userName" type="string" column="user_name" length="255" />
+        <field name="userAction" type="string" column="user_action" length="10" nullable="false" />
+        <field name="translation" type="text" />
+        <field name="dateOfChange" type="datetime" column="date_of_change" nullable="false" />
+    </entity>
+</doctrine-mapping>

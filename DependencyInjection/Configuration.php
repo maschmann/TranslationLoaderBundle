@@ -26,8 +26,18 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('asm_translation_loader');
 
+        $supportedDrivers = array('orm');
+
         $rootNode
             ->children()
+                ->scalarNode('driver')
+                    ->validate()
+                        ->ifNotInArray($supportedDrivers)
+                        ->thenInvalid('The driver %s is not supported. Please choose on of '.json_encode($supportedDrivers))
+                    ->end()
+                    ->defaultValue('orm')
+                    ->cannotBeEmpty()
+                ->end()
                 ->arrayNode('database')
                     ->children()
                         ->scalarNode('entity_manager')
@@ -46,6 +56,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
+
         return $treeBuilder;
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <parameters>
+        <parameter key="asm_translation_loader.translation_manager.class">Asm\TranslationLoaderBundle\Doctrine\TranslationManager</parameter>
+        <parameter key="asm_translation_loader.model.translation.class">Asm\TranslationLoaderBundle\Entity\Translation</parameter>
+    </parameters>
+    <services>
+        <service id="asm_translation_loader.translation_manager" class="%asm_translation_loader.translation_manager.class%">
+            <argument type="service" id="asm_translation_loader.translation.entity_manager" />
+            <argument>%asm_translation_loader.model.translation.class%</argument>
+        </service>
+        <service id="asm_translation_loader.translation.entity_manager"
+            class="Doctrine\Common\Persistence\ObjectManager"
+            factory-service="doctrine"
+            factory-method="getManager"
+            public="false"
+        >
+            <argument>%asm_translation_loader.database.entity_manager%</argument>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+        http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+>
+    <entity name="Asm\TranslationLoaderBundle\Entity\Translation" table="translation">
+        <id name="transKey" type="string" column="trans_key" length="255" />
+        <id name="transLocale" type="string" column="trans_locale" length="5" />
+        <id name="messageDomain" type="string" column="message_domain" length="255" />
+        <field name="translation" type="text" />
+        <field name="dateCreated" column="date_created" type="datetime" />
+        <field name="dateUpdated" column="date_updated" type="datetime" />
+    </entity>
+</doctrine-mapping>
