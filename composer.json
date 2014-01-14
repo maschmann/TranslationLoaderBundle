@@ -23,7 +23,8 @@
         "symfony/translation": "~2.2"
     },
     "require-dev": {
-        "symfony/framework-bundle": "~2.2"
+        "symfony/framework-bundle": "~2.2",
+        "symfony/security-bundle": "~2.2"
     },
     "autoload": {
         "psr-0": {
