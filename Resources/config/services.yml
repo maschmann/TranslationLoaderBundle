@@ -1,8 +1,6 @@
 parameters:
     asm_translation_loader.translation_loader_class:  'Asm\TranslationLoaderBundle\Translation\DatabaseLoader'
-    asm_translation_loader.translation_model:         'Asm\TranslationLoaderBundle\Translation'
     asm_translation_loader.history.subscriber_class:  'Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber'
-    asm_translation_loader.translation_manager_model: 'Asm\TranslationLoaderBundle\Model\TranslationManager'
 
 services:
     # database loader
@@ -20,8 +18,3 @@ services:
             - [ setSecurityContext, [ "@security.context" ] ]
         tags:
             - { name: doctrine.event_subscriber }
-
-    # translation manager
-    asm_translation_loader.translation_manager:
-        class: '%asm_translation_loader.translation_manager_model%'
-        arguments: [ '%asm_translation_loader.translation_model%' ]
