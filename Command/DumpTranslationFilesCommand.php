@@ -11,7 +11,7 @@
 
 namespace Asm\TranslationLoaderBundle\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -39,22 +39,25 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
         $this
             ->setName('asm:translations:dump')
             ->setDescription('dump translations from database to files')
-            ->addArgument(
-                'domain',
-                InputArgument::OPTIONAL,
-                'specific message domain to dump, requires locale!',
-                'messages'
-            )
-            ->addArgument(
-                'locale',
-                InputArgument::OPTIONAL,
-                'specific locale to dump'
-            )
-            ->addArgument(
+            ->addOption(
                 'format',
-                InputArgument::OPTIONAL,
-                'file format, default yml',
+                'f',
+                InputOption::VALUE_OPTIONAL,
+                'File format, default yml ',
                 'yml'
+            )
+            ->addOption(
+                'locale',
+                'l',
+                InputOption::VALUE_OPTIONAL,
+                'Specific locale to dump'
+            )
+            ->addOption(
+                'domain',
+                'd',
+                InputOption::VALUE_OPTIONAL,
+                'Specific message domain to dump, requires locale!',
+                'messages'
             );
     }
 
@@ -75,8 +78,8 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
         }
 
         $translationManager = $this->getTranslationManager();
-        $locale = $input->getArgument('locale');
-        $domain = $input->getArgument('domain');
+        $locale = $input->getOption('locale');
+        $domain = $input->getOption('domain');
         $criteria = array(
             'messageDomain' => $domain,
         );
@@ -114,7 +117,7 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
             ));
             $this->getTranslationWriter()->writeTranslations(
                 $catalogue,
-                $input->getArgument('format'),
+                $input->getOption('format'),
                 array('path' => $translationPath)
             );
         }

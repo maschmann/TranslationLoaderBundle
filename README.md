@@ -12,7 +12,7 @@ Installation
 
 Add requirement to your composer.json
 ```php
-"asm/translation-loader-bundle": "dev-master"
+"asm/translation-loader-bundle": "~1.0"
 ```
 Update via composer and register the bundle.
 ```php
