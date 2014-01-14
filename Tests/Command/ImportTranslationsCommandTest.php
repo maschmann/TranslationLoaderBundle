@@ -19,13 +19,8 @@ namespace Asm\TranslationLoaderBundle\Tests\Command;
  */
 class ImportTranslationsCommandTest extends \PHPUnit_Framework_TestCase
 {
-    protected function setUp()
-    {
-        $this->markTestIncomplete();
-    }
-
     public function testCommand()
     {
-
+        $this->markTestSkipped();
     }
 }
