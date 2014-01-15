@@ -1,6 +1,10 @@
 TranslationLoaderBundle
 =========
 
+[![Build Status](https://travis-ci.org/maschmann/TranslationLoaderBundle.png?branch=master)](https://travis-ci.org/maschmann/TranslationLoaderBundle) [![Latest Stable Version](https://poser.pugx.org/asm/translation-loader-bundle/v/stable.png)](https://packagist.org/packages/asm/translation-loader-bundle) [![Total Downloads](https://poser.pugx.org/asm/translation-loader-bundle/downloads.png)](https://packagist.org/packages/asm/translation-loader-bundle)
+
+[![knpbundles.com](http://knpbundles.com/maschmann/TranslationLoaderBundle/badge-short)](http://knpbundles.com/maschmann/TranslationLoaderBundle)
+
 TranslationLoaderBundle allows you to do several cool things with your symfony standart edition translations. It relies mostly on the Translator component and doctrine.
 So you can...
   - import all your bundle's translations (if they are in the default path)
