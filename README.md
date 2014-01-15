@@ -96,7 +96,7 @@ I'd be happy if you like the bundle and help me take it to the next level and/or
 License
 ----
 
-AsmTranslationLoaderBundle is licensed under the MIT license. See the [LICENSE](Resources/LICENSE) for the full license text.
+AsmTranslationLoaderBundle is licensed under the MIT license. See the [LICENSE](Resources/meta/LICENSE) for the full license text.
 
 
 **Free Software, Hell Yeah!**
