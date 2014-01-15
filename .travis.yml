@@ -1,9 +1,15 @@
 language: php
 
-before_script:
-    - composer install --dev --prefer-source
-
 php:
   - 5.3
   - 5.4
   - 5.5
+
+env:
+  - SYMFONY_VERSION="2.2.x"
+  - SYMFONY_VERSION="2.3.x"
+  - SYMFONY_VERSION="2.4.x"
+
+before_script:
+  - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev --no-update
+  - composer install

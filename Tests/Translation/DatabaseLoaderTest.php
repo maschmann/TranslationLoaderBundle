@@ -1,10 +1,18 @@
 <?php
-/**
- * @namespace Asm\TranslationLoaderBundle\Tests\Translation
+
+/*
+ * This file is part of the AsmTranslationLoaderBundle package.
+ *
+ * (c) Marc Aschmann <maschmann@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
+
 namespace Asm\TranslationLoaderBundle\Tests\Translation;
 
-use Asm\TranslationLoaderBundle\TestCase\DatabaseTestCase;
+use Asm\TranslationLoaderBundle\Model\Translation;
+use Asm\TranslationLoaderBundle\Model\TranslationManager;
 use Asm\TranslationLoaderBundle\Translation\DatabaseLoader;
 
 /**
@@ -12,53 +20,80 @@ use Asm\TranslationLoaderBundle\Translation\DatabaseLoader;
  *
  * @package Asm\TranslationLoaderBundle\Tests\Translation
  * @author marc aschmann <maschmann@gmail.com>
- * @uses Asm\TranslationLoaderBundle\TestCase\DatabaseTestCase
+ * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  * @uses Asm\TranslationLoaderBundle\Translation\DatabaseLoader
  */
-class DatabaseLoaderTest extends DatabaseTestCase
+class DatabaseLoaderTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var TranslationManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $translationManager;
 
     /**
-     * load translations from db to catalogue
-     *
-     * @covers Asm\TranslationLoaderBundle\Translation\DatabaseLoader::__construct
+     * @var DatabaseLoader
      */
-    public function testLoadDefault()
-    {
-        /** @var \Asm\TranslationLoaderBundle\Translation\DatabaseLoader $loader */
-        $loader = $this->getContainer()->get('translation.loader.db');
-        /** @var \Symfony\Component\Translation\MessageCatalogue $catalogue */
-        $catalogue = $loader->load(null, 'en_US', 'messages');
-        $translations = $catalogue->all();
-        $this->assertTrue(is_array($translations));
-        $this->assertEquals(7, count($translations), 'Not all translations for "en_US", domain "messages" were loaded from database.');
-    }
-
+    private $databaseLoader;
 
     /**
-     * load specific translation key and check in message catalogue
+     * @var \Symfony\Component\Translation\MessageCatalogue
      */
-    public function testLoadKey()
+    private $catalogue;
+
+    protected function setUp()
     {
-        /** @var \Asm\TranslationLoaderBundle\Translation\DatabaseLoader $loader */
-        $loader = $this->getContainer()->get('translation.loader.db');
-        /** @var \Symfony\Component\Translation\MessageCatalogue $catalogue */
-        $catalogue = $loader->load('test1', 'en_US', 'messages');
-        $this->assertTrue($catalogue->has('test1'), 'Key "test1" was not found in MessageCatalogoue.');
+        $this->createTranslationManager();
+        $this->databaseLoader = new DatabaseLoader($this->translationManager);
+        $this->catalogue = $this->databaseLoader->load(null, 'en_US', 'messages');
     }
 
-
-    /**
-     * test if specific domain has been loaded from db
-     */
-    public function testLoadDomain()
+    public function testLoad()
     {
-        /** @var \Asm\TranslationLoaderBundle\Translation\DatabaseLoader $loader */
-        $loader = $this->getContainer()->get('translation.loader.db');
-        /** @var \Symfony\Component\Translation\MessageCatalogue $catalogue */
-        $catalogue = $loader->load(null, 'en_US', 'test');
-        $domains = $catalogue->getDomains();
-        $this->assertTrue(in_array('test', $domains), 'Message domain "test" was not found in MessageCatalogue.');
+        $this->assertEquals('foo translated', $this->catalogue->get('foo'));
+        $this->assertEquals('bar translated', $this->catalogue->get('bar'));
     }
 
+    public function testNonExistentKey()
+    {
+        $this->assertFalse($this->catalogue->has('baz'));
+    }
+
+    public function testMessageDomains()
+    {
+        $this->assertTrue(in_array('messages', $this->catalogue->getDomains()));
+        $this->assertFalse(in_array('foo', $this->catalogue->getDomains()));
+    }
+
+    private function createTranslationManager()
+    {
+        $this->translationManager = $this->getMock(
+            'Asm\TranslationLoaderBundle\Model\TranslationManager',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationsByLocaleAndDomain')
+            ->with('en_US', 'messages')
+            ->will($this->returnValue($this->createTranslationResult()));
+    }
+
+    private function createTranslationResult()
+    {
+        $translation1 = new DummyTranslation();
+        $translation1->setTransKey('foo');
+        $translation1->setTranslation('foo translated');
+
+        $translation2 = new DummyTranslation();
+        $translation2->setTransKey('bar');
+        $translation2->setTranslation('bar translated');
+
+        return array($translation1, $translation2);
+    }
+}
+
+class DummyTranslation extends Translation
+{
 }

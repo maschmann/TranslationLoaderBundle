@@ -11,6 +11,9 @@
          syntaxCheck="false"
          bootstrap="./vendor/autoload.php"
         >
+    <php>
+        <server name="KERNEL_DIR" value="Tests/App" />
+    </php>
     <testsuites>
         <testsuite name="TranslationLoaderBundle testsuite">
             <directory suffix="Test.php">./Tests</directory>

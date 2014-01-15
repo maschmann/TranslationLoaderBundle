@@ -1,0 +1,24 @@
+framework:
+    secret:          FrameworkKernelSecret
+    test: ~
+    router:
+        resource: "%kernel.root_dir%/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ["php"]
+    session:         ~
+
+security:
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:  { password: foo, roles: [ 'ROLE_USER' ] }
+
+    firewalls:
+        main:
+            pattern:  ^/
+            security: false
