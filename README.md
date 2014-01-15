@@ -5,7 +5,7 @@ TranslationLoaderBundle
 
 [![knpbundles.com](http://knpbundles.com/maschmann/TranslationLoaderBundle/badge-short)](http://knpbundles.com/maschmann/TranslationLoaderBundle)
 
-TranslationLoaderBundle allows you to do several cool things with your symfony standart edition translations. It relies mostly on the Translator component and doctrine.
+TranslationLoaderBundle allows you to do several cool things with your symfony standard edition translations. It relies mostly on the Translator component and doctrine.
 So you can...
   - import all your bundle's translations (if they are in the default path)
   - export all translations in your preferred format
@@ -96,7 +96,7 @@ I'd be happy if you like the bundle and help me take it to the next level and/or
 License
 ----
 
-MIT
+AsmTranslationLoaderBundle is licensed under the MIT license. See the [LICENSE](Resources/LICENSE) for the full license text.
 
 
 **Free Software, Hell Yeah!**
