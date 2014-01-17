@@ -125,7 +125,6 @@ class ImportTranslationsCommand extends BaseTranslationCommand
 
                 foreach ($files as $file) {
                     /** @var SplFileInfo $file */
-
                     $extension = explode('.', $file->getFilename());
                     // domain.locale.extension
                     if (3 == count($extension)) {
@@ -190,12 +189,11 @@ class ImportTranslationsCommand extends BaseTranslationCommand
                             $translation->setTransKey($key);
                             $translation->setTransLocale($locale);
                             $translation->setMessageDomain($domain);
+                        } elseif ($translation->getTranslation() != $message) {
+                            // update only if we've got a changed message
+                            $translation->setTranslation($message);
+                            $translationManager->updateTranslation($translation);
                         }
-
-                        // and in either case we want to add a message :-)
-                        $translation->setTranslation($message);
-
-                        $translationManager->updateTranslation($translation);
                     }
                 }
                 $output->write('<info> ... ' . $domain . '.' . $locale . '</info>');
