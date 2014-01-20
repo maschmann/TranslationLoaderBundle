@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
         $supportedDrivers = array('orm');
 
         $rootNode
+            ->fixXmlConfig('resource')
             ->children()
                 ->arrayNode('resources')
                     ->useAttributeAsKey('locale')
@@ -52,7 +53,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('driver')
                     ->validate()
                         ->ifNotInArray($supportedDrivers)
-                        ->thenInvalid('The driver %s is not supported. Please choose on of '.json_encode($supportedDrivers))
+                        ->thenInvalid('The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers))
                     ->end()
                     ->defaultValue('orm')
                     ->cannotBeEmpty()

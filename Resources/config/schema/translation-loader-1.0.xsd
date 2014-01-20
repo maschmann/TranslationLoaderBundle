@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="https://github.com/maschmann/TranslationLoaderBundle/schema/dic"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://github.com/maschmann/TranslationLoaderBundle/schema/dic"
+    elementFormDefault="qualified"
+>
+    <xsd:element name="config" type="config" />
+
+    <xsd:complexType name="config">
+        <xsd:choice minOccurs="1" maxOccurs="unbounded">
+            <xsd:element name="resource" type="resource" />
+            <xsd:element name="database" type="database" />
+        </xsd:choice>
+        <xsd:attribute name="driver" type="xsd:string" />
+        <xsd:attribute name="history" type="xsd:boolean" />
+    </xsd:complexType>
+
+    <xsd:complexType name="resource">
+        <xsd:choice>
+            <xsd:element name="domain" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:choice>
+        <xsd:attribute name="locale" type="xsd:string" use="required" />
+    </xsd:complexType>
+
+    <xsd:complexType name="database">
+        <xsd:attribute name="entity-manager" use="required" />
+    </xsd:complexType>
+</xsd:schema>

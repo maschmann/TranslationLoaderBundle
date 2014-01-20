@@ -65,4 +65,20 @@ class AsmTranslationLoaderExtension extends Extension
             $loader->load('orm.xml');
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNamespace()
+    {
+        return 'https://github.com/maschmann/TranslationLoaderBundle/schema/dic';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getXsdValidationBasePath()
+    {
+        return __DIR__.'/../Resources/config/schema';
+    }
 }
