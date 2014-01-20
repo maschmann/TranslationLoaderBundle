@@ -56,6 +56,11 @@ class AsmTranslationLoaderExtension extends Extension
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
+
+        // load the translation manager resource
+        $container->setParameter('asm_translation_loader.resources', $config['resources']);
+        $loader->load('translation_manager_resource.xml');
+
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');
         }
