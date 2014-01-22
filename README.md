@@ -48,8 +48,14 @@ Also, if enabled, for each create, update or delete operation done on a translat
 
 ```yml
 asm_translation_loader:
-    history:
-        enabled: false # default: false
+    resources:
+        fr: [ foo, bar ]
+        de: baz
+        en: ~
+    driver: orm
+    history: true # default false
+    database:
+        entity_manager: default
 ```
 
 ###Setup the translation table
