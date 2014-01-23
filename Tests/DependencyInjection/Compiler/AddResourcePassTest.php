@@ -24,11 +24,6 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
     private $compilerPass;
 
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $container;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     private $translator;
@@ -41,72 +36,115 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutLocales()
     {
+        $container = $this->createContainer();
         $this->translator
             ->expects($this->never())
             ->method('addMethodCall');
 
-        $this->registerConfig(array());
-        $this->compilerPass->process($this->container);
+        $this->registerConfig($container, array());
+        $this->compilerPass->process($container);
     }
 
     public function testLocaleWithoutDomain()
     {
+        $container = $this->createContainer();
         $this->translator
             ->expects($this->once())
             ->method('addMethodCall');
 
-        $this->registerConfig(array('en' => array(null)));
-        $this->compilerPass->process($this->container);
+        $this->registerConfig($container, array('en' => array(null)));
+        $this->compilerPass->process($container);
     }
 
     public function testLocaleWithOneDomain()
     {
+        $container = $this->createContainer();
         $this->translator
             ->expects($this->once())
             ->method('addMethodCall');
 
-        $this->registerConfig(array('en' => array('foo')));
-        $this->compilerPass->process($this->container);
+        $this->registerConfig($container, array('en' => array('foo')));
+        $this->compilerPass->process($container);
     }
 
     public function testLocaleWithMultipleDomains()
     {
+        $container = $this->createContainer();
         $this->translator
             ->expects($this->exactly(2))
             ->method('addMethodCall');
 
-        $this->registerConfig(array('en' => array('foo', 'bar')));
-        $this->compilerPass->process($this->container);
+        $this->registerConfig($container, array('en' => array('foo', 'bar')));
+        $this->compilerPass->process($container);
     }
 
     public function testMultipleLocalesWithMultipleDomains()
     {
+        $container = $this->createContainer();
         $this->translator
             ->expects($this->exactly(6))
             ->method('addMethodCall');
 
-        $this->registerConfig(array(
+        $this->registerConfig($container, array(
             'en' => array('foo', 'bar'),
             'de' => array('baz'),
             'fr' => array('x', 'y', 'z')
         ));
-        $this->compilerPass->process($this->container);
+        $this->compilerPass->process($container);
     }
 
+    public function testWithoutTranslator()
+    {
+        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container
+            ->expects($this->once())
+            ->method('findDefinition')
+            ->with('translator.default')
+            ->will($this->returnValue(null));
+
+        $this->registerConfig($container, array(
+            'en' => array('foo', 'bar'),
+            'de' => array('baz'),
+            'fr' => array('x', 'y', 'z')
+        ));
+        $this->compilerPass->process($container);
+    }
+
+    public function testWithoutTranslatorAndWithoutLocales()
+    {
+        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container
+            ->expects($this->once())
+            ->method('findDefinition')
+            ->with('translator.default')
+            ->will($this->returnValue(null));
+        $this->translator
+            ->expects($this->never())
+            ->method('addMethodCall');
+
+        $this->registerConfig($container, array());
+        $this->compilerPass->process($container);
+    }
+
+    /**
+     * @return \Symfony\Component\DependencyInjection\ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
     private function createContainer()
     {
-        $this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
         $this->translator = $this->getMock('\Symfony\Component\DependencyInjection\Definition');
-        $this->container
+        $container
             ->expects($this->any())
             ->method('findDefinition')
             ->with('translator.default')
             ->will($this->returnValue($this->translator));
+
+        return $container;
     }
 
-    private function registerConfig(array $config)
+    private function registerConfig($container, array $config)
     {
-        $this->container
+        $container
             ->expects($this->any())
             ->method('getParameter')
             ->will($this->returnValue($config));

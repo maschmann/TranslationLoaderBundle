@@ -30,17 +30,19 @@ class AddResourcePass implements CompilerPassInterface
         $resources = $container->getParameter('asm_translation_loader.resources');
         $translator = $container->findDefinition('translator.default');
 
-        foreach ($resources as $locale => $domains) {
-            foreach ($domains as $domain) {
-                $translator->addMethodCall(
-                    'addResource',
-                    array(
-                        'db',
-                        new Reference('asm_translation_loader.translation_manager_resource'),
-                        $locale,
-                        $domain,
-                    )
-                );
+        if (null !== $translator) {
+            foreach ($resources as $locale => $domains) {
+                foreach ($domains as $domain) {
+                    $translator->addMethodCall(
+                        'addResource',
+                        array(
+                            'db',
+                            new Reference('asm_translation_loader.translation_manager_resource'),
+                            $locale,
+                            $domain,
+                        )
+                    );
+                }
             }
         }
     }
