@@ -109,7 +109,7 @@ class ImportTranslationsCommand extends BaseTranslationCommand
         $supportedFormats  = $translationWriter->getFormats();
 
         // iterate all bundles and get their translations
-        foreach (array_keys($this->container->getParameter('kernel.bundles')) as $bundle) {
+        foreach (array_keys($this->getContainer()->getParameter('kernel.bundles')) as $bundle) {
             $currentBundle   = $this->getKernel()->getBundle($bundle);
             $translationPath = $currentBundle->getPath().'/Resources/translations';
 
@@ -139,7 +139,7 @@ class ImportTranslationsCommand extends BaseTranslationCommand
 
                             if (empty($this->loaders[$fileExtension])) {
                                 try {
-                                    $this->loaders[$fileExtension] = $this->container->get('translation.loader.' . $fileExtension);
+                                    $this->loaders[$fileExtension] = $this->getContainer()->get('translation.loader.' . $fileExtension);
                                 } catch (\Exception $e) {
                                     throw new \ErrorException('could not find loader for ' . $fileExtension . ' files!');
                                 }
