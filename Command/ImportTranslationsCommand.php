@@ -183,12 +183,14 @@ class ImportTranslationsCommand extends BaseTranslationCommand
                             )
                         );
 
-                        // insert if no entry exists
                         if (!$translation) {
+                            // create a new translation if no entry does exist yet
                             $translation = $translationManager->createTranslation();
                             $translation->setTransKey($key);
                             $translation->setTransLocale($locale);
                             $translation->setMessageDomain($domain);
+                            $translation->setTranslation($message);
+                            $translationManager->updateTranslation($translation);
                         } elseif ($translation->getTranslation() != $message) {
                             // update only if we've got a changed message
                             $translation->setTranslation($message);
