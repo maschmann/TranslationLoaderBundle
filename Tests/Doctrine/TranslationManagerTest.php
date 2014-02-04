@@ -129,6 +129,9 @@ class TranslationManagerTest extends \PHPUnit_Framework_TestCase
         $this->objectManager
             ->expects($this->once())
             ->method('remove');
+        $this->objectManager
+            ->expects($this->once())
+            ->method('flush');
 
         $this->translationManager->removeTranslation($translation);
     }
@@ -162,4 +165,3 @@ class TranslationManagerTest extends \PHPUnit_Framework_TestCase
         return $this->getMock('Asm\TranslationLoaderBundle\Entity\Translation');
     }
 }
- 

@@ -78,5 +78,6 @@ class TranslationManager extends BaseTranslationManager
     public function removeTranslation(TranslationInterface $translation)
     {
         $this->objectManager->remove($translation);
+        $this->objectManager->flush();
     }
 }
