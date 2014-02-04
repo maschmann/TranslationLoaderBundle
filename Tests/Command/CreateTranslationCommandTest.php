@@ -10,7 +10,6 @@
  */
 
 namespace Asm\TranslationLoaderBundle\Tests\Command;
-use Asm\TranslationLoaderBundle\Test\DummyTranslation;
 
 /**
  * Class CreateTranslationCommandTest
