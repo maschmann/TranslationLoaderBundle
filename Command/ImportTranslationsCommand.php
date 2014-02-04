@@ -83,7 +83,7 @@ class ImportTranslationsCommand extends BaseTranslationCommand
             $output->writeln('');
 
             $translationManager = $this->getTranslationManager();
-            $translations = $translationManager->findTranslationsBy(array());
+            $translations = $translationManager->findAllTranslations();
             foreach ($translations as $translation) {
                 $translationManager->removeTranslation($translation);
             }
