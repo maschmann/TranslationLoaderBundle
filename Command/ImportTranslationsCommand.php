@@ -137,6 +137,10 @@ class ImportTranslationsCommand extends BaseTranslationCommand
                                 $this->catalogues[$locale] = new MessageCatalogue($locale);
                             }
 
+                            if ($fileExtension == 'xlf') {
+                                $fileExtension = 'xliff';
+                            }
+
                             if (empty($this->loaders[$fileExtension])) {
                                 try {
                                     $this->loaders[$fileExtension] = $this->getContainer()->get('translation.loader.' . $fileExtension);
