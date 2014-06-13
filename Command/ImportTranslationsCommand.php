@@ -15,7 +15,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\Translation\Loader\LoaderInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 
@@ -42,13 +41,6 @@ class ImportTranslationsCommand extends BaseTranslationCommand
      * @var MessageCatalogueInterface[]
      */
     private $catalogues = array();
-
-    /**
-     * translation loader container
-     *
-     * @var LoaderInterface[]
-     */
-    private $loaders = array();
 
     /**
      * {@inheritDoc}
@@ -137,20 +129,14 @@ class ImportTranslationsCommand extends BaseTranslationCommand
                                 $this->catalogues[$locale] = new MessageCatalogue($locale);
                             }
 
-                            if ($fileExtension == 'xlf') {
-                                $fileExtension = 'xliff';
-                            }
+                            $fileLoader = $this->getFileLoaderResolver()->resolveLoader($fileExtension);
 
-                            if (empty($this->loaders[$fileExtension])) {
-                                try {
-                                    $this->loaders[$fileExtension] = $this->getContainer()->get('translation.loader.' . $fileExtension);
-                                } catch (\Exception $e) {
-                                    throw new \ErrorException('could not find loader for ' . $fileExtension . ' files!');
-                                }
+                            if (null === $fileLoader) {
+                                throw new \ErrorException('could not find loader for ' . $fileExtension . ' files!');
                             }
 
                             $output->writeln('<comment>loading ' . $file->getFilename() . ' with locale ' . $locale . ' and domain ' . $domain . '</comment>');
-                            $currentCatalogue = $this->loaders[$fileExtension]->load($file->getPathname(), $locale, $domain);
+                            $currentCatalogue = $fileLoader->load($file->getPathname(), $locale, $domain);
                             $this->catalogues[$locale]->addCatalogue($currentCatalogue);
                         }
                     }
@@ -208,5 +194,13 @@ class ImportTranslationsCommand extends BaseTranslationCommand
             }
             $output->writeln('');
         }
+    }
+
+    /**
+     * @return \Asm\TranslationLoaderBundle\Translation\FileLoaderResolver
+     */
+    private function getFileLoaderResolver()
+    {
+        return $this->getContainer()->get('asm_translation_loader.file_loader_resolver');
     }
 }
