@@ -5,6 +5,8 @@ TranslationLoaderBundle
 
 [![knpbundles.com](http://knpbundles.com/maschmann/TranslationLoaderBundle/badge-short)](http://knpbundles.com/maschmann/TranslationLoaderBundle)
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/?branch=master)
+
 TranslationLoaderBundle allows you to do several cool things with your symfony standard edition translations. It relies mostly on the Translator component and doctrine.
 So you can...
   - import all your bundle's translations (if they are in the default path)
