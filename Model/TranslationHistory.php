@@ -55,7 +55,7 @@ abstract class TranslationHistory implements TranslationHistoryInterface
     protected $translation;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     protected $dateOfChange;
 

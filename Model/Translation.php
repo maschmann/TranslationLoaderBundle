@@ -40,12 +40,12 @@ abstract class Translation implements TranslationInterface
     protected  $translation;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     protected  $dateCreated;
 
     /**
-     * @var string
+     * @var \DateTime
      */
     protected  $dateUpdated;
 
