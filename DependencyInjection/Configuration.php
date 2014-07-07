@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
                         ->treatNullLike(array(null))
                         ->beforeNormalization()
                             ->ifTrue(function ($v) { return is_array($v) && count($v) == 0; })
-                            ->then(function($v) { return array(null); })
+                            ->then(function() { return array(null); })
                         ->end()
                         ->beforeNormalization()
                             ->ifTrue(function ($v) { return is_array($v) && isset($v['domain']); })
