@@ -1,0 +1,3 @@
+asm_translation_loader:
+    loaders:
+        foo: translation.loader.bar

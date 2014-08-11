@@ -11,30 +11,16 @@
 
 namespace Asm\TranslationLoaderBundle\Tests\DependencyInjection;
 
+use Asm\TranslationLoaderBundle\DependencyInjection\AsmTranslationLoaderExtension;
 use Asm\TranslationLoaderBundle\DependencyInjection\Configuration;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionConfigurationTestCase;
 use Symfony\Component\Config\Definition\Processor;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends AbstractExtensionConfigurationTestCase
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var Processor
-     */
-    private $processor;
-
-    protected function setUp()
-    {
-        $this->configuration = new Configuration();
-        $this->processor = new Processor();
-    }
-
     public function testLocaleWithoutDomain()
     {
         $configs = $this->buildResourcesConfig(array('en' => null));
@@ -88,9 +74,87 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('en' => array('foo', 'bar')), $config['resources']);
     }
 
+    public function testAdditionalLoaderFromXml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(
+                    'foo' => 'translation.loader.bar',
+                    'xlf' => 'translation.loader.xliff',
+                    'yaml' => 'translation.loader.yml',
+                ),
+                'history' => array('enabled' => false),
+            ),
+            array(__DIR__.'/Fixtures/additional_loader.xml')
+        );
+    }
+
+    public function testAdditionalLoaderFromYaml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(
+                    'foo' => 'translation.loader.bar',
+                    'xlf' => 'translation.loader.xliff',
+                    'yaml' => 'translation.loader.yml',
+                ),
+                'history' => array('enabled' => false),
+            ),
+            array(__DIR__.'/Fixtures/additional_loader.yml')
+        );
+    }
+
+    public function testReplacedLoaderFromXml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(
+                    'xlf' => 'translation.loader.xliff',
+                    'yaml' => 'translation.loader.foo',
+                ),
+                'history' => array('enabled' => false),
+            ),
+            array(__DIR__.'/Fixtures/replaced_loader.xml')
+        );
+    }
+
+    public function testReplacedLoaderFromYml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(
+                    'xlf' => 'translation.loader.xliff',
+                    'yaml' => 'translation.loader.foo',
+                ),
+                'history' => array('enabled' => false),
+            ),
+            array(__DIR__.'/Fixtures/replaced_loader.yml')
+        );
+    }
+
+    protected function getContainerExtension()
+    {
+        return new AsmTranslationLoaderExtension();
+    }
+
+    protected function getConfiguration()
+    {
+        return new Configuration();
+    }
+
     private function process(array $configs)
     {
-        return $this->processor->processConfiguration($this->configuration, $configs);
+        $processor = new Processor();
+
+        return $processor->processConfiguration($this->getConfiguration(), $configs);
     }
 
     private function buildResourcesConfig(array $resources)
@@ -102,4 +166,3 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
- 

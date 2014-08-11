@@ -1,0 +1,3 @@
+asm_translation_loader:
+    loaders:
+        yaml: translation.loader.foo

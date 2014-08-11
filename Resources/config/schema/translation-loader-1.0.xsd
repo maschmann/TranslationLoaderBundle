@@ -10,6 +10,7 @@
         <xsd:choice minOccurs="1" maxOccurs="unbounded">
             <xsd:element name="resource" type="resource" />
             <xsd:element name="database" type="database" />
+            <xsd:element name="loader" type="loader" />
         </xsd:choice>
         <xsd:attribute name="driver" type="xsd:string" />
         <xsd:attribute name="history" type="xsd:boolean" />
@@ -24,5 +25,13 @@
 
     <xsd:complexType name="database">
         <xsd:attribute name="entity-manager" use="required" />
+    </xsd:complexType>
+
+    <xsd:complexType name="loader">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="extension" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
     </xsd:complexType>
 </xsd:schema>

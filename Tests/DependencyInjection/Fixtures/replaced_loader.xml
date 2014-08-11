@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:asm-translation-loader="https://github.com/maschmann/TranslationLoaderBundle/schema/dic"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd
+        https://github.com/maschmann/TranslationLoaderBundle/schema/dic
+        https://github.com/maschmann/TranslationLoaderBundle/schema/dic/translation-loader-1.0.xsd"
+>
+    <asm-translation-loader:config>
+        <asm-translation-loader:loader extension="yaml">translation.loader.foo</asm-translation-loader:loader>
+    </asm-translation-loader:config>
+</container>

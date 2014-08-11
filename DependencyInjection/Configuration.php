@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->fixXmlConfig('resource')
+            ->fixXmlConfig('loader')
             ->children()
                 ->arrayNode('resources')
                     ->useAttributeAsKey('locale')
@@ -57,6 +58,29 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->defaultValue('orm')
                     ->cannotBeEmpty()
+                ->end()
+                ->arrayNode('loaders')
+                    ->beforeNormalization()
+                        ->ifNull()
+                        ->then(function () { return array(); })
+                    ->end()
+                    ->beforeNormalization()
+                        ->always(function ($values) {
+                            foreach ($values as $key => $value) {
+                                if (is_array($value)) {
+                                    $values[$value['extension']] = $value['value'];
+                                    unset($values[$key]);
+                                }
+                            }
+
+                            return array_merge(array(
+                                'xlf' => 'translation.loader.xliff',
+                                'yaml' => 'translation.loader.yml',
+                            ), $values);
+                        })
+                    ->end()
+                    ->useAttributeAsKey('extension')
+                    ->prototype('scalar')->end()
                 ->end()
                 ->arrayNode('database')
                     ->children()

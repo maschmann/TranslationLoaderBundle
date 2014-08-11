@@ -41,6 +41,9 @@ class AsmTranslationLoaderExtension extends Extension
             $em = $config['database']['entity_manager'];
         }
 
+        // association between file extensions and translation loader service ids
+        $container->setParameter('asm_translation_loader.translation_loaders', $config['loaders']);
+
         // check if history feature is enabled
         $historyEnabled = false;
         if (isset($config['history']['enabled'])
@@ -64,6 +67,9 @@ class AsmTranslationLoaderExtension extends Extension
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');
         }
+
+        // load the loader resolver service
+        $loader->load('file_loader_resolver.xml');
     }
 
     /**

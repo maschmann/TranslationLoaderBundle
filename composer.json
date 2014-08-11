@@ -23,6 +23,7 @@
         "symfony/translation": "~2.2"
     },
     "require-dev": {
+        "matthiasnoback/symfony-dependency-injection-test": "~0.6",
         "symfony/framework-bundle": "~2.2",
         "symfony/security-bundle": "~2.2"
     },
