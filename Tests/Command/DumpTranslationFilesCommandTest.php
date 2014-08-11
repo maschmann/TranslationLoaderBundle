@@ -79,7 +79,7 @@ class DumpTranslationFilesCommandTest extends CommandTest
         $translation1 = new DummyTranslation();
         $translation1->setTransLocale('de_DE');
         $translation2 = new DummyTranslation();
-        $translation1->setTransLocale('fr_FR');
+        $translation2->setTransLocale('fr_FR');
 
         return array($translation1, $translation2);
     }
