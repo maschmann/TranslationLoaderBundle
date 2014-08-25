@@ -4,12 +4,20 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.6
+  - hhvm
 
-env:
-  - SYMFONY_VERSION="2.2.x"
-  - SYMFONY_VERSION="2.3.x"
-  - SYMFONY_VERSION="2.4.x"
+matrix:
+  allow_failures:
+    - php: hhvm
+  include:
+    - php: 5.5
+      env: SYMFONY_VERSION="2.3.x"
+    - php: 5.5
+      env: SYMFONY_VERSION="2.4.x"
+    - php: 5.5
+      env: SYMFONY_VERSION="2.5.x"
 
 before_script:
-  - composer require symfony/framework-bundle:${SYMFONY_VERSION} --dev --no-update
+  - sh -c 'if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi'
   - composer install
