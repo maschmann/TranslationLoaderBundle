@@ -64,18 +64,24 @@ class ImportTranslationsCommand extends BaseTranslationCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>Translation file importer</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>importing all available translation files ...</info>');
 
         if ($input->getOption('clear')) {
             $output->writeln('<comment>deleting all translations from database...</comment>');
-            $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+            $output->writeln(
+                '<info>--------------------------------------------------------------------------------</info>'
+            );
             $output->writeln('');
 
             $translationManager = $this->getTranslationManager();
-            $translations = $translationManager->findAllTranslations();
+            $translations       = $translationManager->findAllTranslations();
             foreach ($translations as $translation) {
                 $translationManager->removeTranslation($translation);
             }
@@ -84,7 +90,9 @@ class ImportTranslationsCommand extends BaseTranslationCommand
         $this->generateCatalogues($output);
         $this->importCatalogues($output);
 
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<comment>finished!</comment>');
     }
 
@@ -103,15 +111,17 @@ class ImportTranslationsCommand extends BaseTranslationCommand
         // iterate all bundles and get their translations
         foreach (array_keys($this->getContainer()->getParameter('kernel.bundles')) as $bundle) {
             $currentBundle   = $this->getKernel()->getBundle($bundle);
-            $translationPath = $currentBundle->getPath().'/Resources/translations';
+            $translationPath = $currentBundle->getPath() . '/Resources/translations';
 
             // load any existing translation files
             if (is_dir($translationPath)) {
                 $output->writeln('<info>searching ' . $bundle . ' translations</info>');
-                $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+                $output->writeln(
+                    '<info>--------------------------------------------------------------------------------</info>'
+                );
 
                 $finder = new Finder();
-                $files = $finder
+                $files  = $finder
                     ->files()
                     ->in($translationPath);
 
@@ -135,7 +145,10 @@ class ImportTranslationsCommand extends BaseTranslationCommand
                                 throw new \ErrorException('could not find loader for ' . $fileExtension . ' files!');
                             }
 
-                            $output->writeln('<comment>loading ' . $file->getFilename() . ' with locale ' . $locale . ' and domain ' . $domain . '</comment>');
+                            $output->writeln(
+                                '<comment>loading ' . $file->getFilename(
+                                ) . ' with locale ' . $locale . ' and domain ' . $domain . '</comment>'
+                            );
                             $currentCatalogue = $fileLoader->load($file->getPathname(), $locale, $domain);
                             $this->catalogues[$locale]->addCatalogue($currentCatalogue);
                         }
@@ -157,7 +170,9 @@ class ImportTranslationsCommand extends BaseTranslationCommand
         $translationManager = $this->getTranslationManager();
 
         $output->writeln('<info>inserting all translations</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
 
         foreach ($this->catalogues as $locale => $catalogue) {
 
