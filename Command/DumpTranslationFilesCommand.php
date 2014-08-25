@@ -66,11 +66,15 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>generating translation files</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
 
-        $translationPath = $this->getKernel()->getRootDir().'/Resources/translations/';
+        $translationPath = $this->getKernel()->getRootDir() . '/Resources/translations/';
 
         // create directory for translations if it does not exist
         if (!$this->getFilesystem()->exists($translationPath)) {
@@ -78,9 +82,9 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
         }
 
         $translationManager = $this->getTranslationManager();
-        $locale = $input->getOption('locale');
-        $domain = $input->getOption('domain');
-        $criteria = array(
+        $locale             = $input->getOption('locale');
+        $domain             = $input->getOption('domain');
+        $criteria           = array(
             'messageDomain' => $domain,
         );
 
@@ -111,10 +115,12 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
 
         // dump the generated catalogues
         foreach ($catalogues as $locale => $catalogue) {
-            $output->writeln(sprintf(
-                '<comment>generating catalogue for locale %s</comment>',
-                $locale
-            ));
+            $output->writeln(
+                sprintf(
+                    '<comment>generating catalogue for locale %s</comment>',
+                    $locale
+                )
+            );
             $this->getTranslationWriter()->writeTranslations(
                 $catalogue,
                 $input->getOption('format'),
@@ -122,8 +128,12 @@ class DumpTranslationFilesCommand extends BaseTranslationCommand
             );
         }
 
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>finished!</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
     }
 }

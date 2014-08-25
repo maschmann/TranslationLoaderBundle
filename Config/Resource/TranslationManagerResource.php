@@ -26,6 +26,9 @@ class TranslationManagerResource implements ResourceInterface
      */
     private $loader;
 
+    /**
+     * @param DatabaseLoader $loader
+     */
     public function __construct(DatabaseLoader $loader)
     {
         $this->loader = $loader;

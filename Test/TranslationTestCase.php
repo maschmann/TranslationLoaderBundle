@@ -32,7 +32,7 @@ abstract class TranslationTestCase extends WebTestCase
     protected $translationManager;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -48,6 +48,9 @@ abstract class TranslationTestCase extends WebTestCase
         $this->application = new Application(static::$kernel);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function createServices()
     {
         $container = static::$kernel->getContainer();
