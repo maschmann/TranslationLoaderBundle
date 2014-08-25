@@ -32,22 +32,22 @@ abstract class Translation implements TranslationInterface
     /**
      * @var string
      */
-    protected  $messageDomain;
+    protected $messageDomain;
 
     /**
      * @var string
      */
-    protected  $translation;
+    protected $translation;
 
     /**
      * @var \DateTime
      */
-    protected  $dateCreated;
+    protected $dateCreated;
 
     /**
      * @var \DateTime
      */
-    protected  $dateUpdated;
+    protected $dateUpdated;
 
     /**
      * {@inheritDoc}

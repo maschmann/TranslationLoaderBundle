@@ -19,20 +19,18 @@ use Asm\TranslationLoaderBundle\Entity\TranslationHistory;
  * @uses Asm\TranslationLoaderBundle\Entity\Translation
  * @uses Asm\TranslationLoaderBundle\Entity\TranslationHistory
  */
-class TranslationHistorySubscriber implements EventSubscriber {
-
+class TranslationHistorySubscriber implements EventSubscriber
+{
 
     /**
      * @var boolean
      */
     private $isEnabled = false;
 
-
     /**
      * @var \Symfony\Component\Security\Core\SecurityContext $seccurityContext
      */
     private $securityContext;
-
 
     /**
      * @return array
@@ -107,7 +105,6 @@ class TranslationHistorySubscriber implements EventSubscriber {
         }
     }
 
-
     /**
      * enable/disable subscriber
      *
@@ -117,7 +114,6 @@ class TranslationHistorySubscriber implements EventSubscriber {
     {
         $this->isEnabled = $enabled;
     }
-
 
     /**
      * @param $securityContext

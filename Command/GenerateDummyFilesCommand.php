@@ -37,12 +37,16 @@ class GenerateDummyFilesCommand extends BaseTranslationCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>generating dummy files</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
 
-        $translationPath = $this->getKernel()->getRootDir().'/Resources/translations/';
-        $fs = $this->getFilesystem();
+        $translationPath = $this->getKernel()->getRootDir() . '/Resources/translations/';
+        $fs              = $this->getFilesystem();
 
         // create directory for translations if not exists
         if (!$fs->exists($translationPath)) {
@@ -50,18 +54,22 @@ class GenerateDummyFilesCommand extends BaseTranslationCommand
         }
 
         $translationManager = $this->getTranslationManager();
-        $translations = $translationManager->findAllTranslations();
+        $translations       = $translationManager->findAllTranslations();
 
         foreach ($translations as $translation) {
-            $filename = $translation->getMessageDomain().'.'.$translation->getTransLocale().'.db';
+            $filename = $translation->getMessageDomain() . '.' . $translation->getTransLocale() . '.db';
 
-            if (!$fs->exists($translationPath.$filename)) {
-                $fs->touch($translationPath.$filename);
+            if (!$fs->exists($translationPath . $filename)) {
+                $fs->touch($translationPath . $filename);
             }
         }
 
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
         $output->writeln('<info>finished!</info>');
-        $output->writeln('<info>--------------------------------------------------------------------------------</info>');
+        $output->writeln(
+            '<info>--------------------------------------------------------------------------------</info>'
+        );
     }
 }

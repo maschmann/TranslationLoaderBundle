@@ -37,16 +37,36 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->treatNullLike(array(null))
                         ->beforeNormalization()
-                            ->ifTrue(function ($v) { return is_array($v) && count($v) == 0; })
-                            ->then(function() { return array(null); })
+                            ->ifTrue(
+                                function ($v) {
+                                    return is_array($v) && count($v) == 0;
+                                }
+                            )
+                            ->then(
+                                function () {
+                                    return array(null);
+                                }
+                            )
                         ->end()
                         ->beforeNormalization()
-                            ->ifTrue(function ($v) { return is_array($v) && isset($v['domain']); })
-                            ->then(function($v) { return $v['domain']; })
+                            ->ifTrue(
+                                function ($v) {
+                                    return is_array($v) && isset($v['domain']);
+                                }
+                            )
+                            ->then(
+                                function ($v) {
+                                    return $v['domain'];
+                                }
+                            )
                         ->end()
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(function($v) { return array($v); })
+                                ->then(
+                                    function ($v) {
+                                        return array($v);
+                                    }
+                                )
                         ->end()
                         ->prototype('scalar')->end()
                     ->end()
@@ -54,7 +74,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('driver')
                     ->validate()
                         ->ifNotInArray($supportedDrivers)
-                        ->thenInvalid('The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers))
+                        ->thenInvalid(
+                            'The driver %s is not supported. Please choose one of '.json_encode($supportedDrivers)
+                        )
                     ->end()
                     ->defaultValue('orm')
                     ->cannotBeEmpty()
@@ -62,7 +84,11 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('loaders')
                     ->beforeNormalization()
                         ->ifNull()
-                        ->then(function () { return array(); })
+                            ->then(
+                                function () {
+                                    return array();
+                                }
+                            )
                     ->end()
                     ->beforeNormalization()
                         ->always(function ($values) {
@@ -95,7 +121,9 @@ class Configuration implements ConfigurationInterface
                     ->children()
                             ->booleanNode('enabled')
                             ->defaultFalse()
-                            ->info('Enables historytracking for translation changes. Uses user id from registered users as reference')
+                            ->info(
+                                'Enables historytracking for translation changes. Uses user id from registered users as reference'
+                            )
                         ->end()
                     ->end()
                 ->end()
