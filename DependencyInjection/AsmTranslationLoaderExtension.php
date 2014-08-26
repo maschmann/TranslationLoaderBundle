@@ -43,17 +43,7 @@ class AsmTranslationLoaderExtension extends Extension
 
         // association between file extensions and translation loader service ids
         $container->setParameter('asm_translation_loader.translation_loaders', $config['loaders']);
-
-        // check if history feature is enabled
-        $historyEnabled = false;
-        if (isset($config['history']['enabled'])
-            && true == $config['history']['enabled']
-        ) {
-            $historyEnabled = $config['history']['enabled'];
-        }
-
         $container->setParameter('asm_translation_loader.database.entity_manager', $em);
-        $container->setParameter('asm_translation_loader.history.enabled', $historyEnabled);
 
         $loader = new XmlFileLoader(
             $container,
@@ -63,6 +53,12 @@ class AsmTranslationLoaderExtension extends Extension
         // load the translation manager resource
         $container->setParameter('asm_translation_loader.resources', $config['resources']);
         $loader->load('translation_manager_resource.xml');
+
+        // check if history feature is enabled
+        if (isset($config['history']['enabled']) && true == $config['history']['enabled']) {
+            $loader->load('translation_history_subscriber.xml');
+        }
+
 
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');

@@ -1,6 +1,5 @@
 parameters:
     asm_translation_loader.translation_loader_class:  'Asm\TranslationLoaderBundle\Translation\DatabaseLoader'
-    asm_translation_loader.history.subscriber_class:  'Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber'
 
 services:
     # database loader
@@ -9,12 +8,3 @@ services:
         arguments: [ '@asm_translation_loader.translation_manager' ]
         tags:
             - { name: translation.loader, alias: db}
-
-    # history writer
-    asm_translation_loader.history.subscriber:
-        class: '%asm_translation_loader.history.subscriber_class%'
-        calls:
-            - [ setEnabled, [ "%asm_translation_loader.history.enabled%" ] ]
-            - [ setSecurityContext, [ "@security.context" ] ]
-        tags:
-            - { name: doctrine.event_subscriber }

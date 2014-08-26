@@ -31,6 +31,7 @@ class AsmTranslatioLoaderExtensionTest extends AbstractExtensionTestCase
             0,
             'asm_translation_loader.translation_manager'
         );
+        $this->assertContainerBuilderNotHasService('asm_translation_loader.history.subscriber');
     }
 
     public function testWithNullTranslationLoaders()
@@ -70,6 +71,16 @@ class AsmTranslatioLoaderExtensionTest extends AbstractExtensionTestCase
                 'xlf' => 'translation.loader.xliff',
                 'yaml' => 'translation.loader.foo',
             )
+        );
+    }
+
+    public function testWithEnabledHistoryListener()
+    {
+        $this->load(array('history' => array('enabled' => true)));
+
+        $this->assertContainerBuilderHasService(
+            'asm_translation_loader.history.subscriber',
+            'Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber'
         );
     }
 

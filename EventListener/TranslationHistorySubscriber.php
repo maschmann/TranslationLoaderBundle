@@ -21,14 +21,8 @@ use Asm\TranslationLoaderBundle\Entity\TranslationHistory;
  */
 class TranslationHistorySubscriber implements EventSubscriber
 {
-
     /**
-     * @var boolean
-     */
-    private $isEnabled = false;
-
-    /**
-     * @var \Symfony\Component\Security\Core\SecurityContext $seccurityContext
+     * @var \Symfony\Component\Security\Core\SecurityContext $securityContext
      */
     private $securityContext;
 
@@ -74,45 +68,32 @@ class TranslationHistorySubscriber implements EventSubscriber
      */
     public function index(LifecycleEventArgs $args, $type)
     {
-        if ($this->isEnabled) {
-            $entity        = $args->getEntity();
-            $entityManager = $args->getEntityManager();
+        $entity        = $args->getEntity();
+        $entityManager = $args->getEntityManager();
 
-            /** @var \Asm\TranslationLoaderBundle\ $entity */
-            if ($entity instanceof Translation) {
+        if ($entity instanceof Translation) {
 
-                $token    = $this->securityContext->getToken();
-                $userName = 'anonymous';
-                if (!empty($token)) {
-                    $userName = $token->getUsername();
-                }
-
-                /** @var \Asm\TranslationLoaderBundle\Entity\TranslationHistory $historyEvent */
-                $historyEvent = new TranslationHistory();
-                $historyEvent->setTransKey($entity->getTransKey());
-                $historyEvent->setTransLocale($entity->getTransLocale());
-                $historyEvent->setMessageDomain($entity->getMessageDomain());
-                $historyEvent->setTranslation($entity->getTranslation());
-                $historyEvent->setUserAction($type);
-                $historyEvent->setUserName($userName);
-                $historyEvent->setDateOfChange(new \DateTime());
-
-                $entityManager->persist($historyEvent);
-                $entityManager->flush();
-                $entityManager->detach($historyEvent);
-                $entityManager->clear();
+            $token    = $this->securityContext->getToken();
+            $userName = 'anonymous';
+            if (!empty($token)) {
+                $userName = $token->getUsername();
             }
-        }
-    }
 
-    /**
-     * enable/disable subscriber
-     *
-     * @param boolean $enabled
-     */
-    public function setEnabled($enabled)
-    {
-        $this->isEnabled = $enabled;
+            /** @var \Asm\TranslationLoaderBundle\Entity\TranslationHistory $historyEvent */
+            $historyEvent = new TranslationHistory();
+            $historyEvent->setTransKey($entity->getTransKey());
+            $historyEvent->setTransLocale($entity->getTransLocale());
+            $historyEvent->setMessageDomain($entity->getMessageDomain());
+            $historyEvent->setTranslation($entity->getTranslation());
+            $historyEvent->setUserAction($type);
+            $historyEvent->setUserName($userName);
+            $historyEvent->setDateOfChange(new \DateTime());
+
+            $entityManager->persist($historyEvent);
+            $entityManager->flush();
+            $entityManager->detach($historyEvent);
+            $entityManager->clear();
+        }
     }
 
     /**

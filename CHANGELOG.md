@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* do not register the translation history subscriber service when the feature was
+  not enabled
+
 * added tests for the `asm:translations:dummy` command
 
 * added an option to configure translation file loaders based on the file extension
