@@ -17,14 +17,28 @@ So you can...
 Installation
 ----------
 
-Add requirement to your composer.json
-```php
-"asm/translation-loader-bundle": "~1.0"
-```
-Update via composer and register the bundle.
-```php
-new Asm\TranslationLoaderBundle\AsmTranslationLoaderBundle(),
-```
+1. Add `asm/translation-loader-bundle` as a dependency of your project:
+
+   ```bash
+   $ composer require asm/translation-loader-bundle "~1.0"
+   ```
+
+1. Register the bundle in the kernel:
+
+   ```php
+   // app/AppKernel.php
+   // ...
+
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new Asm\TranslationLoaderBundle\AsmTranslationLoaderBundle(),
+        );
+
+        return $bundles;
+    }
+   ```
 
 How does it work?
 ----------
