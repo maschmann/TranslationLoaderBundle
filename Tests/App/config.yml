@@ -4,9 +4,7 @@ framework:
     router:
         resource: "%kernel.root_dir%/routing.yml"
         strict_requirements: ~
-    form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
     templating:
         engines: ["php"]
     session:         ~
