@@ -14,7 +14,7 @@ namespace Asm\TranslationLoaderBundle\Tests\DependencyInjection;
 use Asm\TranslationLoaderBundle\DependencyInjection\AsmTranslationLoaderExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
-class AsmTranslatioLoaderExtensionTest extends AbstractExtensionTestCase
+class AsmTranslationLoaderExtensionTest extends AbstractExtensionTestCase
 {
     public function testEmptyConfiguration()
     {
