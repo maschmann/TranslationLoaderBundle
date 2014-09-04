@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* disable the Form and Validator extension when running tests to be compatible with
+  Symfony 2.5.4
+
 * do not register the translation history subscriber service when the feature was
   not enabled
 
