@@ -82,6 +82,10 @@ class AsmTranslatioLoaderExtensionTest extends AbstractExtensionTestCase
             'asm_translation_loader.history.subscriber',
             'Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber'
         );
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(
+            'asm_translation_loader.history.subscriber',
+            'doctrine.event_subscriber'
+        );
     }
 
     protected function getContainerExtensions()
