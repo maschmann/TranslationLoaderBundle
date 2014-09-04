@@ -13,6 +13,7 @@ namespace Asm\TranslationLoaderBundle\Tests\DependencyInjection;
 
 use Asm\TranslationLoaderBundle\DependencyInjection\AsmTranslationLoaderExtension;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\DependencyInjection\Reference;
 
 class AsmTranslationLoaderExtensionTest extends AbstractExtensionTestCase
 {
@@ -31,6 +32,18 @@ class AsmTranslationLoaderExtensionTest extends AbstractExtensionTestCase
             0,
             'asm_translation_loader.translation_manager'
         );
+
+        // ensure that the event dispatcher is initialized
+        $this->assertContainerBuilderHasService(
+            'asm_translation_loader.event_dispatcher',
+            'Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher'
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.event_dispatcher',
+            0,
+            new Reference('service_container')
+        );
+
         $this->assertContainerBuilderNotHasService('asm_translation_loader.history.subscriber');
     }
 
@@ -82,9 +95,86 @@ class AsmTranslationLoaderExtensionTest extends AbstractExtensionTestCase
             'asm_translation_loader.history.subscriber',
             'Asm\TranslationLoaderBundle\EventListener\TranslationHistorySubscriber'
         );
-        $this->assertContainerBuilderHasServiceDefinitionWithTag(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'asm_translation_loader.history.subscriber',
-            'doctrine.event_subscriber'
+            0,
+            new Reference('asm_translation_loader.translation_history_manager')
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.history.subscriber',
+            1,
+            new Reference('security.context')
+        );
+
+        foreach (array('postPersist', 'postUpdate', 'postRemove') as $event) {
+            $this->assertContainerBuilderHasServiceDefinitionWithTag(
+                'asm_translation_loader.history.subscriber',
+                'asm_translation_loader.event_listener',
+                array('event' => $event, 'method' => 'updateHistory')
+            );
+        }
+    }
+
+    public function testOrmDriver()
+    {
+        $this->load(array('driver' => 'orm'));
+
+        // entity class names
+        $this->assertContainerBuilderHasParameter(
+            'asm_translation_loader.model.translation.class',
+            'Asm\TranslationLoaderBundle\Entity\Translation'
+        );
+        $this->assertContainerBuilderHasParameter(
+            'asm_translation_loader.model.translation_history.class',
+            'Asm\TranslationLoaderBundle\Entity\TranslationHistory'
+        );
+
+        // the entity manager
+        $this->assertContainerBuilderHasService(
+            'asm_translation_loader.translation.entity_manager',
+            'Doctrine\Common\Persistence\ObjectManager'
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation.entity_manager',
+            0,
+            '%asm_translation_loader.database.entity_manager%'
+        );
+
+        // the translation manager
+        $this->assertContainerBuilderHasService(
+            'asm_translation_loader.translation_manager',
+            'Asm\TranslationLoaderBundle\Doctrine\TranslationManager'
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation_manager',
+            0,
+            new Reference('asm_translation_loader.translation.entity_manager')
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation_manager',
+            1,
+            '%asm_translation_loader.model.translation.class%'
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation_manager',
+            2,
+            new Reference('asm_translation_loader.event_dispatcher')
+        );
+
+        // the translation history manager
+        $this->assertContainerBuilderHasService(
+            'asm_translation_loader.translation_history_manager',
+            'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager'
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation_history_manager',
+            0,
+            new Reference('asm_translation_loader.translation.entity_manager')
+        );
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+            'asm_translation_loader.translation_history_manager',
+            1,
+            '%asm_translation_loader.model.translation_history.class%'
         );
     }
 

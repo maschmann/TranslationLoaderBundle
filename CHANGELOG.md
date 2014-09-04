@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+* resolve circular dependency between the `doctrine.orm.default_entity_manager`
+  (or any other Doctrine ORM entity manager service) and `security_context` services
+  when using the translation history feature
+
 * disable the Form and Validator extension when running tests to be compatible with
   Symfony 2.5.4
 

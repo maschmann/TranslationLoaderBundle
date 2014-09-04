@@ -11,6 +11,8 @@
 
 namespace Asm\TranslationLoaderBundle\Model;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 /**
  * Base {@link TranslationManagerInterface} implementation (can be extended by
  * concrete implementations).
@@ -26,12 +28,19 @@ abstract class TranslationManager implements TranslationManagerInterface
     protected $class;
 
     /**
-     * @param string $class Class name of managed {@link TranslationInterface}
-     *                      objects
+     * @var EventDispatcherInterface
      */
-    public function __construct($class)
+    protected $eventDispatcher;
+
+    /**
+     * @param string                   $class           Class name of managed {@link TranslationInterface} objects
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher used to propagate new, modified
+     *                                                  and removed translations
+     */
+    public function __construct($class, EventDispatcherInterface $eventDispatcher)
     {
         $this->class = $class;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
