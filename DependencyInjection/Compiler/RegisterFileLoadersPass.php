@@ -38,7 +38,9 @@ class RegisterFileLoadersPass implements CompilerPassInterface
             }
 
             foreach ($tagAttributes as $attributes) {
-                $fileLoader->registerLoader($attributes['alias'], $container->get($id));
+                /** @var \Symfony\Component\Translation\Loader\LoaderInterface $loader */
+                $loader = $container->get($id);
+                $fileLoader->registerLoader($attributes['alias'], $loader);
             }
         }
 
@@ -47,7 +49,9 @@ class RegisterFileLoadersPass implements CompilerPassInterface
             $additionalLoaders = $container->getParameter('asm_translation_loader.translation_loaders');
 
             foreach ($additionalLoaders as $extension => $loaderId) {
-                $fileLoader->registerLoader($extension, $container->get($loaderId));
+                /** @var \Symfony\Component\Translation\Loader\LoaderInterface $loader */
+                $loader = $container->get($loaderId);
+                $fileLoader->registerLoader($extension, $loader);
             }
         }
     }

@@ -83,12 +83,12 @@ interface TranslationHistoryInterface
     public function getTranslation();
 
     /**
-     * @param mixed $userAction
+     * @param string $userAction
      */
     public function setUserAction($userAction);
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getUserAction();
 
