@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+1.0.4
+-----
+
 * resolve circular dependency between the `doctrine.orm.default_entity_manager`
   (or any other Doctrine ORM entity manager service) and `security_context` services
   when using the translation history feature
