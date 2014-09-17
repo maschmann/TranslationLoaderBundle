@@ -13,8 +13,22 @@
             id="asm_translation_loader.history.subscriber"
             class="%asm_translation_loader.history.subscriber.class%">
 
+            <argument type="service" id="asm_translation_loader.translation_history_manager" />
             <argument type="service" id="security.context" />
-            <tag name="doctrine.event_subscriber" />
+            <tag
+                name="asm_translation_loader.event_listener"
+                event="postPersist"
+                method="updateHistory" />
+
+            <tag
+                name="asm_translation_loader.event_listener"
+                event="postUpdate"
+                method="updateHistory" />
+
+            <tag
+                name="asm_translation_loader.event_listener"
+                event="postRemove"
+                method="updateHistory" />
         </service>
     </services>
 </container>

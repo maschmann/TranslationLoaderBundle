@@ -13,10 +13,11 @@ namespace Asm\TranslationLoaderBundle\Tests\Doctrine;
 
 use Asm\TranslationLoaderBundle\Doctrine\TranslationManager;
 use Asm\TranslationLoaderBundle\Entity\Translation;
+use Asm\TranslationLoaderBundle\Tests\Model\TranslationManagerTest as BaseTranslationManagerTest;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 
-class TranslationManagerTest extends \PHPUnit_Framework_TestCase
+class TranslationManagerTest extends BaseTranslationManagerTest
 {
     /**
      * @var EntityRepository|\PHPUnit_Framework_MockObject_MockObject
@@ -27,20 +28,6 @@ class TranslationManagerTest extends \PHPUnit_Framework_TestCase
      * @var ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     private $objectManager;
-
-    /**
-     * @var TranslationManager
-     */
-    private $translationManager;
-
-    protected function setUp()
-    {
-        $this->createObjectManager();
-        $this->translationManager = new TranslationManager(
-            $this->objectManager,
-            'Asm\TranslationLoaderBundle\Entity\Translation'
-        );
-    }
 
     public function testCreateTranslation()
     {
@@ -134,6 +121,43 @@ class TranslationManagerTest extends \PHPUnit_Framework_TestCase
             ->method('flush');
 
         $this->translationManager->removeTranslation($translation);
+    }
+
+    protected function createTranslationManager()
+    {
+        $this->createObjectManager();
+
+        return new TranslationManager(
+            $this->objectManager,
+            'Asm\TranslationLoaderBundle\Entity\Translation',
+            $this->eventDispatcher
+        );
+    }
+
+    protected function createFreshTranslation()
+    {
+        $translation = new Translation();
+        $this
+            ->objectManager
+            ->expects($this->any())
+            ->method('contains')
+            ->with($translation)
+            ->willReturn(false);
+
+        return $translation;
+    }
+
+    protected function createNonFreshTranslation()
+    {
+        $translation = new Translation();
+        $this
+            ->objectManager
+            ->expects($this->any())
+            ->method('contains')
+            ->with($translation)
+            ->willReturn(true);
+
+        return $translation;
     }
 
     private function createRepository()
