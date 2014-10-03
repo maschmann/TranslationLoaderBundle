@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+* make the bundle compatible with Symfony 2.2 again
+
 * ensure that tests are also run with Symfony 2.2
 
 1.0.4
