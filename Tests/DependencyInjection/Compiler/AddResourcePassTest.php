@@ -95,7 +95,10 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutTranslator()
     {
-        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container = $this->getMock(
+            '\Symfony\Component\DependencyInjection\ContainerBuilder',
+            array('getParameter', 'findDefinition')
+        );
         $container
             ->expects($this->once())
             ->method('findDefinition')
@@ -112,7 +115,10 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutTranslatorAndWithoutLocales()
     {
-        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container = $this->getMock(
+            '\Symfony\Component\DependencyInjection\ContainerBuilder',
+            array('getParameter', 'findDefinition')
+        );
         $container
             ->expects($this->once())
             ->method('findDefinition')
@@ -131,7 +137,10 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
      */
     private function createContainer()
     {
-        $container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerBuilder');
+        $container = $this->getMock(
+            '\Symfony\Component\DependencyInjection\ContainerBuilder',
+            array('getParameter', 'findDefinition')
+        );
         $this->translator = $this->getMock('\Symfony\Component\DependencyInjection\Definition');
         $container
             ->expects($this->any())
@@ -150,4 +159,3 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($config));
     }
 }
- 
