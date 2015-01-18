@@ -12,7 +12,7 @@
          bootstrap="./vendor/autoload.php"
         >
     <php>
-        <server name="KERNEL_DIR" value="Tests/App" />
+        <server name="KERNEL_DIR" value="src/Tests/App" />
 
         <!-- Disable E_USER_DEPRECATED until 3.0 -->
         <!-- php -r 'echo -1 & ~E_USER_DEPRECATED;' -->
@@ -20,7 +20,7 @@
     </php>
     <testsuites>
         <testsuite name="TranslationLoaderBundle testsuite">
-            <directory suffix="Test.php">./Tests</directory>
+            <directory suffix="Test.php">./src/Tests</directory>
         </testsuite>
     </testsuites>
 
@@ -28,10 +28,10 @@
         <whitelist>
             <directory>./</directory>
             <exclude>
-                <directory>./Entity</directory>
-                <directory>./Resources</directory>
-                <directory>./Tests</directory>
-                <directory>./TestCase</directory>
+                <directory>./src/Entity</directory>
+                <directory>./src/Resources</directory>
+                <directory>./src/Tests</directory>
+                <directory>./src/TestCase</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>

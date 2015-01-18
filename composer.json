@@ -30,11 +30,10 @@
         "mikey179/vfsStream": "1.*"
     },
     "autoload": {
-        "psr-0": {
-            "Asm\\TranslationLoaderBundle": ""
+        "psr-4": {
+            "Asm\\TranslationLoaderBundle\\": "src"
         }
     },
-    "target-dir": "Asm/TranslationLoaderBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
