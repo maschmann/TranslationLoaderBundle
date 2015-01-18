@@ -31,6 +31,9 @@ class TranslationEvent extends Event
      */
     private $translation;
 
+    /**
+     * @param TranslationInterface $translation
+     */
     public function __construct(TranslationInterface $translation)
     {
         $this->translation = $translation;

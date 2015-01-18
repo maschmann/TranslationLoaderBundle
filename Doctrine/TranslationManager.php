@@ -36,8 +36,8 @@ class TranslationManager extends BaseTranslationManager
     private $repository;
 
     /**
-     * @param ObjectManager            $objectManager   Object manager for translation entities
-     * @param string                   $class           Translation model class name
+     * @param ObjectManager $objectManager Object manager for translation entities
+     * @param string $class Translation model class name
      * @param EventDispatcherInterface $eventDispatcher Event dispatcher used to propagate new, modified
      *                                                  and removed translations
      */
@@ -46,7 +46,7 @@ class TranslationManager extends BaseTranslationManager
         parent::__construct($class, $eventDispatcher);
 
         $this->objectManager = $objectManager;
-        $this->repository = $objectManager->getRepository($class);
+        $this->repository    = $objectManager->getRepository($class);
     }
 
     /**
@@ -72,7 +72,7 @@ class TranslationManager extends BaseTranslationManager
     {
         $translation->setDateUpdated(new \DateTime());
 
-        if($this->objectManager->contains($translation)) {
+        if ($this->objectManager->contains($translation)) {
             $eventName = TranslationEvent::POST_UPDATE;
         } else {
             $eventName = TranslationEvent::POST_PERSIST;

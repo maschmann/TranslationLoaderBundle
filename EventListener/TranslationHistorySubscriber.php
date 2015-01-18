@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the AsmTranslationLoaderBundle package.
  *
@@ -34,8 +33,14 @@ class TranslationHistorySubscriber
      */
     private $securityContext;
 
-    public function __construct(TranslationHistoryManagerInterface $translationHistoryManager, SecurityContextInterface $securityContext)
-    {
+    /**
+     * @param TranslationHistoryManagerInterface $translationHistoryManager
+     * @param SecurityContextInterface $securityContext
+     */
+    public function __construct(
+        TranslationHistoryManagerInterface $translationHistoryManager,
+        SecurityContextInterface $securityContext
+    ) {
         $this->translationHistoryManager = $translationHistoryManager;
         $this->securityContext = $securityContext;
     }
@@ -44,7 +49,6 @@ class TranslationHistorySubscriber
      * Event-based update of the translation history.
      *
      * @param TranslationEvent $event The event triggering the update
-     *
      * @return TranslationHistoryInterface The new translation history entry
      */
     public function updateHistory(TranslationEvent $event)
