@@ -36,7 +36,6 @@ class DatabaseLoader implements LoaderInterface
     /**
      * load messages from db
      *
-     * @todo check what kind of resource this is and maybe create database resource?
      * @param string $resource translation key
      * @param string $locale current locale
      * @param string $messageDomain message domain
