@@ -58,7 +58,7 @@ class AsmTranslationLoaderExtension extends Extension
         $loader->load('translation_manager_resource.xml');
 
         // check if history feature is enabled
-        if (isset($config['history']['enabled']) && true == $config['history']['enabled']) {
+        if (isset($config['history']['enabled']) && true === $config['history']['enabled']) {
             $loader->load('translation_history_subscriber.xml');
         }
 
