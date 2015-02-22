@@ -291,4 +291,8 @@ class DummyTranslationManager implements TranslationManagerInterface
     public function removeTranslation(TranslationInterface $translation)
     {
     }
+
+    public function findTranslationFreshness($timestamp)
+    {
+    }
 }

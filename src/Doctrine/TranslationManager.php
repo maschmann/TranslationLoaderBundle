@@ -50,7 +50,7 @@ class TranslationManager extends BaseTranslationManager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findTranslationBy(array $criteria)
     {
@@ -58,7 +58,7 @@ class TranslationManager extends BaseTranslationManager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findTranslationsBy(array $criteria)
     {
@@ -66,7 +66,7 @@ class TranslationManager extends BaseTranslationManager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function updateTranslation(TranslationInterface $translation)
     {
@@ -85,7 +85,7 @@ class TranslationManager extends BaseTranslationManager
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function removeTranslation(TranslationInterface $translation)
     {
@@ -93,5 +93,13 @@ class TranslationManager extends BaseTranslationManager
         $this->objectManager->flush();
 
         $this->eventDispatcher->dispatch(TranslationEvent::POST_REMOVE, new TranslationEvent($translation));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findTranslationFreshness($timestamp)
+    {
+        return $this->repository->findTranslationFreshness($timestamp);
     }
 }

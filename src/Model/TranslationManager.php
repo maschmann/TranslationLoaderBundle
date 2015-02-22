@@ -44,7 +44,7 @@ abstract class TranslationManager implements TranslationManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createTranslation()
     {
@@ -56,7 +56,7 @@ abstract class TranslationManager implements TranslationManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findAllTranslations()
     {
@@ -64,7 +64,7 @@ abstract class TranslationManager implements TranslationManagerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findTranslationsByLocaleAndDomain($locale, $domain = 'messages')
     {

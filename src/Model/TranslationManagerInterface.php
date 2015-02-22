@@ -62,6 +62,15 @@ interface TranslationManagerInterface
     public function findTranslationsByLocaleAndDomain($locale, $domain = 'messages');
 
     /**
+     * Finds amount of translations exceeding freshness date.
+     *
+     * @param integer $timestamp timestamp of translation cache freshness
+     *
+     * @return integer amount of translations newer than freshness
+     */
+    public function findTranslationFreshness($timestamp);
+
+    /**
      * Writes a new or modified translation to the underlying storage.
      *
      * @param TranslationInterface $translation The translation to update
