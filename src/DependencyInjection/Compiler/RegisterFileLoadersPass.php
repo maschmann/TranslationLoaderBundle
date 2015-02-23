@@ -13,6 +13,7 @@ namespace Asm\TranslationLoaderBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 class RegisterFileLoadersPass implements CompilerPassInterface
 {
@@ -25,22 +26,25 @@ class RegisterFileLoadersPass implements CompilerPassInterface
             return;
         }
 
-        /** @var \Asm\TranslationLoaderBundle\Translation\FileLoaderResolver $fileLoader */
-        $fileLoader = $container->get('asm_translation_loader.file_loader_resolver');
-        $loaders = $container->findTaggedServiceIds('translation.loader');
+        $resolver = $container->getDefinition('asm_translation_loader.file_loader_resolver');
+        $loaders  = $container->findTaggedServiceIds('translation.loader');
 
         foreach ($loaders as $id => $tagAttributes) {
-            $definition = $container->findDefinition($id);
-
-            // skip non file loaders
-            if (false === strpos($definition->getClass(), 'FileLoader')) {
-                continue;
-            }
-
+            /**
+             * At this point there is no means to identify the type of loader we have, so we use
+             * all tagged loaders to fill the resolver.
+             * Also we need to add the references, since we cannot make sure the services are
+             * already instantiated
+             */
             foreach ($tagAttributes as $attributes) {
                 /** @var \Symfony\Component\Translation\Loader\LoaderInterface $loader */
-                $loader = $container->get($id);
-                $fileLoader->registerLoader($attributes['alias'], $loader);
+                $resolver->addMethodCall(
+                    'registerLoader',
+                    array(
+                        new Reference($id),
+                        $attributes['alias']
+                    )
+                );
             }
         }
 
@@ -49,9 +53,13 @@ class RegisterFileLoadersPass implements CompilerPassInterface
             $additionalLoaders = $container->getParameter('asm_translation_loader.translation_loaders');
 
             foreach ($additionalLoaders as $extension => $loaderId) {
-                /** @var \Symfony\Component\Translation\Loader\LoaderInterface $loader */
-                $loader = $container->get($loaderId);
-                $fileLoader->registerLoader($extension, $loader);
+                $resolver->addMethodCall(
+                    'registerLoader',
+                    array(
+                        new Reference($loaderId),
+                        $extension
+                    )
+                );
             }
         }
     }

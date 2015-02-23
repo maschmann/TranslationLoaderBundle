@@ -12,14 +12,12 @@
 namespace Asm\TranslationLoaderBundle\Entity;
 
 use Asm\TranslationLoaderBundle\Model\Translation as BaseTranslation;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Translation entity class for the Doctrine ORM storage layer implementation.
  *
  * @package Asm\TranslationLoaderBundle\Entity
  * @author  Marc Aschmann <maschmann@gmail.com>
- * @ORM\Entity(repositoryClass="TranslationRepository")
  */
 class Translation extends BaseTranslation
 {

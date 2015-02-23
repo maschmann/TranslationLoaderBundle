@@ -26,10 +26,10 @@ class FileLoaderResolver
     private $loaders = array();
 
     /**
-     * @param string          $extension The file extension
      * @param LoaderInterface $loader    The translation loader
+     * @param string          $extension The file extension
      */
-    public function registerLoader($extension, LoaderInterface $loader)
+    public function registerLoader(LoaderInterface $loader, $extension)
     {
         $this->loaders[$extension] = $loader;
     }
