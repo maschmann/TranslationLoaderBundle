@@ -48,13 +48,25 @@ class RegisterFileLoadersPassTest extends AbstractCompilerPassTestCase
         );
     }
 
-    public function testDatabaseLoaderIsNotRegistered()
+    /*public function testDatabaseLoaderIsNotRegistered()
     {
         $this->bootstrapContainer();
         $this->compile();
         $fileLoaderResolver = $this->getFileLoaderResolver();
 
         $this->assertNull($fileLoaderResolver->resolveLoader('db'));
+    }*/
+
+    public function testDatabaseLoaderIsRegistered()
+    {
+        $this->bootstrapContainer();
+        $this->compile();
+        $fileLoaderResolver = $this->getFileLoaderResolver();
+
+        $this->assertInstanceOf(
+            'Asm\TranslationLoaderBundle\Translation\DatabaseLoader',
+            $fileLoaderResolver->resolveLoader('db')
+        );
     }
 
     public function testIniFileloaderIsRegistered()
