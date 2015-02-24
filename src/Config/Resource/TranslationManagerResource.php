@@ -39,7 +39,7 @@ class TranslationManagerResource implements ResourceInterface
      */
     public function isFresh($timestamp)
     {
-        return true;
+        return $this->loader->isFresh($timestamp);
     }
 
     /**
