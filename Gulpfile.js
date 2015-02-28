@@ -50,7 +50,6 @@ gulp.task('build-js-core', function() {
         .pipe(plugins.sourcemaps.init())
             .pipe(plugins.uglify())
             .pipe(plugins.concat('core.js'))
-            .pipe(plugins.jshint())
         .pipe(plugins.sourcemaps.write('./'))
         .pipe(gulp.dest(files.js.destination));
 });
