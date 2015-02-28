@@ -40,7 +40,7 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isFresh')
             ->will($this->returnValue(true));
-        
+
         $this->assertTrue(is_bool($this->translationManagerResource->isFresh(time())));
     }
 

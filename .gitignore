@@ -1,5 +1,5 @@
 composer.lock
 phpunit.xml
-src/Tests/App/cache
-src/Tests/App/logs
+Tests/App/cache
+Tests/App/logs
 vendor
