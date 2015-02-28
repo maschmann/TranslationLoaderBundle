@@ -36,7 +36,12 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
 
     public function testIsFresh()
     {
-        $this->assertTrue($this->translationManagerResource->isFresh(time()));
+        $this->databaseLoader
+            ->expects($this->once())
+            ->method('isFresh')
+            ->will($this->returnValue(true));
+        
+        $this->assertTrue(is_bool($this->translationManagerResource->isFresh(time())));
     }
 
     public function testGetResource()
@@ -46,7 +51,14 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
 
     private function createDatabaseLoader()
     {
-        $this->databaseLoader = $this->getMock('\Asm\TranslationLoaderBundle\Translation\DatabaseLoader', array(), array(), '', false);
+        $this->databaseLoader = $this->getMock(
+            '\Asm\TranslationLoaderBundle\Translation\DatabaseLoader',
+            array(
+                'isFresh'
+            ),
+            array(),
+            '',
+            false
+        );
     }
 }
- 
