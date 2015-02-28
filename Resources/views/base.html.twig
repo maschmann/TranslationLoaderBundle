@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{% block language %}de{% endblock %}">
+<head>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="keywords" content="">
+    {% endblock %}
+
+    <link rel="stylesheet" href="/css/{{ app.environment }}/bootstrap.css">
+    <link rel="stylesheet" href="/css/{{ app.environment }}/core.css">
+    {% block css %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+{% block header %}
+    {{ include('MxBundle:Partial:header.html.twig', { 'page': pagetype() }) }}
+{% endblock %}
+<div class="container page-{{ pagetype() }}">
+    {% block body %}{% endblock %}
+</div>
+{% block footer %}
+    {{ include('MxBundle:Partial:footer.html.twig') }}
+{% endblock %}
+<div id="asm-translation-dialog">
+    <div class="content"></div>
+</div>
+<script src="/js/{{ app.environment }}/bootstrap.js"></script>
+<script src="/js/{{ app.environment }}/core.js"></script>
+{% block javascript %}{% endblock %}
+<script type="text/javascript">
+    ;
+    (function ($, undefined) {
+        window.asm_translation = window.asm_translation || {};
+        asm_translation.options = asm_translation.options || {};
+        $.extend(asm_translation.options, {
+            env: '{{ app.environment }}'
+        });
+        asm_translation.translations = asm_translation.translations || {};
+        $.extend(asm_translation.translations, {
+            loading: '{{ "loading"|trans }}'
+        });
+    })(jQuery);
+    document.body.className = 'asm-translation-init {{ app.environment }}'
+</script>
+</body>
+</html>

@@ -1,2 +1,25 @@
+asm_translation_loader.admin.index:
+    path: /
+    defaults:
+        _controller: translation.admin:indexAction
 
+asm_translation_loader.admin.create:
+    path: /create
+    defaults:
+        _controller: translation.admin:indexAction
 
+asm_translation_loader.admin.read:
+    path: /get/{trans_key}/{trans_locale}/{message_domain}
+    defaults:
+        _controller: translation.admin:indexAction
+
+asm_translation_loader.admin.update:
+    path: /update
+    defaults:
+        _controller: translation.admin:indexAction
+    meth
+
+asm_translation_loader.admin.delete:
+    path: /delete/{trans_key}/{trans_locale}/{message_domain}
+    defaults:
+        _controller: translation.admin:indexAction
