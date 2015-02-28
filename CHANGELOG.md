@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+1.0.7
+-----
+* Cleanup bundle structure
+* Fixed unittests
+
+1.0.6
+-----
+
+* Fixed FileLoaderResolver and compiler pass
+* Added draft for cache refreshing functionality
+
 1.0.5
 -----
 
