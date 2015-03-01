@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace TranslationLoaderBundle\Controller;
+namespace Asm\TranslationLoaderBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +24,8 @@ class TranslationController extends Controller
     public function indexAction(Request $request)
     {
         return $this->render(
-            'Hello/Greetings/index.html.twig',
+            'AsmTranslationLoaderBundle:Translation:index.html.twig',
             array(
-                'name' => $name,
             )
         );
     }

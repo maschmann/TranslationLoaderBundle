@@ -1,25 +1,24 @@
 asm_translation_loader.admin.index:
-    path: /
+    path: /index
     defaults:
-        _controller: translation.admin:indexAction
+        _controller: AsmTranslationLoaderBundle:Translation:index
 
 asm_translation_loader.admin.create:
     path: /create
     defaults:
-        _controller: translation.admin:indexAction
+        _controller: AsmTranslationLoaderBundle:Translation:create
 
 asm_translation_loader.admin.read:
     path: /get/{trans_key}/{trans_locale}/{message_domain}
     defaults:
-        _controller: translation.admin:indexAction
+        _controller: AsmTranslationLoaderBundle:Translation:read
 
 asm_translation_loader.admin.update:
     path: /update
     defaults:
-        _controller: translation.admin:indexAction
-    meth
+        _controller: AsmTranslationLoaderBundle:Translation:update
 
 asm_translation_loader.admin.delete:
     path: /delete/{trans_key}/{trans_locale}/{message_domain}
     defaults:
-        _controller: translation.admin:indexAction
+        _controller: AsmTranslationLoaderBundle:Translation:delete
