@@ -39,6 +39,15 @@ Installation
         return $bundles;
     }
    ```
+1. If you want the admin gui, add routing config:
+
+    ```yaml
+    # app/config/routing.yml
+    
+    asm_translation_loader.gui:
+        resource: "@AsmTranslationLoaderBundle/Resources/config/routing.yml"
+        prefix:   /translation
+    ```
 
 How does it work?
 ----------
