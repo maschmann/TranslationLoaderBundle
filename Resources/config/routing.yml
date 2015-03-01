@@ -4,6 +4,11 @@ asm_translation_loader.admin.index:
         _controller: AsmTranslationLoaderBundle:Translation:index
 
 asm_translation_loader.admin.create:
+    path: /list
+    defaults:
+        _controller: AsmTranslationLoaderBundle:Translation:list
+
+asm_translation_loader.admin.create:
     path: /create
     defaults:
         _controller: AsmTranslationLoaderBundle:Translation:create

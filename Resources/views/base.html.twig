@@ -20,10 +20,13 @@
 </head>
 <body>
 {% block header %}
-    {{ include('AsmTranslationLoaderBundle:Partial:header.html.twig') }}
+    {{ include('AsmTranslationLoaderBundle:Partial:header.html.twig', {'page': 'main'}) }}
 {% endblock %}
-<div class="container page-{{ pagetype() }}">
+<div class="container-fluid page-{{ pagetype() }}">
+    <div class="row">
+        {{ include('AsmTranslationLoaderBundle:Partial:nav-left.html.twig') }}
     {% block body %}{% endblock %}
+    </div>
 </div>
 {% block footer %}
     {{ include('AsmTranslationLoaderBundle:Partial:footer.html.twig') }}
@@ -32,7 +35,7 @@
     <div class="content"></div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>±
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="/bundles/asmtranslationloader/js/min/core.js"></script>
 {% block javascript %}{% endblock %}

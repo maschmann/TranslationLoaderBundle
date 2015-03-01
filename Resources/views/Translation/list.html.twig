@@ -1,0 +1,41 @@
+{% extends 'AsmTranslationLoaderBundle::base.html.twig' %}
+
+{% block header %}
+    {{ include('AsmTranslationLoaderBundle:Partial:header.html.twig', {'page': 'list'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">{{ 'Overview'|trans }}</h1>
+        {% if translations|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>{{ 'trans_key'|trans }}</th>
+                    <th>{{ 'trans_locale'|trans }}</th>
+                    <th>{{ 'message_domain'|trans }}</th>
+                    <th>{{ 'translation'|trans }}</th>
+                    <th>{{ 'date_created'|trans }}</th>
+                    <th>{{ 'date_updated'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for translation in translations %}
+                <tr>
+                    <td>{{ translation.transKey }}</td>
+                    <td>{{ translation.transLocale }}</td>
+                    <td>{{ translation.messageDomain }}</td>
+                    <td>{{ translation.translation }}</td>
+                    <td>{{ translation.dateCreated|date('Y-m-d H:i:s') }}</td>
+                    <td>{{ translation.dateUpdated|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <h2>{{ 'No translations found'|trans }}</h2>
+        {% endif %}
+    </div>
+{% endblock %}

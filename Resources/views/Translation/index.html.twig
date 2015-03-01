@@ -1,1 +1,35 @@
 {% extends 'AsmTranslationLoaderBundle::base.html.twig' %}
+
+{% block header %}
+    {{ include('AsmTranslationLoaderBundle:Partial:header.html.twig', {'page': 'main'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <h1 class="page-header">{{ 'Overview'|trans }}</h1>
+
+        <h2 class="sub-header">Section title</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Header</th>
+                    <th>Header</th>
+                    <th>Header</th>
+                    <th>Header</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1,001</td>
+                    <td>Lorem</td>
+                    <td>ipsum</td>
+                    <td>dolor</td>
+                    <td>sit</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
