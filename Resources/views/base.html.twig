@@ -26,9 +26,9 @@
     {% block body %}{% endblock %}
 </div>
 {% block footer %}
-    {{ include('MxBundle:Partial:footer.html.twig') }}
+    {{ include('AsmTranslationLoader:Partial:footer.html.twig') }}
 {% endblock %}
-<div id="asm-translation-dialog">
+<div id="asm-dialog">
     <div class="content"></div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
@@ -39,17 +39,17 @@
 <script type="text/javascript">
     ;
     (function ($, undefined) {
-        window.asm_translation = window.asm_translation || {};
-        asm_translation.options = asm_translation.options || {};
-        $.extend(asm_translation.options, {
+        window.asm = window.asm || {};
+        asm.options = asm.options || {};
+        $.extend(asm.options, {
             env: '{{ app.environment }}'
         });
-        asm_translation.translations = asm_translation.translations || {};
-        $.extend(asm_translation.translations, {
+        asm.translations = asm.translations || {};
+        $.extend(asm.translations, {
             loading: '{{ "loading"|trans }}'
         });
     })(jQuery);
-    document.body.className = 'asm-translation-init {{ app.environment }}'
+    document.body.className = 'asm-init {{ app.environment }}'
 </script>
 </body>
 </html>

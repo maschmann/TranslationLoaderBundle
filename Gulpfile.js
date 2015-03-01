@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-    //_ = require('lodash'),
     gulpLoadPlugins = require('gulp-load-plugins'),
     plugins = gulpLoadPlugins({
         rename: {
@@ -9,17 +8,17 @@ var gulp = require('gulp'),
     files = {
         js: {
             core: [
-                './vendor/asm/translation-loader-bundle/Resources/public/js/main.js',
-                './vendor/asm/translation-loader-bundle/Resources/public/js/vendor/mustache.js',
-                './vendor/asm/translation-loader-bundle/Resources/public/js/plugins.js'
+                './Resources/public/js/main.js',
+                './Resources/public/js/vendor/mustache.js',
+                './Resources/public/js/plugins.js'
             ],
-            destination: './web/bundles/asmtranslationloader/js/min/'
+            destination: './Resources/public/js/min/'
         },
         css: {
             core: [
-                './vendor/asm/translation-loader-bundle/Resources/stylus/core.styl'
+                './Resources/stylus/core.styl'
             ],
-            destination: './web/bundles/asmtranslationloader/css/min/'
+            destination: './Resources/public/css/min/'
         }
     };
 

@@ -1,0 +1,1 @@
+{"version":3,"sources":["core.styl"],"names":[],"mappings":"AAEA,SACI,MAAM,KAEV,MACI,MAAM","file":"core.css","sourcesContent":["@require 'definitions'\n\n.message\n    color default-message-color\n\n.test\n    color blue\n"],"sourceRoot":"/source/"}
