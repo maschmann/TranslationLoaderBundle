@@ -46,9 +46,9 @@ window.log = function () {
                 }
 
                 if(typeof msg !== 'string') {
-                    console.log('%c ' + 'data: ', color + 'font-family:"Helvetica Neue", Helevetica; font-size:13px;', msg);
+                    console.log('%c ' + 'data: ', color + 'font-family:Arial, Mono; font-size:13px;', msg);
                 } else {
-                    console.log('%c ' + msg, color + 'font-family:"Helvetica Neue", Helevetica; font-size:13px;', obj);
+                    console.log('%c ' + msg, color + 'font-family: Arial, Mono; font-size:13px;', obj);
                 }
             }
         }
@@ -57,6 +57,10 @@ window.log = function () {
     asm.log = function(msg, obj) {
         msg = (arguments.length === 2) ? msg + ': ' : msg;
         asm.fire.message(msg, obj, '');
+    },
+
+    asm.debug = function(msg, obj) {
+        asm.fire.message(msg, obj, 'green');
     },
 
     asm.info = function(msg, obj) {
