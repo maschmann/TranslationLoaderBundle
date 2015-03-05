@@ -8,10 +8,11 @@ var gulp = require('gulp'),
     files = {
         js: {
             core: [
-                './Resources/public/js/main.js',
+                './Resources/public/js/core.js',
                 './Resources/public/js/vendor/mustache.js',
                 './Resources/public/js/plugins.js',
-                './Resources/public/js/default.js'
+                './Resources/public/js/default.js',
+                './Resources/public/js/list.js'
             ],
             destination: './Resources/public/js/min/'
         },

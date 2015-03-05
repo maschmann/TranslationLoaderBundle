@@ -24,7 +24,7 @@
 {% endblock %}
 <div class="container-fluid page-{{ pagetype() }}">
     <div class="row">
-        {{ include('AsmTranslationLoaderBundle:Partial:nav-left.html.twig') }}
+        {{ include('AsmTranslationLoaderBundle:Partial:nav-left.html.twig', {'active': 'list'}) }}
     {% block body %}{% endblock %}
     </div>
 </div>
@@ -52,6 +52,7 @@
             loading: '{{ "loading"|trans }}'
         });
     })(jQuery);
+
     document.body.className = 'asm-init {{ app.environment }}'
 </script>
 </body>
