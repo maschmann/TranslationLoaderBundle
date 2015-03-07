@@ -10,6 +10,7 @@
 
 namespace Asm\TranslationLoaderBundle\Controller;
 
+use Asm\TranslationLoaderBundle\Entity\Translation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,24 +44,45 @@ class TranslationController extends Controller
     {
         $translations = $this->get('asm_translation_loader.translation_manager')
             ->findAllTranslations();
+        // get the variable prefix of the url
+        $baseUrl = explode('/', trim($request->server->get('REQUEST_URI'), '/'));
 
         return $this->render(
             'AsmTranslationLoaderBundle:Translation:list.html.twig',
             array(
                 'translations' => $translations,
+                'url_base' => $baseUrl[0],
             )
         );
     }
 
     /**
-     * @param Request $request
+     * @param string $key
+     * @param string $locale
+     * @param string $domain
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function formAction(Request $request)
+    public function formAction($key = '', $locale = '', $domain = '')
     {
+        $translation = $this->get('asm_translation_loader.translation_manager')
+            ->findTranslationBy(
+                array(
+                    'transKey' => $key,
+                    'transLocale' => $locale,
+                    'messageDomain' => $domain,
+                )
+            );
+
+        if (empty($translation)) {
+            $translation = new Translation();
+        }
+
+        $form = $this->createForm('asm_translation', $translation);
+
         return $this->render(
             'AsmTranslationLoaderBundle:Translation:form.html.twig',
             array(
+                'form' => $form->createView(),
             )
         );
     }

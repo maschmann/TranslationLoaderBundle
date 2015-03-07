@@ -20,7 +20,18 @@
 
         initEditButtons: function () {
             $('.asm-edit-btn').click(function (e) {
-                asm.debug('edit button clicked');
+                var key = $(this).data('key'),
+                    locale = $(this).data('locale'),
+                    domain = $(this).data('domain'),
+                    formUrl = $(this).data('link');
+
+                formUrl = encodeURI(formUrl + '/' + key + '/' + locale  + '/' + domain);
+
+                asm.debug('formUrl: ' + formUrl);
+
+                asm.modal.init({
+                    url: formUrl
+                });
             });
         },
 
@@ -28,6 +39,11 @@
             $('.asm-delete-btn').click(function (e) {
                 var confirmed = confirm(asm.translations.confirm_delete);
                 if (confirmed == true) {
+                    var key = $(this).data('key'),
+                        locale = $(this).data('locale'),
+                        domain = $(this).data('domain');
+
+                    asm.debug('key: ' + key + ' locale: ' + locale + ' domain: ' + domain);
                     asm.debug('delete confirmed');
                 } else {
                     asm.debug('delete cancelled');

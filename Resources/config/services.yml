@@ -8,3 +8,8 @@ services:
         arguments: [ '@asm_translation_loader.translation_manager' ]
         tags:
             - { name: translation.loader, alias: db}
+
+    asm_translation_loader.type.translation:
+            class: Asm\TranslationLoaderBundle\Form\TranslationType
+            tags:
+                - { name: form.type, alias: asm_translation }
