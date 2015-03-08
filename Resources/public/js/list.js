@@ -16,6 +16,10 @@
             if ($('.asm-delete-btn').length > 0) {
                 asm.list.initDeleteButtons();
             }
+
+            if ($('.asm-add-btn').length > 0) {
+                asm.list.initAddButton();
+            }
         },
 
         initEditButtons: function () {
@@ -29,6 +33,16 @@
 
                 asm.debug('formUrl: ' + formUrl);
 
+                asm.modal.init({
+                    url: formUrl
+                });
+            });
+        },
+
+        initAddButton: function () {
+            $('.asm-add-btn').click(function (e) {
+                var formUrl = $(this).data('link');
+                asm.debug('formUrl: ' + formUrl);
                 asm.modal.init({
                     url: formUrl
                 });
