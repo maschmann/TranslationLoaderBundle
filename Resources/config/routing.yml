@@ -1,7 +1,7 @@
 asm_translation_loader.admin.index:
-    path: /index
+    path: /
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:index
+        _controller: AsmTranslationLoaderBundle:Translation:list
 
 asm_translation_loader.admin.list:
     path: /list

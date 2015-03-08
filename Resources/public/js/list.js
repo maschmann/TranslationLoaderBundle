@@ -34,7 +34,11 @@
                 asm.debug('formUrl: ' + formUrl);
 
                 asm.modal.init({
-                    url: formUrl
+                    url: formUrl,
+                    closeText: 'x',
+                    onClose: function (formUrl) {
+                        asm.list.reloadList(formUrl);
+                    }
                 });
             });
         },
@@ -44,7 +48,11 @@
                 var formUrl = $(this).data('link');
                 asm.debug('formUrl: ' + formUrl);
                 asm.modal.init({
-                    url: formUrl
+                    url: formUrl,
+                    closeText: 'x',
+                    onClose: function (formUrl) {
+                        asm.list.reloadList(formUrl);
+                    }
                 });
             });
         },
@@ -62,6 +70,14 @@
                 } else {
                     asm.debug('delete cancelled');
                 }
+            });
+        },
+
+        reloadList: function (baseUrl) {
+            asm.debug('fired reload');
+            $('#asm-translations-tbl').renderMustache({
+                source: baseUrl + '/list', //add filters
+                template: '#asm-translations-tbl-tpl'
             });
         }
     }

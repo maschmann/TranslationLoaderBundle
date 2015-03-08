@@ -27,33 +27,30 @@ class TranslationController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
-    {
-        return $this->render(
-            'AsmTranslationLoaderBundle:Translation:index.html.twig',
-            array(
-            )
-        );
-    }
-
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function listAction(Request $request)
     {
         $translations = $this->get('asm_translation_loader.translation_manager')
             ->findAllTranslations();
-        // get the variable prefix of the url
         $baseUrl = explode('/', trim($request->server->get('REQUEST_URI'), '/'));
 
-        return $this->render(
-            'AsmTranslationLoaderBundle:Translation:list.html.twig',
-            array(
-                'translations' => $translations,
-                'url_base' => $baseUrl[0],
-            )
-        );
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse(
+                array(
+                    'translations' => $translations,
+                    'url_base' => $baseUrl[0],
+                )
+            );
+        } else {
+            $response = $this->render(
+                'AsmTranslationLoaderBundle:Translation:list.html.twig',
+                array(
+                    'translations' => $translations,
+                    'url_base' => $baseUrl[0],
+                )
+            );
+        }
+
+        return $response;
     }
 
     /**
