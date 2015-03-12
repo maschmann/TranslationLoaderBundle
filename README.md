@@ -1,7 +1,7 @@
 TranslationLoaderBundle
 =========
 
-[![Build Status](https://travis-ci.org/maschmann/TranslationLoaderBundle.png?branch=master)](https://travis-ci.org/maschmann/TranslationLoaderBundle)
+[![Build Status](https://travis-ci.org/maschmann/TranslationLoaderBundle.svg?branch=master)](https://travis-ci.org/maschmann/TranslationLoaderBundle)
 [![Latest Stable Version](https://poser.pugx.org/asm/translation-loader-bundle/v/stable.png)](https://packagist.org/packages/asm/translation-loader-bundle)
 [![Total Downloads](https://poser.pugx.org/asm/translation-loader-bundle/downloads.png)](https://packagist.org/packages/asm/translation-loader-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/?branch=master)
