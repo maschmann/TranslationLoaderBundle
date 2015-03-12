@@ -28,5 +28,5 @@ matrix:
     - php: hhvm-nightly
 
 before_script:
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update
+  - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi
   - composer install
