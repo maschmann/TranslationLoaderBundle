@@ -29,15 +29,15 @@ class TranslationController extends Controller
      */
     public function listAction(Request $request)
     {
+
+
         $translations = $this->get('asm_translation_loader.translation_manager')
             ->findAllTranslations();
-        $baseUrl = explode('/', trim($request->server->get('REQUEST_URI'), '/'));
 
         if ($request->isXmlHttpRequest()) {
             $response = new JsonResponse(
                 array(
                     'translations' => $translations,
-                    'url_base' => $baseUrl[0],
                 )
             );
         } else {
@@ -45,7 +45,6 @@ class TranslationController extends Controller
                 'AsmTranslationLoaderBundle:Translation:list.html.twig',
                 array(
                     'translations' => $translations,
-                    'url_base' => $baseUrl[0],
                 )
             );
         }

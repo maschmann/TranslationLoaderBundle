@@ -1,7 +1,16 @@
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
         <li{% if active == 'list' %} class="active"{% endif %}>
-            <a href="#">Overview <span class="sr-only">(current)</span></a>
+            <a href="{{ path('asm_translation_loader.admin.list') }}" title="{{ 'List'|trans }}">
+                {{ 'List'|trans }}
+                {% if active == 'list' %}<span class="sr-only">(current)</span>{% endif %}
+            </a>
         </li>
+        {#<li{% if active == 'new' %} class="active"{% endif %}>
+            <a href="{{ path('asm_translation_loader.admin.create') }}" title="{{ 'New'|trans }}">
+                {{ 'New'|trans }}
+                {% if active == 'new' %}<span class="sr-only">(current)</span>{% endif %}
+            </a>
+        </li>#}
     </ul>
 </div>

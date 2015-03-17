@@ -20,7 +20,7 @@ asm_translation_loader.admin.create:
     path: /create
     defaults:
         _controller: AsmTranslationLoaderBundle:Translation:create
-    methods: [POST]
+    #methods: [POST]
 
 asm_translation_loader.admin.read:
     path: /edit
