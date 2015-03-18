@@ -50,6 +50,8 @@
                 asm.modal.init({
                     url: formUrl,
                     closeText: 'x',
+                    width: 500,
+                    resizable: true,
                     onClose: function (formUrl) {
                         asm.list.reloadList(formUrl);
                     }
