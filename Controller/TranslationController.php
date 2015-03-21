@@ -29,8 +29,6 @@ class TranslationController extends Controller
      */
     public function listAction(Request $request)
     {
-
-
         $translations = $this->get('asm_translation_loader.translation_manager')
             ->findAllTranslations();
 
