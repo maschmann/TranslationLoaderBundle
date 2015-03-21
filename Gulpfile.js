@@ -24,7 +24,6 @@ var gulp = require('gulp'),
         }
     };
 
-console.log(plugins);
 gulp.task('handle-assets', ['core-js', 'core-css']);
 
 gulp.task('default', ['core-js', 'core-css'], function(){
