@@ -55,6 +55,8 @@ abstract class Translation implements TranslationInterface
     public function setTransKey($transKey)
     {
         $this->transKey = $transKey;
+
+        return $this;
     }
 
     /**
@@ -71,6 +73,8 @@ abstract class Translation implements TranslationInterface
     public function setTransLocale($transLocale)
     {
         $this->transLocale = $transLocale;
+
+        return $this;
     }
 
     /**
@@ -103,6 +107,8 @@ abstract class Translation implements TranslationInterface
     public function setTranslation($translation)
     {
         $this->translation = $translation;
+
+        return $this;
     }
 
     /**
@@ -119,6 +125,8 @@ abstract class Translation implements TranslationInterface
     public function setDateCreated(\DateTime $dateCreated = null)
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
     }
 
     /**
@@ -135,6 +143,8 @@ abstract class Translation implements TranslationInterface
     public function setDateUpdated(\DateTime $dateUpdated = null)
     {
         $this->dateUpdated = $dateUpdated;
+
+        return $this;
     }
 
     /**

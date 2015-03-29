@@ -20,6 +20,7 @@ interface TranslationInterface
 {
     /**
      * @param string $transKey
+     * @return $this
      */
     public function setTransKey($transKey);
 
@@ -30,6 +31,7 @@ interface TranslationInterface
 
     /**
      * @param string $transLocale
+     * @return $this
      */
     public function setTransLocale($transLocale);
 
@@ -40,6 +42,7 @@ interface TranslationInterface
 
     /**
      * @param string $messageDomain
+     * @return $this
      */
     public function setMessageDomain($messageDomain);
 
@@ -50,6 +53,7 @@ interface TranslationInterface
 
     /**
      * @param string $translation
+     * @return $this
      */
     public function setTranslation($translation);
 
@@ -66,6 +70,7 @@ interface TranslationInterface
      * layer to ensure data consistency.
      *
      * @param \DateTime $dateCreated
+     * @return $this
      */
     public function setDateCreated(\DateTime $dateCreated);
 
@@ -82,6 +87,7 @@ interface TranslationInterface
      * layer to ensure data consistency.
      *
      * @param \DateTime $dateUpdated
+     * @return $this
      */
     public function setDateUpdated(\DateTime $dateUpdated);
 

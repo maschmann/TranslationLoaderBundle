@@ -112,8 +112,48 @@ class TranslationController extends Controller
      */
     public function updateAction(Request $request)
     {
+        $error = array();
+        $form = $this->createForm('asm_translation', new Translation());
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $status = 200;
+            $manager = $this->get('asm_translation_loader.translation_manager');
+            /** @var \Asm\TranslationLoaderBundle\Entity\Translation $update */
+            $update = $form->getData();
+            // get translation from database again to keep date_created
+            $translation = $manager->findTranslationBy(
+                array(
+                    'transKey' => $update->getTransKey(),
+                    'transLocale' => $update->getTransLocale(),
+                    'messageDomain' => $update->getMessageDomain(),
+                )
+            );
+
+            $translation
+                ->setTransKey($update->getTransKey())
+                ->setTransLocale($update->getTransLocale())
+                ->setMessageDomain($update->getMessageDomain())
+                ->setTranslation($update->getTranslation());
+
+            $manager->updateTranslation($translation);
+        } else {
+            $status = 403;
+            $error = array(
+                'error' => $form->getErrors(),
+            );
+        }
+
+        $result = array_merge(
+            array(
+                'status' => $status,
+            ),
+            $error
+        );
+
         return new JsonResponse(
-            array()
+            $result,
+            $status
         );
     }
 
