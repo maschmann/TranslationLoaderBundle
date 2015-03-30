@@ -66,12 +66,15 @@
                 if (confirmed == true) {
                     var key = $(this).data('key'),
                         locale = $(this).data('locale'),
-                        domain = $(this).data('domain');
+                        domain = $(this).data('domain'),
+                        link = $(this).data('link');
 
-                    asm.debug('key: ' + key + ' locale: ' + locale + ' domain: ' + domain);
-                    asm.debug('delete confirmed');
-                } else {
-                    asm.debug('delete cancelled');
+                    $.ajax({
+                        url: link + '/' + ,
+                        type: that.options.method
+                    }).done(function (data) {
+                        contentReady(data);
+                    });
                 }
             });
         },

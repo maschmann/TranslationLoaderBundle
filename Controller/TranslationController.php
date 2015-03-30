@@ -58,6 +58,7 @@ class TranslationController extends Controller
      */
     public function formAction($key = '', $locale = '', $domain = '')
     {
+        $action = 'asm_translation_loader.admin.update';
         $translation = $this->get('asm_translation_loader.translation_manager')
             ->findTranslationBy(
                 array(
@@ -69,6 +70,7 @@ class TranslationController extends Controller
 
         if (empty($translation)) {
             $translation = new Translation();
+            $action = 'asm_translation_loader.admin.create';
         }
 
         $form = $this->createForm('asm_translation', $translation);
@@ -77,6 +79,7 @@ class TranslationController extends Controller
             'AsmTranslationLoaderBundle:Translation:form.html.twig',
             array(
                 'form' => $form->createView(),
+                'action' => $action,
             )
         );
     }
@@ -87,9 +90,7 @@ class TranslationController extends Controller
      */
     public function createAction(Request $request)
     {
-        return new JsonResponse(
-            array()
-        );
+        return $this->handleForm('create', $request);
     }
 
     /**
@@ -112,49 +113,7 @@ class TranslationController extends Controller
      */
     public function updateAction(Request $request)
     {
-        $error = array();
-        $form = $this->createForm('asm_translation', new Translation());
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $status = 200;
-            $manager = $this->get('asm_translation_loader.translation_manager');
-            /** @var \Asm\TranslationLoaderBundle\Entity\Translation $update */
-            $update = $form->getData();
-            // get translation from database again to keep date_created
-            $translation = $manager->findTranslationBy(
-                array(
-                    'transKey' => $update->getTransKey(),
-                    'transLocale' => $update->getTransLocale(),
-                    'messageDomain' => $update->getMessageDomain(),
-                )
-            );
-
-            $translation
-                ->setTransKey($update->getTransKey())
-                ->setTransLocale($update->getTransLocale())
-                ->setMessageDomain($update->getMessageDomain())
-                ->setTranslation($update->getTranslation());
-
-            $manager->updateTranslation($translation);
-        } else {
-            $status = 403;
-            $error = array(
-                'error' => $form->getErrors(),
-            );
-        }
-
-        $result = array_merge(
-            array(
-                'status' => $status,
-            ),
-            $error
-        );
-
-        return new JsonResponse(
-            $result,
-            $status
-        );
+        return $this->handleForm('update', $request);
     }
 
     /**
@@ -164,10 +123,91 @@ class TranslationController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function deleteAction($transKey, $transLocale, $messageDomain, Request $request)
+    public function deleteAction(Request $request)
     {
-        return new JsonResponse(
-            array()
+        $error = array();
+        $status = 200;
+
+        $manager = $this->get('asm_translation_loader.translation_manager');
+        $manager->findTranslationBy(
+            array(
+                'transKey' => $request->request('transKey'),
+                'transLocale' => $request->request('transLocale'),
+                'messageDomain' => $request->request('messageDomain'),
+            )
         );
+
+        if (!empty($translation)) {
+            $manager->removeTranslation($translation);
+        } else {
+            $message = 'translation not found';
+        }
+
+        return new JsonResponse(
+            array_merge(
+                array(
+                    'status' => $status,
+                    'message' => $message,
+                ),
+                $error
+            ),
+            $status
+        );
+    }
+
+    /**
+     * @param string $type
+     * @param Request $request
+     * @return Response
+     */
+    private function handleForm($type, $request)
+    {
+        $error = array();
+        $form = $this->createForm('asm_translation', new Translation());
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $status = 200;
+            $manager = $this->get('asm_translation_loader.translation_manager');
+
+            if ('update' == $type) {
+                /** @var \Asm\TranslationLoaderBundle\Entity\Translation $update */
+                $update = $form->getData();
+                // get translation from database again to keep date_created
+                $translation = $manager->findTranslationBy(
+                    array(
+                        'transKey' => $update->getTransKey(),
+                        'transLocale' => $update->getTransLocale(),
+                        'messageDomain' => $update->getMessageDomain(),
+                    )
+                );
+
+                $translation
+                    ->setTransKey($update->getTransKey())
+                    ->setTransLocale($update->getTransLocale())
+                    ->setMessageDomain($update->getMessageDomain())
+                    ->setTranslation($update->getTranslation());
+
+                $manager->updateTranslation($translation);
+            } else {
+                $translation = $form->getData();
+                $translation->setDateCreated(new \DateTime());
+                $manager->updateTranslation($translation);
+            }
+
+            $response = $this->render(
+                'AsmTranslationLoaderBundle:Translation:success.html.twig',
+                array()
+            );
+        } else {
+            $response = $this->render(
+                'AsmTranslationLoaderBundle:Translation:form.html.twig',
+                array(
+                    'form' => $form->createView(),
+                )
+            );
+        }
+
+        return $response;
     }
 }

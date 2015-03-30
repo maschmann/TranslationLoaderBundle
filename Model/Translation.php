@@ -91,6 +91,8 @@ abstract class Translation implements TranslationInterface
     public function setMessageDomain($messageDomain)
     {
         $this->messageDomain = $messageDomain;
+
+        return $this;
     }
 
     /**
