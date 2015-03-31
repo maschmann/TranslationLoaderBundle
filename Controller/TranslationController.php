@@ -129,25 +129,25 @@ class TranslationController extends Controller
         $status = 200;
 
         $manager = $this->get('asm_translation_loader.translation_manager');
-        $manager->findTranslationBy(
+        $translation = $manager->findTranslationBy(
             array(
-                'transKey' => $request->request('transKey'),
-                'transLocale' => $request->request('transLocale'),
-                'messageDomain' => $request->request('messageDomain'),
+                'transKey' => $request->request->get('key'),
+                'transLocale' => $request->request->get('locale'),
+                'messageDomain' => $request->request->get('domain'),
             )
         );
 
         if (!empty($translation)) {
             $manager->removeTranslation($translation);
         } else {
-            $message = 'translation not found';
+            $error['message'] = 'translation not found ' . json_encode($request->request->all());
+            $status = 404;
         }
 
         return new JsonResponse(
             array_merge(
                 array(
                     'status' => $status,
-                    'message' => $message,
                 ),
                 $error
             ),

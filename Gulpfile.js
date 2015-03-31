@@ -24,17 +24,18 @@ var gulp = require('gulp'),
         }
     };
 
-gulp.task('handle-assets', ['core-js', 'core-css']);
+gulp.task('build:assets', ['core-js', 'core-css']);
+gulp.task('default', ['build:assets']);
 
-gulp.task('default', ['core-js', 'core-css'], function(){
-    gulp.watch(files.css.core, ['build-css-core']);
-    gulp.watch(files.js.core,['build-js-core']);
+gulp.task('watch', ['build:assets'], function(){
+    gulp.watch(files.css.core, ['build:css-core']);
+    gulp.watch(files.js.core,['build:js-core']);
 });
 
-gulp.task('core-css', ['build-css-core']);
-gulp.task('core-js', ['build-js-core']);
+gulp.task('core-css', ['build:css-core']);
+gulp.task('core-js', ['build:js-core']);
 
-gulp.task('build-css-core', function () {
+gulp.task('build:css-core', function () {
     return gulp.src(files.css.core)
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())
@@ -44,7 +45,7 @@ gulp.task('build-css-core', function () {
         .pipe(gulp.dest(files.css.destination));
 });
 
-gulp.task('build-js-core', function() {
+gulp.task('build:js-core', function() {
     return gulp.src(files.js.core)
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())

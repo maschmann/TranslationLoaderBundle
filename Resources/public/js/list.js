@@ -64,16 +64,24 @@
             $('.asm-delete-btn').click(function (e) {
                 var confirmed = confirm(asm.translations.confirm_delete);
                 if (confirmed == true) {
-                    var key = $(this).data('key'),
-                        locale = $(this).data('locale'),
-                        domain = $(this).data('domain'),
-                        link = $(this).data('link');
+
+                    var postData = {
+                        key: $(this).data('key'),
+                        locale: $(this).data('locale'),
+                        domain: $(this).data('domain')
+                    };
 
                     $.ajax({
-                        url: link + '/' + ,
-                        type: that.options.method
-                    }).done(function (data) {
-                        contentReady(data);
+                        type: 'POST',
+                        url: $(this).data('link'),
+                        data: postData,
+                        success: function (data, textStatus, jqXHR) {
+                            asm.log('delete::response: ' + textStatus);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            asm.log('delete::response: ' + errorThrown);
+                            // reload list!
+                        }
                     });
                 }
             });
