@@ -95,4 +95,11 @@ interface TranslationInterface
      * @return \DateTime
      */
     public function getDateUpdated();
+
+    /**
+     * Return an array of translation data.
+     *
+     * @return array
+     */
+    public function toArray();
 }

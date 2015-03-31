@@ -165,7 +165,7 @@
         }
 
         $.getJSON(settings.source, function(data) {
-            if (data.length > 0) {
+            if (Object.keys(data).length > 0) {
                 that.html(
                     Mustache.render(
                         $(settings.template).html(),

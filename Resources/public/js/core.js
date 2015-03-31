@@ -176,7 +176,7 @@ window.log = function () {
 
     asm.renderMustache = function(url, container, template) {
         $.getJSON(url, function(elements) {
-            if (elements.length > 0) {
+            if (Object.keys(elements).length > 0) {
                 $(container).html(
                     Mustache.render(
                         $(template).html(),
@@ -249,6 +249,9 @@ window.log = function () {
                     close: function (ev, ui) {
                         $(this).dialog('destroy');
                         $('#asm-dialog').children('.content').empty();
+                        if (that.options && typeof that.options.onClose === 'function') {
+                            that.options.onClose(self);
+                        }
                     }
                 });
 
@@ -261,6 +264,9 @@ window.log = function () {
                 $('.ui-widget-overlay.ui-front').on('click', function () {
                     layer.dialog('destroy');
                     $('#asm-dialog').children('.content').empty();
+                    if (that.options && typeof that.options.onClose === 'function') {
+                        that.options.onClose(self);
+                    }
                 });
 
                 if (that.options.success !== undefined) {

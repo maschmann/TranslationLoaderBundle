@@ -8,7 +8,7 @@
         baseUrl: asm.utility.getBaseUrl(),
 
         init: function () {
-            asm.info('asm.list init');
+            asm.debug('asm.list init');
             if ($('.asm-edit-btn').length > 0) {
                 asm.list.initEditButtons();
             }
@@ -35,8 +35,8 @@
 
                 asm.modal.init({
                     url: formUrl,
-                    onClose: function (formUrl) {
-                        $('#asm-translation-list').reloadList(formUrl);
+                    onClose: function () {
+                        asm.list.reloadList();
                     },
                     success: function () {
                         $('#asm-translation-form').ajaxForm();
@@ -53,8 +53,8 @@
                     url: formUrl,
                     width: 500,
                     resizable: true,
-                    onClose: function (formUrl) {
-                        asm.list.reloadList(formUrl);
+                    onClose: function () {
+                        asm.list.reloadList();
                     }
                 });
             });
@@ -77,22 +77,25 @@
                         data: postData,
                         success: function (data, textStatus, jqXHR) {
                             asm.log('delete::response: ' + textStatus);
+                            asm.list.reloadList();
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             asm.log('delete::response: ' + errorThrown);
-                            // reload list!
                         }
                     });
                 }
             });
         },
 
-        reloadList: function (baseUrl) {
+        reloadList: function () {
             asm.debug('fired reload');
             $('#asm-translations-tbl').renderMustache({
-                source: baseUrl + '/list', //add filters
+                source: $('#asm-translation-list').data('link'), //add filters
                 template: '#asm-translations-tbl-tpl'
             });
+
+            asm.list.initEditButtons();
+            asm.list.initDeleteButtons();
         }
     }
 })(jQuery);

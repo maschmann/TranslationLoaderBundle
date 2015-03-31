@@ -33,9 +33,19 @@ class TranslationController extends Controller
             ->findAllTranslations();
 
         if ($request->isXmlHttpRequest()) {
+            $data = array();
+            /** @var \Asm\TranslationLoaderBundle\Model\TranslationInterface $translation */
+            foreach ($translations as $translation) {
+                $tmp = $translation->toArray();
+                $tmp['dateCreated'] = date('Y-m-d', $tmp['dateCreated']);
+                $tmp['dateUpdated'] = date('Y-m-d', $tmp['dateUpdated']);
+                $data[] = $tmp;
+            }
+
             $response = new JsonResponse(
                 array(
-                    'translations' => $translations,
+                    'translations' => $data,
+                    'status' => 200,
                 )
             );
         } else {
@@ -86,7 +96,7 @@ class TranslationController extends Controller
 
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function createAction(Request $request)
     {
@@ -94,22 +104,8 @@ class TranslationController extends Controller
     }
 
     /**
-     * @param string $transKey
-     * @param string $transLocale
-     * @param string $messageDomain
      * @param Request $request
-     * @return JsonResponse
-     */
-    public function readAction($transKey, $transLocale, $messageDomain, Request $request)
-    {
-        return new JsonResponse(
-            array()
-        );
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function updateAction(Request $request)
     {
@@ -117,11 +113,8 @@ class TranslationController extends Controller
     }
 
     /**
-     * @param string $transKey
-     * @param string $transLocale
-     * @param string $messageDomain
      * @param Request $request
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function deleteAction(Request $request)
     {
@@ -158,7 +151,7 @@ class TranslationController extends Controller
     /**
      * @param string $type
      * @param Request $request
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     private function handleForm($type, $request)
     {
