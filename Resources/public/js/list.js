@@ -89,9 +89,8 @@
 
         reloadList: function () {
             asm.debug('fired reload');
-            $('#asm-translations-tbl').renderMustache({
-                source: $('#asm-translation-list').data('link'), //add filters
-                template: '#asm-translations-tbl-tpl'
+            $('#asm-translations-tbl').ajaxLoadElm({
+                source: $('#asm-translation-list').data('link')
             });
 
             asm.list.initEditButtons();

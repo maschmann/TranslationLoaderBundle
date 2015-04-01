@@ -33,31 +33,17 @@ class TranslationController extends Controller
             ->findAllTranslations();
 
         if ($request->isXmlHttpRequest()) {
-            $data = array();
-            /** @var \Asm\TranslationLoaderBundle\Model\TranslationInterface $translation */
-            foreach ($translations as $translation) {
-                $tmp = $translation->toArray();
-                $tmp['dateCreated'] = date('Y-m-d', $tmp['dateCreated']);
-                $tmp['dateUpdated'] = date('Y-m-d', $tmp['dateUpdated']);
-                $data[] = $tmp;
-            }
-
-            $response = new JsonResponse(
-                array(
-                    'translations' => $data,
-                    'status' => 200,
-                )
-            );
+            $template = 'AsmTranslationLoaderBundle:Partial:list-tbl.html.twig';
         } else {
-            $response = $this->render(
-                'AsmTranslationLoaderBundle:Translation:list.html.twig',
-                array(
-                    'translations' => $translations,
-                )
-            );
+            $template = 'AsmTranslationLoaderBundle:Translation:list.html.twig';
         }
 
-        return $response;
+        return $this->render(
+            $template,
+            array(
+                'translations' => $translations,
+            )
+        );
     }
 
     /**

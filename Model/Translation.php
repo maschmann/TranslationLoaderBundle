@@ -156,19 +156,4 @@ abstract class Translation implements TranslationInterface
     {
         return $this->dateUpdated;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function toArray()
-    {
-        return array(
-            'transKey' => $this->getTransKey(),
-            'transLocale' => $this->getTransLocale(),
-            'messageDomain' => $this->getMessageDomain(),
-            'translation' => $this->getTranslation(),
-            'dateCreated' => $this->getDateCreated()->getTimestamp(),
-            'dateUpdated' => $this->getDateUpdated()->getTimestamp(),
-        );
-    }
 }
