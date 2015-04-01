@@ -132,7 +132,7 @@
             }
 
             if (null !== settings.data) {
-                var data = settings.data.serialize();
+                var data = settings.data;
             }
 
             $.ajax({

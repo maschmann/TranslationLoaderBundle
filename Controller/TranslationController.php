@@ -29,8 +29,12 @@ class TranslationController extends Controller
      */
     public function listAction(Request $request)
     {
+        $order = $request->query->get('order');
+        $filter = $request->query->get('filter');
+        $type = $request->query->get('type');
+
         $translations = $this->get('asm_translation_loader.translation_manager')
-            ->findAllTranslations();
+            ->getTranslationList($order, $type, $filter);
 
         if ($request->isXmlHttpRequest()) {
             $template = 'AsmTranslationLoaderBundle:Partial:list-tbl.html.twig';

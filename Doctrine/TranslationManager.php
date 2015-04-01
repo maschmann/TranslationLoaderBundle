@@ -102,4 +102,12 @@ class TranslationManager extends BaseTranslationManager
     {
         return $this->repository->findTranslationFreshness($timestamp);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    {
+        return $this->repository->getTranslationList($order, $filter);
+    }
 }

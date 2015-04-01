@@ -12,14 +12,30 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>
-                        <span data-link="" class="">{{ 'trans_key'|trans }}</span>
+                    <th class="asm-order" data-key="transKey" data-type="ASC">
+                        {{ 'trans_key'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
                     </th>
-                    <th>{{ 'translation'|trans }}</th>
-                    <th>{{ 'trans_locale'|trans }}</th>
-                    <th>{{ 'message_domain'|trans }}</th>
-                    <th>{{ 'date_created'|trans }}</th>
-                    <th>{{ 'date_updated'|trans }}</th>
+                    <th class="asm-order" data-key="translation" data-type="ASC">
+                        {{ 'translation'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="transLocale" data-type="ASC">
+                        {{ 'trans_locale'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="messageDomain" data-type="ASC">
+                        {{ 'message_domain'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="dateCreated" data-type="ASC">
+                        {{ 'date_created'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="dateUpdated" data-type="ASC">
+                        {{ 'date_updated'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
                     <th class="buttons">
                         <button title="{{ 'New'|trans }}" type="button" class="btn btn-primary btn-xs asm-add-btn" data-link="{{ path('asm_translation_loader.admin.form') }}" aria-label="{{ 'add'|trans }}">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

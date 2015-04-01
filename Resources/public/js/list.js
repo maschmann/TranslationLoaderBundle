@@ -13,6 +13,10 @@
                 asm.list.initEditButtons();
             }
 
+            if ($('.asm-order').length > 0) {
+                asm.list.initOrderButtons();
+            }
+
             if ($('.asm-delete-btn').length > 0) {
                 asm.list.initDeleteButtons();
             }
@@ -20,6 +24,15 @@
             if ($('.asm-add-btn').length > 0) {
                 asm.list.initAddButton();
             }
+        },
+
+        initOrderButtons: function () {
+            $('.asm-order').click(function (e) {
+                asm.list.reloadList({
+                    order: $(this).data('key'),
+                    type: $(this).data('type')
+                });
+            });
         },
 
         initEditButtons: function () {
@@ -90,12 +103,20 @@
             });
         },
 
-        reloadList: function () {
-            asm.debug('fired reload');
+        reloadList: function (options) {
+            var settings = $.extend({
+                    filter: {},
+                    order: '',
+                    type: ''
+                },
+                options
+            );
+
+            asm.debug('fired reload with settings', settings);
             $('#asm-translations-tbl').ajaxLoadElm({
                 source: $('#asm-translation-list').data('link'),
                 type: 'POST',
-                //data: false, //filter data!
+                data: settings, //filter data!
                 onSuccess: function () {
                     asm.list.initEditButtons();
                     asm.list.initDeleteButtons();

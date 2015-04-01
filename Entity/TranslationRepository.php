@@ -37,4 +37,29 @@ class TranslationRepository extends EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @param string $order
+     * @param string $type
+     * @param array $filter
+     * @return array
+     */
+    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('t')
+            ->select('t');
+
+        if ('' !== $order) {
+            $queryBuilder->orderBy('t.' . $order, $type);
+        }
+
+        if (!empty($filter)) {
+            // do something
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
 }
