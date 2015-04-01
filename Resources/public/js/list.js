@@ -55,6 +55,9 @@
                     resizable: true,
                     onClose: function () {
                         asm.list.reloadList();
+                    },
+                    success: function () {
+                        $('#asm-translation-form').ajaxForm();
                     }
                 });
             });
