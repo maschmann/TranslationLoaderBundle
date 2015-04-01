@@ -34,7 +34,7 @@
                     url: settings.action,
                     data: that.serialize(),
                     success: function (data, textStatus, jqXHR) {
-                        asm.log('form::response: ' + textStatus);
+                        asm.log('form::response', textStatus);
                         if (true == settings.replaceWithData) {
                             that.replaceWith(data);
                         }
@@ -44,7 +44,7 @@
                         }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        asm.log('form::response: ' + errorThrown);
+                        asm.log('form::response', errorThrown);
                         that.replaceWith(jqXHR);
                         that.ajaxForm(settings);
                     }
@@ -113,13 +113,16 @@
  * ajax load a url into target, using loader animation
  */
 (function ($) {
-    $.fn.ajaxLoadElm = function (options, callback) {
+    $.fn.ajaxLoadElm = function (options) {
 
         // Create some defaults, extending them with any options that were provided
         var settings = $.extend({
                 source: '',
+                method: 'GET',
+                data: null,
                 animateLoad: true,
-                backgroundDisabled: false
+                backgroundDisabled: false,
+                onSuccess: function() {}
             }, options),
             that = $(this);
 
@@ -128,54 +131,32 @@
                 that.ajaxAnimateLoad({'backgroundDisabled': settings.backgroundDisabled});
             }
 
-            $.get(settings.source, function (data) {
-                that.replaceWith(data);
-            });
-
-            if (typeof callback == 'function') { // make sure the callback is a function
-                callback.call(this); // brings the scope to the callback
+            if (null !== settings.data) {
+                var data = settings.data.serialize();
             }
+
+            $.ajax({
+                type: settings.method,
+                source: settings.action,
+                data: data,
+                success: function (data, textStatus, jqXHR) {
+                    asm.log('ajaxLoadElm::success', textStatus);
+                    that.replaceWith(data);
+
+                    if (typeof settings.onSuccess === 'function') {
+                        settings.onSuccess(self);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    asm.log('form::response', errorThrown);
+                    that.replaceWith(jqXHR);
+                }
+            });
 
             return false;
         }
         catch (e) {
-            asm.log(e);
+            asm.log('exception', e);
         }
-    };
-})(jQuery);
-
-/**
- * mustache auto-renderer
- */
-(function ($) {
-    $.fn.renderMustache = function (options) {
-
-        var settings = $.extend({
-                source: "",
-                template: ""
-            }, options),
-            that = $(this);
-
-        if ("" == settings.source) {
-            settings.url = that.data('source');
-        }
-
-        if (""  == settings.template) {
-            settings.template = that.data('template');
-        }
-
-        $.getJSON(settings.source, function(data) {
-            if (Object.keys(data).length > 0) {
-                that.html(
-                    Mustache.render(
-                        $(settings.template).html(),
-                        data
-                    )
-                );
-                asm.log('mustache::refreshed ' + settings.template);
-            } else {
-                asm.log('mustache::no elements found for ' + settings.source);
-            }
-        });
     };
 })(jQuery);

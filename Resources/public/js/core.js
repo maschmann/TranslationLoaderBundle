@@ -174,22 +174,6 @@ window.log = function () {
         }
     },
 
-    asm.renderMustache = function(url, container, template) {
-        $.getJSON(url, function(elements) {
-            if (Object.keys(elements).length > 0) {
-                $(container).html(
-                    Mustache.render(
-                        $(template).html(),
-                        elements
-                    )
-                );
-                asm.log('mustache::refreshed ' + template);
-            } else {
-                asm.log('mustache::no elements found for ' + url);
-            }
-        });
-    },
-
     /*
      * Pop up or div update function
      *

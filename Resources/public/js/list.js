@@ -31,7 +31,7 @@
 
                 formUrl = encodeURI(formUrl + '/' + key + '/' + locale  + '/' + domain);
 
-                asm.debug('formUrl: ' + formUrl);
+                asm.debug('formUrl', formUrl);
 
                 asm.modal.init({
                     url: formUrl,
@@ -48,7 +48,7 @@
         initAddButton: function () {
             $('.asm-add-btn').click(function (e) {
                 var formUrl = $(this).data('link');
-                asm.debug('formUrl: ' + formUrl);
+                asm.debug('formUrl', formUrl);
                 asm.modal.init({
                     url: formUrl,
                     width: 500,
@@ -76,11 +76,11 @@
                         url: $(this).data('link'),
                         data: postData,
                         success: function (data, textStatus, jqXHR) {
-                            asm.log('delete::response: ' + textStatus);
+                            asm.log('delete::response', textStatus);
                             asm.list.reloadList();
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
-                            asm.log('delete::response: ' + errorThrown);
+                            asm.log('delete::response', errorThrown);
                         }
                     });
                 }
@@ -90,11 +90,14 @@
         reloadList: function () {
             asm.debug('fired reload');
             $('#asm-translations-tbl').ajaxLoadElm({
-                source: $('#asm-translation-list').data('link')
+                source: $('#asm-translation-list').data('link'),
+                type: 'POST',
+                //data: false, //filter data!
+                onSuccess: function () {
+                    asm.list.initEditButtons();
+                    asm.list.initDeleteButtons();
+                }
             });
-
-            asm.list.initEditButtons();
-            asm.list.initDeleteButtons();
         }
     }
 })(jQuery);

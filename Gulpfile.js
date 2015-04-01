@@ -9,7 +9,6 @@ var gulp = require('gulp'),
         js: {
             core: [
                 './Resources/public/js/core.js',
-                './Resources/public/js/vendor/mustache.js',
                 './Resources/public/js/plugins.js',
                 './Resources/public/js/list.js'
             ],
