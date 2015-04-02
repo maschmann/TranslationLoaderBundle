@@ -298,4 +298,9 @@ class DummyTranslationManager implements TranslationManagerInterface
     public function findTranslationFreshness($timestamp)
     {
     }
+
+    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    {
+        // TODO: Implement getTranslationList() method.
+    }
 }
