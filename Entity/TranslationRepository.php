@@ -51,6 +51,10 @@ class TranslationRepository extends EntityRepository
             ->select('t');
 
         if ('' !== $order) {
+            if (empty($type)) {
+                $type = 'ASC';
+            }
+
             $queryBuilder->orderBy('t.' . $order, $type);
         }
 

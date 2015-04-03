@@ -135,6 +135,7 @@
                 var data = settings.data;
             }
 
+            asm.debug('data for ajax', data)
             $.ajax({
                 type: settings.method,
                 source: settings.action,

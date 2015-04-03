@@ -29,12 +29,13 @@ class TranslationController extends Controller
      */
     public function listAction(Request $request)
     {
-        $order = $request->query->get('order');
-        $filter = $request->query->get('filter');
-        $type = $request->query->get('type');
-
-        $translations = $this->get('asm_translation_loader.translation_manager')
-            ->getTranslationList($order, $type, $filter);
+        $translations = $this
+            ->get('asm_translation_loader.translation_manager')
+            ->getTranslationList(
+                $request->query->get('order'),
+                $request->query->get('type'),
+                $request->query->get('filter')
+            );
 
         if ($request->isXmlHttpRequest()) {
             $template = 'AsmTranslationLoaderBundle:Partial:list-tbl.html.twig';
