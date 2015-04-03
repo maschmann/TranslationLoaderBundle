@@ -299,8 +299,7 @@ class DummyTranslationManager implements TranslationManagerInterface
     {
     }
 
-    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    public function getTranslationList($params)
     {
-        // TODO: Implement getTranslationList() method.
     }
 }

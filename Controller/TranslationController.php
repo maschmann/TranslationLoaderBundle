@@ -32,9 +32,7 @@ class TranslationController extends Controller
         $translations = $this
             ->get('asm_translation_loader.translation_manager')
             ->getTranslationList(
-                $request->query->get('order'),
-                $request->query->get('type'),
-                $request->query->get('filter')
+                $request->query->all()
             );
 
         if ($request->isXmlHttpRequest()) {

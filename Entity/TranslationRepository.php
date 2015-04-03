@@ -39,27 +39,34 @@ class TranslationRepository extends EntityRepository
     }
 
     /**
-     * @param string $order
-     * @param string $type
-     * @param array $filter
+     * @param array $params
      * @return array
      */
-    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    public function getTranslationList(array $params)
     {
         $queryBuilder = $this
             ->createQueryBuilder('t')
             ->select('t');
 
-        if ('' !== $order) {
-            if (empty($type)) {
-                $type = 'ASC';
+        // filter
+        if (true === isset($params['filter']) && '' != $params['filter']) {
+            if (false === isset($params['value']) || '' != $params['value']) {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->like(
+                        't.' . $params['filter'],
+                        $queryBuilder->expr()->literal($params['value'].'%')
+                    )
+                );
             }
-
-            $queryBuilder->orderBy('t.' . $order, $type);
         }
 
-        if (!empty($filter)) {
-            // do something
+        // order
+        if (true === isset($params['order']) && '' != $params['order']) {
+            if (false === isset($params['type']) || '' != $params['type']) {
+                $params['type'] = 'ASC';
+            }
+
+            $queryBuilder->addOrderBy('t.' . $params['order'], $params['type']);
         }
 
         return $queryBuilder

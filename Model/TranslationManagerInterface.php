@@ -87,10 +87,8 @@ interface TranslationManagerInterface
     /**
      * Get a ordered and filtered list of translations.
      *
-     * @param string $order
-     * @param string $type
-     * @param array $filter
+     * @param array $params
      * @return array
      */
-    public function getTranslationList($order = '', $type = 'ASC', $filter = array());
+    public function getTranslationList($params);
 }

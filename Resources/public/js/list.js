@@ -8,7 +8,11 @@
         baseUrl: asm.utility.getBaseUrl(),
 
         init: function () {
-            asm.debug('asm.list init');
+            asm.info('asm.list init');
+            if ($('#asm-filter').length > 0) {
+                asm.list.initFilterForm();
+            }
+
             if ($('.asm-edit-btn').length > 0) {
                 asm.list.initEditButtons();
             }
@@ -24,6 +28,18 @@
             if ($('.asm-add-btn').length > 0) {
                 asm.list.initAddButton();
             }
+        },
+
+        initFilterForm: function () {
+            asm.debug('fired filter form');
+
+            $('#asm-filter button').click(function (e) {
+                e.preventDefault();
+                asm.list.reloadList({
+                    filter: $('.asm-filter-type').val(),
+                    value: $('.asm-filter-value').val()
+                });
+            });
         },
 
         initOrderButtons: function () {
@@ -61,7 +77,6 @@
         initAddButton: function () {
             $('.asm-add-btn').click(function (e) {
                 var formUrl = $(this).data('link');
-                asm.debug('formUrl', formUrl);
                 asm.modal.init({
                     url: formUrl,
                     width: 500,
@@ -105,7 +120,8 @@
 
         reloadList: function (options) {
             var settings = $.extend({
-                    filter: {},
+                    filter: '',
+                    value: '',
                     order: '',
                     type: ''
                 },

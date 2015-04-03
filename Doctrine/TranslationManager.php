@@ -106,8 +106,8 @@ class TranslationManager extends BaseTranslationManager
     /**
      * {@inheritdoc}
      */
-    public function getTranslationList($order = '', $type = 'ASC', $filter = array())
+    public function getTranslationList($params)
     {
-        return $this->repository->getTranslationList($order, $filter);
+        return $this->repository->getTranslationList($params);
     }
 }
