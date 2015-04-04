@@ -23,9 +23,9 @@ class TranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('transLocale', 'text')
-            ->add('messageDomain', 'text')
-            ->add('transKey', 'text')
+            ->add('transLocale', 'text', array('required' => true))
+            ->add('messageDomain', 'text', array('required' => true))
+            ->add('transKey', 'text', array('required' => true))
             ->add('translation', 'textarea')
             ->add('save', 'submit');
     }

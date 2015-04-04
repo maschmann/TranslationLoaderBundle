@@ -12,9 +12,9 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-  include:
     - php: 5.5
       env: SYMFONY_VERSION="2.2.x"
+  include:
     - php: 5.5
       env: SYMFONY_VERSION="2.3.x"
     - php: 5.5
@@ -25,6 +25,8 @@ matrix:
       env: SYMFONY_VERSION="2.6.x@dev"
     - php: 5.5
       env: SYMFONY_VERSION="2.7.x@dev"
+    - php: 5.5
+      env: SYMFONY_VERSION="3.0.x@dev"
 
 before_script:
   - sh -c 'if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi'
