@@ -50,14 +50,6 @@ class TranslationControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());*/
     }
 
-    public function testReadAction()
-    {
-        /*$client = static::createClient();
-        $crawler = $client->request('GET', '/translation/read');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
-    }
-
     public function testUpdateAction()
     {
         /*$client = static::createClient();
