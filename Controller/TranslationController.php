@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the <package> package.
+ * This file is part of the AsmTranslationLoaderBundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -11,9 +11,12 @@
 namespace Asm\TranslationLoaderBundle\Controller;
 
 use Asm\TranslationLoaderBundle\Entity\Translation;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Asm\TranslationLoaderBundle\Model\TranslationManager;
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 /**
  * Class TranslationController
@@ -21,8 +24,38 @@ use Symfony\Component\HttpFoundation\Request;
  * @package TranslationLoaderBundle\Controller
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class TranslationController extends Controller
+class TranslationController //extends Controller
 {
+    /**
+     * @var FormFactory
+     */
+    private $formFactory;
+
+    /**
+     * @var EngineInterface
+     */
+    private $templating;
+
+    /**
+     * @var TranslationManager
+     */
+    private $translationManager;
+
+    /**
+     * @param EngineInterface $templating
+     * @param TranslationManager $translationManager
+     * @param FormFactory $formFactory
+     */
+    public function __construct(
+        EngineInterface $templating,
+        TranslationManager $translationManager,
+        FormFactory $formFactory
+    ) {
+        $this->formFactory = $formFactory;
+        $this->templating = $templating;
+        $this->translationManager = $translationManager;
+    }
+
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -30,7 +63,7 @@ class TranslationController extends Controller
     public function listAction(Request $request)
     {
         $translations = $this
-            ->get('asm_translation_loader.translation_manager')
+            ->translationManager
             ->getTranslationList(
                 $request->query->all()
             );
@@ -41,7 +74,7 @@ class TranslationController extends Controller
             $template = 'AsmTranslationLoaderBundle:Translation:list.html.twig';
         }
 
-        return $this->render(
+        return $this->templating->renderResponse(
             $template,
             array(
                 'translations' => $translations,
@@ -58,7 +91,7 @@ class TranslationController extends Controller
     public function formAction($key = '', $locale = '', $domain = '')
     {
         $action = 'asm_translation_loader.admin.update';
-        $translation = $this->get('asm_translation_loader.translation_manager')
+        $translation = $this->translationManager
             ->findTranslationBy(
                 array(
                     'transKey' => $key,
@@ -72,9 +105,9 @@ class TranslationController extends Controller
             $action = 'asm_translation_loader.admin.create';
         }
 
-        $form = $this->createForm('asm_translation', $translation);
+        $form = $this->formFactory->create('asm_translation', $translation, array());
 
-        return $this->render(
+        return $this->templating->renderResponse(
             'AsmTranslationLoaderBundle:Translation:form.html.twig',
             array(
                 'form' => $form->createView(),
@@ -110,7 +143,7 @@ class TranslationController extends Controller
         $error = array();
         $status = 200;
 
-        $manager = $this->get('asm_translation_loader.translation_manager');
+        $manager = $this->translationManager;
         $translation = $manager->findTranslationBy(
             array(
                 'transKey' => $request->request->get('key'),
@@ -145,12 +178,12 @@ class TranslationController extends Controller
     private function handleForm($type, $request)
     {
         $error = array();
-        $form = $this->createForm('asm_translation', new Translation());
+        $form = $this->formFactory->create('asm_translation', new Translation(), array());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $status = 200;
-            $manager = $this->get('asm_translation_loader.translation_manager');
+            $manager = $this->translationManager;
 
             if ('update' == $type) {
                 /** @var \Asm\TranslationLoaderBundle\Entity\Translation $update */
@@ -174,15 +207,22 @@ class TranslationController extends Controller
             } else {
                 $translation = $form->getData();
                 $translation->setDateCreated(new \DateTime());
-                $manager->updateTranslation($translation);
+                try {
+                    $manager->updateTranslation($translation);
+                    $error = '';
+                } catch (\Exception $e) {
+                    $error = $e->getMessage();
+                }
             }
 
-            $response = $this->render(
-                'AsmTranslationLoaderBundle:Translation:success.html.twig',
-                array()
+            $response = $this->templating->renderResponse(
+                'AsmTranslationLoaderBundle:Translation:result.html.twig',
+                array(
+                    'error' => $error,
+                )
             );
         } else {
-            $response = $this->render(
+            $response = $this->templating->renderResponse(
                 'AsmTranslationLoaderBundle:Translation:form.html.twig',
                 array(
                     'form' => $form->createView(),

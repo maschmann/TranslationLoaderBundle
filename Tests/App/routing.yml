@@ -1,0 +1,3 @@
+asm_translation_loader.gui:
+    resource: "@AsmTranslationLoaderBundle/Resources/config/routing.yml"
+    prefix:   /translation

@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the TranslationLoaderBundle package.
+ * This file is part of the AsmTranslationLoaderBundle package.
  *
  * (c) Marc Aschmann <maschmann@gmail.com>
  *
@@ -18,24 +18,18 @@ use \Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class TranslationControllerTest extends WebTestCase
 {
-    public function testIndexAction()
-    {
-        /*$client = static::createClient();
-        $crawler = $client->request('GET', '/translation');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
-    }
-
     public function testListAction()
     {
-        /*$client = static::createClient();
+        //$this->markTestSkipped();
+        $client = static::createClient();
         $crawler = $client->request('GET', '/translation/list');
 
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
+        $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
     public function testFormAction()
     {
+        $this->markTestSkipped();
         /*$client = static::createClient();
         $crawler = $client->request('GET', '/translation/form');
 
@@ -44,6 +38,7 @@ class TranslationControllerTest extends WebTestCase
 
     public function testCreateAction()
     {
+        $this->markTestSkipped();
         /*$client = static::createClient();
         $crawler = $client->request('POST', '/translation/create');
 
@@ -52,6 +47,7 @@ class TranslationControllerTest extends WebTestCase
 
     public function testUpdateAction()
     {
+        $this->markTestSkipped();
         /*$client = static::createClient();
         $crawler = $client->request('POST', '/translation/update');
 
@@ -60,6 +56,7 @@ class TranslationControllerTest extends WebTestCase
 
     public function testDeleteAction()
     {
+        $this->markTestSkipped();
         /*$client = static::createClient();
         $crawler = $client->request('POST', '/translation/delete');
 

@@ -1,17 +1,17 @@
 asm_translation_loader.admin.index:
     path: /
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:list
+        _controller: asm_translation_loader.translation_controller:listAction
 
 asm_translation_loader.admin.list:
     path: /list
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:list
+        _controller: asm_translation_loader.translation_controller:listAction
 
 asm_translation_loader.admin.form:
     path: /form/{key}/{locale}/{domain}
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:form
+        _controller: asm_translation_loader.translation_controller:formAction
         key: ~
         locale: ~
         domain: ~
@@ -19,23 +19,17 @@ asm_translation_loader.admin.form:
 asm_translation_loader.admin.create:
     path: /create
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:create
-    methods: [POST]
-
-asm_translation_loader.admin.read:
-    path: /edit
-    defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:read
+        _controller: asm_translation_loader.translation_controller:createAction
     methods: [POST]
 
 asm_translation_loader.admin.update:
     path: /update
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:update
+        _controller: asm_translation_loader.translation_controller:updateAction
     methods:  [POST]
 
 asm_translation_loader.admin.delete:
     path: /delete
     defaults:
-        _controller: AsmTranslationLoaderBundle:Translation:delete
+        _controller: asm_translation_loader.translation_controller:deleteAction
     methods: [POST]
