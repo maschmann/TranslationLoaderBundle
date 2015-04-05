@@ -12,7 +12,6 @@ namespace Asm\TranslationLoaderBundle\Controller;
 
 use Asm\TranslationLoaderBundle\Entity\Translation;
 use Asm\TranslationLoaderBundle\Model\TranslationManager;
-//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
