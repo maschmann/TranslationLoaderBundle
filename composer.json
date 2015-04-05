@@ -23,6 +23,7 @@
         "symfony/http-kernel": "~2.3",
         "symfony/translation": "~2.3",
         "symfony/form": "~2.3",
+        "symfony/validator": "~2.3",
         "symfony/browser-kit": "~2.3"
     },
     "require-dev": {

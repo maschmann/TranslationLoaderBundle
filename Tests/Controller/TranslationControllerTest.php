@@ -20,11 +20,11 @@ class TranslationControllerTest extends WebTestCase
 {
     public function testListAction()
     {
-        //$this->markTestSkipped();
-        $client = static::createClient();
+        $this->markTestSkipped();
+        /*$client = static::createClient();
         $crawler = $client->request('GET', '/translation/list');
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue($client->getResponse()->isSuccessful());*/
     }
 
     public function testFormAction()
