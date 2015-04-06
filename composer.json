@@ -12,21 +12,24 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.9",
         "doctrine/orm": "~2.2,>=2.2.3",
-        "symfony/config": "~2.2",
-        "symfony/console": "~2.2",
-        "symfony/dependency-injection": "~2.2",
-        "symfony/event-dispatcher": "~2.2",
-        "symfony/filesystem": "~2.2",
-        "symfony/finder": "~2.2",
-        "symfony/http-kernel": "~2.2",
-        "symfony/translation": "~2.2"
+        "symfony/config": "~2.3",
+        "symfony/console": "~2.3",
+        "symfony/dependency-injection": "~2.3",
+        "symfony/event-dispatcher": "~2.3",
+        "symfony/filesystem": "~2.3",
+        "symfony/finder": "~2.3",
+        "symfony/http-kernel": "~2.3",
+        "symfony/translation": "~2.3",
+        "symfony/form": "~2.3",
+        "symfony/validator": "~2.3",
+        "symfony/browser-kit": "~2.3"
     },
     "require-dev": {
         "matthiasnoback/symfony-dependency-injection-test": "~0.6",
-        "symfony/framework-bundle": "~2.2",
-        "symfony/security-bundle": "~2.2",
+        "symfony/framework-bundle": "~2.3",
+        "symfony/security-bundle": "~2.3",
         "mikey179/vfsStream": "1.*"
     },
     "autoload": {

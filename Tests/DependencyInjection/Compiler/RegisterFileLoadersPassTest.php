@@ -298,4 +298,8 @@ class DummyTranslationManager implements TranslationManagerInterface
     public function findTranslationFreshness($timestamp)
     {
     }
+
+    public function getTranslationList($params)
+    {
+    }
 }

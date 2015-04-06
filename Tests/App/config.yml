@@ -8,6 +8,8 @@ framework:
     templating:
         engines: ["php"]
     session:         ~
+    form:            ~
+    validation:      { enable_annotations: true }
 
 security:
     providers:

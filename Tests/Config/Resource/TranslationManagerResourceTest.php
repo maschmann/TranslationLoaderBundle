@@ -49,6 +49,14 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->databaseLoader, $this->translationManagerResource->getResource());
     }
 
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Config\Resource\TranslationManagerResource::__toString()
+     */
+    public function testToString()
+    {
+        assertEquals('DatabaseLoader', $this->translationManagerResource->__toString());
+    }
+
     private function createDatabaseLoader()
     {
         $this->databaseLoader = $this->getMock(

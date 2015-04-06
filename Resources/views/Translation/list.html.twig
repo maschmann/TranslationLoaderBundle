@@ -1,0 +1,52 @@
+{% extends 'AsmTranslationLoaderBundle::base.html.twig' %}
+
+{% block header %}
+    {{ include('AsmTranslationLoaderBundle:Partial:header.html.twig', {'page': 'list'}) }}
+{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12 col-md-12 main">
+        {% if translations|length > 0 %}
+        <div class="table-responsive" id="asm-translation-list" data-link="{{ path('asm_translation_loader.admin.list') }}">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="asm-order" data-key="transKey" data-type="ASC">
+                        {{ 'trans_key'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="translation" data-type="ASC">
+                        {{ 'translation'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="transLocale" data-type="ASC">
+                        {{ 'trans_locale'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="messageDomain" data-type="ASC">
+                        {{ 'message_domain'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="dateCreated" data-type="DESC">
+                        {{ 'date_created'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="asm-order" data-key="dateUpdated" data-type="DESC">
+                        {{ 'date_updated'|trans }}
+                        <span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>
+                    </th>
+                    <th class="buttons">
+                        <button title="{{ 'New'|trans }}" type="button" class="btn btn-primary btn-xs asm-add-btn" data-link="{{ path('asm_translation_loader.admin.form') }}" aria-label="{{ 'add'|trans }}">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                {{ include('AsmTranslationLoaderBundle:Partial:list-tbl.html.twig', {'translations': translations}) }}
+            </table>
+        </div>
+        {% else %}
+        <h2>{{ 'No translations found'|trans }}</h2>
+        {% endif %}
+    </div>
+{% endblock %}

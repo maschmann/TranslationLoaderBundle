@@ -119,7 +119,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('history')
                     ->canBeEnabled()
                     ->children()
-                            ->booleanNode('enabled')
+                        ->booleanNode('enabled')
                             ->defaultFalse()
                             ->info(
                                 'Enables historytracking for translation changes. Uses user id from registered users as reference'

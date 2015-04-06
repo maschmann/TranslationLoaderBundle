@@ -1,8 +1,15 @@
 CHANGELOG
 =========
 
+1.1.0
+-----
+
+* Add Administration GUI
+* drop symfony 2.2 support (moved to travis allow failures)
+
 1.0.7
 -----
+
 * Cleanup bundle structure
 * Fixed unittests
 
@@ -16,7 +23,6 @@ CHANGELOG
 -----
 
 * make the bundle compatible with Symfony 2.2 again
-
 * ensure that tests are also run with Symfony 2.2
 
 1.0.4

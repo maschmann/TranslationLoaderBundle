@@ -4,7 +4,19 @@ parameters:
 services:
     # database loader
     translation.loader.db:
-        class:     '%asm_translation_loader.translation_loader_class%'
+        class: '%asm_translation_loader.translation_loader_class%'
         arguments: [ '@asm_translation_loader.translation_manager' ]
         tags:
             - { name: translation.loader, alias: db}
+
+    asm_translation_loader.type.translation:
+        class: Asm\TranslationLoaderBundle\Form\TranslationType
+        tags:
+            - { name: form.type, alias: asm_translation }
+
+    asm_translation_loader.translation_controller:
+        class: Asm\TranslationLoaderBundle\Controller\TranslationController
+        arguments:
+            - '@templating'
+            - '@asm_translation_loader.translation_manager'
+            - '@form.factory'

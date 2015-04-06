@@ -37,4 +37,40 @@ class TranslationRepository extends EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getTranslationList(array $params)
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('t')
+            ->select('t');
+
+        // filter
+        if (true === isset($params['filter']) && '' != $params['filter']) {
+            if (false === isset($params['value']) || '' != $params['value']) {
+                $queryBuilder->where(
+                    $queryBuilder->expr()->like(
+                        't.' . $params['filter'],
+                        $queryBuilder->expr()->literal($params['value'].'%')
+                    )
+                );
+            }
+        }
+
+        // order
+        if (true === isset($params['order']) && '' != $params['order']) {
+            if (false === isset($params['type']) || '' != $params['type']) {
+                $params['type'] = 'ASC';
+            }
+
+            $queryBuilder->addOrderBy('t.' . $params['order'], $params['type']);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
 }

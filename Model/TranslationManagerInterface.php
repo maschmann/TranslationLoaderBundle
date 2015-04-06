@@ -83,4 +83,12 @@ interface TranslationManagerInterface
      * @param TranslationInterface $translation The translation to remove
      */
     public function removeTranslation(TranslationInterface $translation);
+
+    /**
+     * Get a ordered and filtered list of translations.
+     *
+     * @param array $params
+     * @return array
+     */
+    public function getTranslationList($params);
 }

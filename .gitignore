@@ -3,3 +3,5 @@ phpunit.xml
 Tests/App/cache
 Tests/App/logs
 vendor
+node_modules
+*.log

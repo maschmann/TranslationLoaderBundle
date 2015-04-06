@@ -1,0 +1,11 @@
+<div>
+    {% if '' == error %}
+    <div class="alert alert-success" role="alert">
+        <p>{{ 'successfully_created_updated_entry'|trans }}</p>
+    </div>
+    {% else %}
+    <div class="alert alert-danger" role="alert">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+</div>

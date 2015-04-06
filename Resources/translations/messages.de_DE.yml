@@ -1,0 +1,13 @@
+'Overview': 'Übersicht'
+'No translations found': 'Keine Übersetzungen gefunden'
+trans_key: 'Key'
+trans_locale: 'Locale'
+message_domain: 'Domain'
+translation: 'Übersetzung'
+date_created: 'Erstellt'
+date_updated: 'Geändert'
+confirm_delete: 'Wirklich löschen?'
+successfully_created_updated_entry: 'Eintrag erfolgreich gespeichert!'
+filter: 'filtern...'
+Field: Feld
+'Filter!': 'Filtern!'
