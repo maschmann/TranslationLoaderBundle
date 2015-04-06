@@ -9,57 +9,81 @@
  */
 namespace Asm\TranslationLoaderBundle\Tests\Controller;
 
-use \Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Asm\TranslationLoaderBundle\Controller\TranslationController;
+use Asm\TranslationLoaderBundle\Test\TranslationTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class TranslationControllerTest
  *
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class TranslationControllerTest extends WebTestCase
+class TranslationControllerTest extends TranslationTestCase
 {
+    private $templating;
+
+    private $formFactory;
+
+    private $controller;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        //$this->createTemplating();
+        //$this->createFormFactory();
+    }
+
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::__construct()
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::listAction()
+     */
     public function testListAction()
     {
         $this->markTestSkipped();
-        /*$client = static::createClient();
-        $crawler = $client->request('GET', '/translation/list');
+        /*$this->controller = new TranslationController(
+            $this->templating,
+            $this->translationManager,
+            $this->formFactory
+        );
 
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
+        $this->assertInstanceOf(
+            '\Asm\TranslationLoaderBundle\Controller\TranslationController',
+            $this->controller
+        );*/
     }
 
     public function testFormAction()
     {
         $this->markTestSkipped();
-        /*$client = static::createClient();
-        $crawler = $client->request('GET', '/translation/form');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
     }
 
     public function testCreateAction()
     {
         $this->markTestSkipped();
-        /*$client = static::createClient();
-        $crawler = $client->request('POST', '/translation/create');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
     }
 
     public function testUpdateAction()
     {
         $this->markTestSkipped();
-        /*$client = static::createClient();
-        $crawler = $client->request('POST', '/translation/update');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
     }
 
     public function testDeleteAction()
     {
         $this->markTestSkipped();
-        /*$client = static::createClient();
-        $crawler = $client->request('POST', '/translation/delete');
+    }
 
-        $this->assertTrue($client->getResponse()->isSuccessful());*/
+    private function createTemplating()
+    {
+        $this->templating = $this->getMock(
+            '\Symfony\Component\Form\FormFactory'
+        );
+    }
+
+    private function createFormFactory()
+    {
+        $this->formFactory = $this->getMock(
+            '\Symfony\Component\Form\FormFactory'
+        );
     }
 }

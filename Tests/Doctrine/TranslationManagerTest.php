@@ -42,8 +42,8 @@ class TranslationManagerTest extends BaseTranslationManagerTest
             ->method('findOneBy')
             ->with($this->equalTo(
                 array(
-                    'transLocale'   => 'fr_FR',
-                    'transKey'      => 'foo',
+                    'transLocale' => 'fr_FR',
+                    'transKey'    => 'foo',
                 )
             ));
 
@@ -70,8 +70,8 @@ class TranslationManagerTest extends BaseTranslationManagerTest
             ->method('findBy')
             ->with($this->equalTo(
                 array(
-                    'transLocale'   => 'fr_FR',
-                    'transKey'      => 'foo',
+                    'transLocale' => 'fr_FR',
+                    'transKey'    => 'foo',
                 )
             ));
 
@@ -121,6 +121,16 @@ class TranslationManagerTest extends BaseTranslationManagerTest
             ->method('flush');
 
         $this->translationManager->removeTranslation($translation);
+    }
+
+    public function testFindTranslationFreshness()
+    {
+        $this->markTestSkipped();
+    }
+
+    public function testGetTranslationList()
+    {
+        $this->markTestSkipped();
     }
 
     protected function createTranslationManager()
