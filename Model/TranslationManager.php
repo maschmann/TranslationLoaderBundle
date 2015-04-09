@@ -23,6 +23,7 @@ abstract class TranslationManager implements TranslationManagerInterface
 {
     /**
      * Class implementing the {@link TranslationInterface} managed by this manager
+     *
      * @var string
      */
     protected $class;
@@ -33,13 +34,13 @@ abstract class TranslationManager implements TranslationManagerInterface
     protected $eventDispatcher;
 
     /**
-     * @param string                   $class           Class name of managed {@link TranslationInterface} objects
+     * @param string $class Class name of managed {@link TranslationInterface} objects
      * @param EventDispatcherInterface $eventDispatcher Event dispatcher used to propagate new, modified
      *                                                  and removed translations
      */
     public function __construct($class, EventDispatcherInterface $eventDispatcher)
     {
-        $this->class = $class;
+        $this->class           = $class;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -69,7 +70,7 @@ abstract class TranslationManager implements TranslationManagerInterface
     public function findTranslationsByLocaleAndDomain($locale, $domain = 'messages')
     {
         return $this->findTranslationsBy(array(
-            'transLocale' => $locale,
+            'transLocale'   => $locale,
             'messageDomain' => $domain,
         ));
     }

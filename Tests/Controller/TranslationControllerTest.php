@@ -12,6 +12,18 @@ namespace Asm\TranslationLoaderBundle\Tests\Controller;
 use Asm\TranslationLoaderBundle\Controller\TranslationController;
 use Asm\TranslationLoaderBundle\Test\TranslationTestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Form\Exception;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormConfigInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormErrorIterator;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\Templating\EngineInterface;
+use Symfony\Component\Templating\TemplateReferenceInterface;
 
 /**
  * Class TranslationControllerTest
@@ -30,8 +42,8 @@ class TranslationControllerTest extends TranslationTestCase
     {
         parent::setUp();
 
-        //$this->createTemplating();
-        //$this->createFormFactory();
+        $this->createTemplating();
+        $this->createFormFactory();
     }
 
     /**
@@ -41,7 +53,7 @@ class TranslationControllerTest extends TranslationTestCase
     public function testListAction()
     {
         $this->markTestSkipped();
-        /*$this->controller = new TranslationController(
+        $this->controller = new TranslationController(
             $this->templating,
             $this->translationManager,
             $this->formFactory
@@ -50,7 +62,7 @@ class TranslationControllerTest extends TranslationTestCase
         $this->assertInstanceOf(
             '\Asm\TranslationLoaderBundle\Controller\TranslationController',
             $this->controller
-        );*/
+        );
     }
 
     public function testFormAction()
@@ -75,15 +87,81 @@ class TranslationControllerTest extends TranslationTestCase
 
     private function createTemplating()
     {
-        $this->templating = $this->getMock(
-            '\Symfony\Component\Form\FormFactory'
-        );
+        $this->templating = new TemplatingMock();
     }
 
     private function createFormFactory()
     {
-        $this->formFactory = $this->getMock(
-            '\Symfony\Component\Form\FormFactory'
+        $this->formFactory = new FormFactoryMock(
+            $this->getMock(
+                'Symfony\Component\Form\Form',
+                [],
+                [],
+                'Form',
+                false
+            )
         );
+    }
+}
+
+
+class TemplatingMock implements EngineInterface
+{
+
+    public function render($name, array $parameters = array())
+    {
+        // TODO: Implement render() method.
+    }
+
+    public function exists($name)
+    {
+        // TODO: Implement exists() method.
+    }
+
+    public function supports($name)
+    {
+        // TODO: Implement supports() method.
+    }
+}
+
+class FormFactoryMock implements FormFactoryInterface
+{
+
+    private $form;
+
+    public function __construct($form)
+    {
+        $this->form = $form;
+    }
+
+    public function create($type = 'form', $data = null, array $options = array())
+    {
+        return $this->form;
+    }
+
+    public function createNamed($name, $type = 'form', $data = null, array $options = array())
+    {
+        return $this->form;
+    }
+
+    public function createForProperty($class, $property, $data = null, array $options = array())
+    {
+        // FormBuilderInterface
+        // TODO: Implement createForProperty() method.
+    }
+
+    public function createBuilder($type = 'form', $data = null, array $options = array())
+    {
+        // TODO: Implement createBuilder() method.
+    }
+
+    public function createNamedBuilder($name, $type = 'form', $data = null, array $options = array())
+    {
+        // TODO: Implement createNamedBuilder() method.
+    }
+
+    public function createBuilderForProperty($class, $property, $data = null, array $options = array())
+    {
+        // TODO: Implement createBuilderForProperty() method.
     }
 }
