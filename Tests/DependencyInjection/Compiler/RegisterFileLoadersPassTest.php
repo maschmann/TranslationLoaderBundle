@@ -299,7 +299,7 @@ class DummyTranslationManager implements TranslationManagerInterface
     {
     }
 
-    public function getTranslationList($params)
+    public function getTranslationList(array $criteria)
     {
     }
 }

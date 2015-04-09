@@ -39,10 +39,12 @@ class TranslationRepository extends EntityRepository
     }
 
     /**
-     * @param array $params
+     * Get a filtered list of translations.
+     *
+     * @param array $criteria
      * @return array
      */
-    public function getTranslationList(array $params)
+    public function getTranslationList(array $criteria)
     {
         $queryBuilder = $this
             ->createQueryBuilder('t')

@@ -10,8 +10,8 @@
 namespace Asm\TranslationLoaderBundle\Controller;
 
 use Asm\TranslationLoaderBundle\Entity\Translation;
-use Asm\TranslationLoaderBundle\Model\TranslationManager;
-use Symfony\Component\Form\FormFactory;
+use Asm\TranslationLoaderBundle\Model\TranslationManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -22,10 +22,10 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  * @package TranslationLoaderBundle\Controller
  * @author Marc Aschmann <maschmann@gmail.com>
  */
-class TranslationController //extends Controller
+class TranslationController
 {
     /**
-     * @var FormFactory
+     * @var FormFactoryInterface
      */
     private $formFactory;
 
@@ -35,19 +35,19 @@ class TranslationController //extends Controller
     private $templating;
 
     /**
-     * @var TranslationManager
+     * @var TranslationManagerInterface
      */
     private $translationManager;
 
     /**
      * @param EngineInterface $templating
-     * @param TranslationManager $translationManager
-     * @param FormFactory $formFactory
+     * @param TranslationManagerInterface $translationManager
+     * @param FormFactoryInterface $formFactory
      */
     public function __construct(
         EngineInterface $templating,
-        TranslationManager $translationManager,
-        FormFactory $formFactory
+        TranslationManagerInterface $translationManager,
+        FormFactoryInterface $formFactory
     ) {
         $this->formFactory = $formFactory;
         $this->templating = $templating;

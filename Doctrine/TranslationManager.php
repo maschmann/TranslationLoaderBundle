@@ -106,8 +106,8 @@ class TranslationManager extends BaseTranslationManager
     /**
      * {@inheritdoc}
      */
-    public function getTranslationList($params)
+    public function getTranslationList(array $criteria)
     {
-        return $this->repository->getTranslationList($params);
+        return $this->repository->getTranslationList($criteria);
     }
 }

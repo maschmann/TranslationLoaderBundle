@@ -54,7 +54,7 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        assertEquals('DatabaseLoader', $this->translationManagerResource->__toString());
+        $this->assertEquals('DatabaseLoader', $this->translationManagerResource->__toString());
     }
 
     private function createDatabaseLoader()

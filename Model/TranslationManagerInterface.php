@@ -85,10 +85,10 @@ interface TranslationManagerInterface
     public function removeTranslation(TranslationInterface $translation);
 
     /**
-     * Get a ordered and filtered list of translations.
+     * Get a filtered list of translations.
      *
-     * @param array $params
+     * @param array $criteria filter parameters
      * @return array
      */
-    public function getTranslationList($params);
+    public function getTranslationList(array $criteria);
 }
