@@ -1,9 +1,9 @@
 #!/bin/bash
 LOCAL_PATH=$PATH
 SEARCH="node/bin"
-CURRENT_DIR=$(cd $(dirname "$0"); pwd)
+CURRENT_DIR=$(pwd)
 
 if [ "${LOCAL_PATH/$SEARCH}" = "$LOCAL_PATH" ] ; then
   export PATH=$PATH:${CURRENT_DIR}/vendor/node/bin
 fi
-npm "$@"
+node "$@"
