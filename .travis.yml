@@ -2,6 +2,10 @@ sudo: false
 
 language: php
 
+env:
+  global:
+    - deps=""
+
 matrix:
   fast_finish: true
   allow_failures:
@@ -10,6 +14,8 @@ matrix:
     - php: 7.0
   include:
     - php: 5.4
+    - php: 5.4
+      env: deps="low"
     - php: 5.5
     - php: 5.6
       env: SYMFONY_VERSION="2.3.x"
@@ -27,4 +33,5 @@ matrix:
 
 before_script:
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi
-  - composer install
+  - if [ "$deps" = "" ]; then composer install; fi
+  - if [ "$deps" = "low" ]; then composer update --prefer-lowest; fi
