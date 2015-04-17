@@ -185,7 +185,6 @@ class TranslationController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $status = 200;
             $manager = $this->translationManager;
 
             if ('update' == $type) {
