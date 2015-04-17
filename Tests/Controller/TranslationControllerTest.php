@@ -10,20 +10,11 @@
 namespace Asm\TranslationLoaderBundle\Tests\Controller;
 
 use Asm\TranslationLoaderBundle\Controller\TranslationController;
+use Asm\TranslationLoaderBundle\Entity\Translation;
 use Asm\TranslationLoaderBundle\Test\TranslationTestCase;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Form\Exception;
-use Symfony\Component\Form\Exception\TransformationFailedException;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormConfigInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormErrorIterator;
-use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Templating\TemplateReferenceInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TranslationControllerTest
@@ -32,10 +23,19 @@ use Symfony\Component\Templating\TemplateReferenceInterface;
  */
 class TranslationControllerTest extends TranslationTestCase
 {
+    /**
+     * @var \Symfony\Component\Templating\EngineInterface
+     */
     private $templating;
 
+    /**
+     * @var \Symfony\Component\Form\FormFactoryInterface
+     */
     private $formFactory;
 
+    /**
+     * @var \Asm\TranslationLoaderBundle\Controller\TranslationController
+     */
     private $controller;
 
     protected function setUp()
@@ -44,6 +44,12 @@ class TranslationControllerTest extends TranslationTestCase
 
         $this->createTemplating();
         $this->createFormFactory();
+
+        $this->controller = new TranslationController(
+            $this->templating,
+            $this->translationManager,
+            $this->formFactory
+        );
     }
 
     /**
@@ -52,32 +58,356 @@ class TranslationControllerTest extends TranslationTestCase
      */
     public function testListAction()
     {
-        $this->markTestSkipped();
-        $this->controller = new TranslationController(
-            $this->templating,
-            $this->translationManager,
-            $this->formFactory
-        );
-
         $this->assertInstanceOf(
             '\Asm\TranslationLoaderBundle\Controller\TranslationController',
             $this->controller
         );
+
+        $translation = new Translation();
+        $translation
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('testing the translations');
+        $count = new \PHPUnit_Framework_MockObject_Matcher_InvokedCount(2);
+
+
+        $this->translationManager
+            ->expects($count)
+            ->method('getTranslationList')
+            ->will($this->returnValue(
+                array(
+                    $translation,
+                )
+            ));
+
+        $this->expectRender(
+            2,
+            new Response(
+                'Loads of response data',
+                200
+            )
+        );
+
+        // full list
+        $request = new Request();
+        $response = $this->controller->listAction($request);
+        $this->assertTrue($response->isSuccessful());
+
+        // simulate ajax request
+        $request->headers->set('X-Requested-With', 'XMLHttpRequest');
+        $request->setMethod('GET');
+        $response = $this->controller->listAction($request);
+
+        $this->assertTrue($response->isSuccessful());
     }
 
-    public function testFormAction()
+    public function testFormActionEmpty()
     {
-        $this->markTestSkipped();
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(array('createView'))
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('createView');
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationBy')
+            ->with(
+                array(
+                    'transKey'      => '',
+                    'transLocale'   => '',
+                    'messageDomain' => '',
+                )
+            )
+            ->will($this->returnValue(null));
+
+        $this->expectRender(
+            1,
+            new Response(
+                'Loads of response data',
+                200
+            )
+        );
+
+        // new translation
+        $response = $this->controller->formAction();
+        $this->assertTrue($response->isSuccessful());
     }
 
-    public function testCreateAction()
+    public function testFormActionPrefilled()
     {
-        $this->markTestSkipped();
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(array('createView'))
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('createView');
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+        $translation = new Translation();
+        $translation
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('testing the translations');
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationBy')
+            ->with(
+                array(
+                    'transKey'      => 'testing',
+                    'transLocale'   => 'de_DE',
+                    'messageDomain' => 'messages',
+                )
+            )
+            ->will($this->returnValue($translation));
+
+        $this->expectRender(
+            1,
+            new Response(
+                'Loads of response data',
+                200
+            )
+        );
+
+        // with existing translation
+        $response = $this->controller->formAction('testing', 'de_DE', 'messages');
+        $this->assertTrue($response->isSuccessful());
     }
 
-    public function testUpdateAction()
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::createAction()
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::handleForm()
+     */
+    public function testCreateActionValidForm()
     {
-        $this->markTestSkipped();
+        $request = new Request();
+        $translationCreate = new Translation();
+        $translationCreate
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('YaddaYadda!');
+
+        $translationNew = new Translation();
+
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(
+                array(
+                    'createView',
+                    'handleRequest',
+                    'isValid',
+                    'getData',
+                )
+            )
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('handleRequest');
+
+        $form
+            ->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $form
+            ->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($translationCreate));
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('updateTranslation');
+
+        $response = $this->controller->createAction($request);
+        $this->assertTrue($response->isSuccessful());
+    }
+
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::handleForm()
+     */
+    public function testCreateActionInvalidForm()
+    {
+        $request = new Request();
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(
+                array(
+                    'createView',
+                    'handleRequest',
+                    'isValid',
+                    'getData',
+                )
+            )
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('handleRequest');
+
+        $form
+            ->expects($this->once())
+            ->method('createView');
+
+        $form
+            ->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(false));
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+        $response = $this->controller->createAction($request);
+        $this->assertTrue($response->isSuccessful());
+    }
+
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::handleForm()
+     */
+    public function testCreateActionException()
+    {
+        $request = new Request();
+        $translationUpdate = new Translation();
+        $translationUpdate
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('YaddaYadda!');
+
+        $translationOld = new Translation();
+        $translationOld
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('testing the translations');
+
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(
+                array(
+                    'createView',
+                    'handleRequest',
+                    'isValid',
+                    'getData',
+                )
+            )
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('handleRequest');
+
+        $form
+            ->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $form
+            ->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($translationUpdate));
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('updateTranslation')
+            ->will($this->throwException(new \ErrorException('testing errors')));
+
+        $response = $this->controller->createAction($request);
+        $this->assertTrue($response->isSuccessful());
+    }
+
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::updateAction()
+     * @covers \Asm\TranslationLoaderBundle\Controller\TranslationController::handleForm()
+     */
+    public function testUpdateActionValidForm()
+    {
+        $request = new Request();
+        $translationUpdate = new Translation();
+        $translationUpdate
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('YaddaYadda!');
+
+        $translationOld = new Translation();
+        $translationOld
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('testing the translations');
+
+        $form = $this
+            ->getMockBuilder('Symfony\Tests\Component\Form\FormInterface')
+            ->setMethods(
+                array(
+                    'createView',
+                    'handleRequest',
+                    'isValid',
+                    'getData',
+                )
+            )
+            ->getMock();
+        $form
+            ->expects($this->once())
+            ->method('handleRequest');
+
+        $form
+            ->expects($this->once())
+            ->method('isValid')
+            ->will($this->returnValue(true));
+
+        $form
+            ->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue($translationUpdate));
+
+        $this->formFactory
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($form));
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationBy')
+            ->with(
+                array(
+                    'transKey'      => 'testing',
+                    'transLocale'   => 'de_DE',
+                    'messageDomain' => 'messages',
+                )
+            )
+            ->will($this->returnValue($translationOld));
+
+        $response = $this->controller->updateAction($request);
+        $this->assertTrue($response->isSuccessful());
     }
 
     public function testDeleteAction()
@@ -87,81 +417,25 @@ class TranslationControllerTest extends TranslationTestCase
 
     private function createTemplating()
     {
-        $this->templating = new TemplatingMock();
+        $this->templating = $this->getMockBuilder('Symfony\Component\Templating\EngineInterface')->getMock();
+    }
+
+    private function expectRender($times, $response)
+    {
+        $count = new \PHPUnit_Framework_MockObject_Matcher_InvokedCount($times);
+
+        $this->templating
+            ->expects($count)
+            ->method('render')
+            ->will(
+                $this->returnValue(
+                    $response
+                )
+            );
     }
 
     private function createFormFactory()
     {
-        $this->formFactory = new FormFactoryMock(
-            $this->getMock(
-                'Symfony\Component\Form\Form',
-                [],
-                [],
-                'Form',
-                false
-            )
-        );
-    }
-}
-
-
-class TemplatingMock implements EngineInterface
-{
-
-    public function render($name, array $parameters = array())
-    {
-        // TODO: Implement render() method.
-    }
-
-    public function exists($name)
-    {
-        // TODO: Implement exists() method.
-    }
-
-    public function supports($name)
-    {
-        // TODO: Implement supports() method.
-    }
-}
-
-class FormFactoryMock implements FormFactoryInterface
-{
-
-    private $form;
-
-    public function __construct($form)
-    {
-        $this->form = $form;
-    }
-
-    public function create($type = 'form', $data = null, array $options = array())
-    {
-        return $this->form;
-    }
-
-    public function createNamed($name, $type = 'form', $data = null, array $options = array())
-    {
-        return $this->form;
-    }
-
-    public function createForProperty($class, $property, $data = null, array $options = array())
-    {
-        // FormBuilderInterface
-        // TODO: Implement createForProperty() method.
-    }
-
-    public function createBuilder($type = 'form', $data = null, array $options = array())
-    {
-        // TODO: Implement createBuilder() method.
-    }
-
-    public function createNamedBuilder($name, $type = 'form', $data = null, array $options = array())
-    {
-        // TODO: Implement createNamedBuilder() method.
-    }
-
-    public function createBuilderForProperty($class, $property, $data = null, array $options = array())
-    {
-        // TODO: Implement createBuilderForProperty() method.
+        $this->formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
     }
 }

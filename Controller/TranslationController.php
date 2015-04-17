@@ -14,7 +14,8 @@ use Asm\TranslationLoaderBundle\Model\TranslationManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Class TranslationController
@@ -72,10 +73,12 @@ class TranslationController
             $template = 'AsmTranslationLoaderBundle:Translation:list.html.twig';
         }
 
-        return $this->templating->renderResponse(
-            $template,
-            array(
-                'translations' => $translations,
+        return new Response(
+            $this->templating->render(
+                $template,
+                array(
+                    'translations' => $translations,
+                )
             )
         );
     }
@@ -105,11 +108,13 @@ class TranslationController
 
         $form = $this->formFactory->create('asm_translation', $translation, array());
 
-        return $this->templating->renderResponse(
-            'AsmTranslationLoaderBundle:Translation:form.html.twig',
-            array(
-                'form' => $form->createView(),
-                'action' => $action,
+        return new Response(
+            $this->templating->render(
+                'AsmTranslationLoaderBundle:Translation:form.html.twig',
+                array(
+                    'form' => $form->createView(),
+                    'action' => $action,
+                )
             )
         );
     }
@@ -175,7 +180,7 @@ class TranslationController
      */
     private function handleForm($type, $request)
     {
-        $error = array();
+        $error = null;
         $form = $this->formFactory->create('asm_translation', new Translation(), array());
         $form->handleRequest($request);
 
@@ -213,17 +218,21 @@ class TranslationController
                 }
             }
 
-            $response = $this->templating->renderResponse(
-                'AsmTranslationLoaderBundle:Translation:result.html.twig',
-                array(
-                    'error' => $error,
+            $response = new Response(
+                $this->templating->render(
+                    'AsmTranslationLoaderBundle:Translation:result.html.twig',
+                    array(
+                        'error' => $error,
+                    )
                 )
             );
         } else {
-            $response = $this->templating->renderResponse(
-                'AsmTranslationLoaderBundle:Translation:form.html.twig',
-                array(
-                    'form' => $form->createView(),
+            $response = new Response(
+                $this->templating->render(
+                    'AsmTranslationLoaderBundle:Translation:form.html.twig',
+                    array(
+                        'form' => $form->createView(),
+                    )
                 )
             );
         }
