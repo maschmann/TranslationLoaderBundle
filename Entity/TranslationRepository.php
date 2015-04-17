@@ -51,24 +51,24 @@ class TranslationRepository extends EntityRepository
             ->select('t');
 
         // filter
-        if (true === isset($params['filter']) && '' != $params['filter']) {
-            if (false === isset($params['value']) || '' != $params['value']) {
+        if (true === isset($criteria['filter']) && '' != $criteria['filter']) {
+            if (false === isset($criteria['value']) || '' != $criteria['value']) {
                 $queryBuilder->where(
                     $queryBuilder->expr()->like(
-                        't.' . $params['filter'],
-                        $queryBuilder->expr()->literal($params['value'].'%')
+                        't.' . $criteria['filter'],
+                        $queryBuilder->expr()->literal($criteria['value'].'%')
                     )
                 );
             }
         }
 
         // order
-        if (true === isset($params['order']) && '' != $params['order']) {
-            if (false === isset($params['type']) || '' != $params['type']) {
-                $params['type'] = 'ASC';
+        if (true === isset($criteria['order']) && '' != $criteria['order']) {
+            if (false === isset($criteria['type']) || '' != $criteria['type']) {
+                $criteria['type'] = 'ASC';
             }
 
-            $queryBuilder->addOrderBy('t.' . $params['order'], $params['type']);
+            $queryBuilder->addOrderBy('t.' . $criteria['order'], $criteria['type']);
         }
 
         return $queryBuilder
