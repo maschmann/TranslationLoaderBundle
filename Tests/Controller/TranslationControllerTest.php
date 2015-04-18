@@ -412,7 +412,63 @@ class TranslationControllerTest extends TranslationTestCase
 
     public function testDeleteAction()
     {
-        $this->markTestSkipped();
+        $request = new Request();
+        $request->request->add(
+            array(
+                'key' => 'testing',
+                'locale' => 'de_DE',
+                'domain' => 'messages',
+            )
+        );
+
+        $translation = new Translation();
+        $translation
+            ->setTransLocale('de_DE')
+            ->setTransKey('testing')
+            ->setMessageDomain('messages')
+            ->setTranslation('YaddaYadda!');
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationBy')
+            ->with(
+                array(
+                    'transKey'      => 'testing',
+                    'transLocale'   => 'de_DE',
+                    'messageDomain' => 'messages',
+                )
+            )
+            ->will($this->returnValue($translation));
+
+        $response = $this->controller->deleteAction($request);
+        $this->assertTrue($response->isSuccessful());
+    }
+
+    public function testDeleteActionNotFound()
+    {
+        $request = new Request();
+        $request->request->add(
+            array(
+                'key' => 'testing',
+                'locale' => '',
+                'domain' => 'messages',
+            )
+        );
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationBy')
+            ->with(
+                array(
+                    'transKey'      => 'testing',
+                    'transLocale'   => '',
+                    'messageDomain' => 'messages',
+                )
+            )
+            ->will($this->returnValue(null));
+
+        $response = $this->controller->deleteAction($request);
+        $this->assertTrue($response->isNotFound());
     }
 
     private function createTemplating()
