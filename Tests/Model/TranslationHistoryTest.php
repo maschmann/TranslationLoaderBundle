@@ -25,6 +25,10 @@ class TranslationHistoryTest extends \PHPUnit_Framework_TestCase
         $this->translation = new TranslationHistory();
     }
 
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Model\TranslationHistory::setDateOfChange()
+     * @covers \Asm\TranslationLoaderBundle\Model\TranslationHistory::getDateOfChange()
+     */
     public function testDateOfChange()
     {
         $this->assertNull($this->translation->getDateOfChange());
@@ -32,9 +36,18 @@ class TranslationHistoryTest extends \PHPUnit_Framework_TestCase
         $now = new \DateTime();
         $this->translation->setDateOfChange($now);
         $this->assertEquals($now, $this->translation->getDateOfChange());
+
+        $this->translation->setDateOfChange();
+        $this->assertEquals($now, $this->translation->getDateOfChange());
     }
 
-    public function testTransKey() {
+    public function testGetId()
+    {
+        $this->assertNull($this->translation->getId());
+    }
+
+    public function testTransKey()
+    {
         $this->assertNull($this->translation->getTransKey());
 
         $this->translation->setTransKey('foo');
@@ -82,6 +95,6 @@ class TranslationHistoryTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TranslationHistory extends BaseTranslationHistory {
+class TranslationHistory extends BaseTranslationHistory
+{
 }
- 
