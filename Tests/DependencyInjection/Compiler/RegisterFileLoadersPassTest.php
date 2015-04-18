@@ -191,6 +191,19 @@ class RegisterFileLoadersPassTest extends AbstractCompilerPassTestCase
         );
     }
 
+    public function testFileLoaderNotFound()
+    {
+        $this->bootstrapContainer();
+        $this->setParameter('asm_translation_loader.translation_loaders', array());
+        $this->compile();
+        $fileLoaderResolver = $this->getFileLoaderResolver();
+
+        $this->assertEquals(
+            null,
+            $fileLoaderResolver->resolveLoader('pdf')
+        );
+    }
+
     protected function registerCompilerPass(ContainerBuilder $container)
     {
         $container->addCompilerPass(new RegisterFileLoadersPass());

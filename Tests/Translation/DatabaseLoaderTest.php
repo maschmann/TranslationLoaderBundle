@@ -97,6 +97,14 @@ class DatabaseLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(in_array('foo', $this->catalogue->getDomains()));
     }
 
+    public function testGetResource()
+    {
+        $this->assertInstanceOf(
+            '\Asm\TranslationLoaderBundle\Translation\DatabaseLoader',
+            $this->databaseLoader->getResource()
+        );
+    }
+
     private function createTranslationManager()
     {
         $this->translationManager = $this->getMock(
