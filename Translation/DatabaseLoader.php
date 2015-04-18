@@ -64,7 +64,7 @@ class DatabaseLoader implements LoaderInterface, ResourceInterface
      */
     public function __toString()
     {
-        return 'DatabaseLoader::'.base64_encode(get_class_methods(__CLASS__));
+        return 'DatabaseLoader::'.base64_encode(serialize(get_class_methods(__CLASS__)));
     }
 
     /**

@@ -57,6 +57,40 @@ class DatabaseLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->catalogue->has('baz'));
     }
 
+    /**
+     * @covers \Asm\TranslationLoaderBundle\Translation\DatabaseLoader::__toString()
+     */
+    public function testToString()
+    {
+        $this->assertNotEmpty((string)$this->databaseLoader);
+    }
+
+    public function testIsFresh()
+    {
+        $date = new \DateTime();
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationFreshness')
+            ->with($date->getTimestamp())
+            ->will($this->returnValue(3));
+
+        $this->assertTrue($this->databaseLoader->isFresh($date->getTimestamp()));
+    }
+
+    public function testIsFreshNoneFound()
+    {
+        $date = new \DateTime();
+
+        $this->translationManager
+            ->expects($this->once())
+            ->method('findTranslationFreshness')
+            ->with($date->getTimestamp())
+            ->will($this->returnValue(false));
+
+        $this->assertTrue($this->databaseLoader->isFresh($date->getTimestamp()));
+    }
+
     public function testMessageDomains()
     {
         $this->assertTrue(in_array('messages', $this->catalogue->getDomains()));
