@@ -14,7 +14,6 @@ namespace Asm\TranslationLoaderBundle\Doctrine;
 use Asm\TranslationLoaderBundle\Model\TranslationHistoryInterface;
 use Asm\TranslationLoaderBundle\Model\TranslationHistoryManager as BaseTranslationHistoryManager;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
 
 /**
  * TranslationHistoryManager implementation supporting Doctrine.
@@ -29,11 +28,6 @@ class TranslationHistoryManager extends BaseTranslationHistoryManager
     private $objectManager;
 
     /**
-     * @var ObjectRepository
-     */
-    private $repository;
-
-    /**
      * @param ObjectManager $objectManager Object manager for translation history entities
      * @param string        $class         Translation history model class name
      */
@@ -42,7 +36,6 @@ class TranslationHistoryManager extends BaseTranslationHistoryManager
         parent::__construct($class);
 
         $this->objectManager = $objectManager;
-        $this->repository = $objectManager->getRepository($class);
     }
 
     /**
