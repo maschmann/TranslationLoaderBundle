@@ -10,7 +10,7 @@ services:
             - { name: translation.loader, alias: db}
 
     asm_translation_loader.type.translation:
-        class: Asm\TranslationLoaderBundle\Form\TranslationType
+        class: Asm\TranslationLoaderBundle\Form\Type\TranslationType
         tags:
             - { name: form.type, alias: asm_translation }
 

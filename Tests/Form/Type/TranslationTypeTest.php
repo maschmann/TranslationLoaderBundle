@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Asm\TranslationLoaderBundle\Tests\Form;
+namespace Asm\TranslationLoaderBundle\Tests\Form\Type;
 
-use Asm\TranslationLoaderBundle\Form\TranslationType;
+use Asm\TranslationLoaderBundle\Form\Type\TranslationType;
 use Asm\TranslationLoaderBundle\Entity\Translation;
 use Symfony\Component\Form\Test\TypeTestCase;
 
