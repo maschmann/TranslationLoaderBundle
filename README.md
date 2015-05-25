@@ -5,6 +5,7 @@ TranslationLoaderBundle
 [![Latest Stable Version](https://poser.pugx.org/asm/translation-loader-bundle/v/stable.png)](https://packagist.org/packages/asm/translation-loader-bundle)
 [![Total Downloads](https://poser.pugx.org/asm/translation-loader-bundle/downloads.png)](https://packagist.org/packages/asm/translation-loader-bundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maschmann/TranslationLoaderBundle/?branch=master)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/11ee80ea-d70f-41f6-84e6-31a71411c7e8/mini.png)](https://insight.sensiolabs.com/projects/11ee80ea-d70f-41f6-84e6-31a71411c7e8)
 
 [![knpbundles.com](http://knpbundles.com/maschmann/TranslationLoaderBundle/badge-short)](http://knpbundles.com/maschmann/TranslationLoaderBundle) [![phpci build status](http://phpci.br0ken.de/build-status/image/1)](http://phpci.br0ken.de)
 
