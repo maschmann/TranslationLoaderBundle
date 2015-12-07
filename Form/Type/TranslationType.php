@@ -22,12 +22,22 @@ class TranslationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
+            $textTypeName = 'Symfony\Component\Form\Extension\Core\Type\TextType';
+            $textareaTypeName = 'Symfony\Component\Form\Extension\Core\Type\TextareaType';
+            $submitTypeName = 'Symfony\Component\Form\Extension\Core\Type\SubmitType';
+        } else {
+            $textTypeName = 'text';
+            $textareaTypeName = 'textarea';
+            $submitTypeName = 'submit';
+        }
+
         $builder
-            ->add('transLocale', 'text', array('required' => true))
-            ->add('messageDomain', 'text', array('required' => true))
-            ->add('transKey', 'text', array('required' => true))
-            ->add('translation', 'textarea')
-            ->add('save', 'submit');
+            ->add('transLocale', $textTypeName, array('required' => true))
+            ->add('messageDomain', $textTypeName, array('required' => true))
+            ->add('transKey', $textTypeName, array('required' => true))
+            ->add('translation', $textareaTypeName)
+            ->add('save', $submitTypeName);
     }
 
     /**

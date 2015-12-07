@@ -47,8 +47,12 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
             ->method('updateTranslationHistory')
             ->with($this->isInstanceOf('Asm\TranslationLoaderBundle\Model\TranslationHistoryInterface'), false);
         $event = new TranslationEvent($translation);
-        $event->setName($eventName);
-        $translationHistory = $subscriber->updateHistory($event);
+
+        if (method_exists($eventName, 'setName')) {
+            $event->setName($eventName);
+        }
+
+        $translationHistory = $subscriber->updateHistory($event, $eventName);
 
         $this->assertGreaterThanOrEqual($dateBefore, $translationHistory->getDateOfChange());
         $this->assertEquals($translation->getMessageDomain(), $translationHistory->getMessageDomain());

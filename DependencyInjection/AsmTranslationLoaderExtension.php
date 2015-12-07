@@ -78,6 +78,15 @@ class AsmTranslationLoaderExtension extends Extension
 
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');
+
+            $definition = $container->getDefinition('asm_translation_loader.translation.entity_manager');
+
+            if (method_exists('Symfony\Component\DependencyInjection\Definition', 'setFactory')) {
+                $definition->setFactory(array(new Reference('doctrine'), 'getManager'));
+            } else {
+                $definition->setFactoryService('doctrine');
+                $definition->setFactoryMethod('getManager');
+            }
         }
 
         // load the loader resolver service

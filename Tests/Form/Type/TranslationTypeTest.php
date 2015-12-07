@@ -11,8 +11,8 @@ namespace Asm\TranslationLoaderBundle\Tests\Form\Type;
 
 use Asm\TranslationLoaderBundle\Form\Type\TranslationType;
 use Asm\TranslationLoaderBundle\Entity\Translation;
+use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
-
 
 /**
  * Class TranslationTypeTest
@@ -35,8 +35,13 @@ class TranslationTypeTest extends TypeTestCase
 
         $translation = $this->createTestTranslation($formData);
 
-        $type = new TranslationType();
-        $form = $this->factory->create($type);
+        if (method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix')) {
+            $typeName = 'Asm\TranslationLoaderBundle\Form\Type\TranslationType';
+        } else {
+            $typeName = 'asm_translation';
+        }
+
+        $form = $this->factory->create($typeName, new Translation());
 
         // submit the data to the form directly
         $form->submit($formData);
@@ -49,6 +54,17 @@ class TranslationTypeTest extends TypeTestCase
         foreach (array_keys($formData) as $key) {
             $this->assertArrayHasKey($key, $children);
         }
+    }
+
+    protected function getExtensions()
+    {
+        $translationType = new TranslationType();
+
+        return array(
+            new PreloadedExtension(array(
+                $translationType->getName() => $translationType,
+            ), array()),
+        );
     }
 
     /**

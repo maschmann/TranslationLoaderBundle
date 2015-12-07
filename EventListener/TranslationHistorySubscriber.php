@@ -54,10 +54,12 @@ class TranslationHistorySubscriber
     /**
      * Event-based update of the translation history.
      *
-     * @param TranslationEvent $event The event triggering the update
+     * @param TranslationEvent $event     The event triggering the update
+     * @param string           $eventName The name of the triggered event
+     *
      * @return TranslationHistoryInterface The new translation history entry
      */
-    public function updateHistory(TranslationEvent $event)
+    public function updateHistory(TranslationEvent $event, $eventName = null)
     {
         $translation = $event->getTranslation();
 
@@ -67,7 +69,12 @@ class TranslationHistorySubscriber
         $historyEntry->setTransKey($translation->getTransKey());
         $historyEntry->setTransLocale($translation->getTransLocale());
         $historyEntry->setTranslation($translation->getTranslation());
-        $historyEntry->setUserAction(strtolower(substr($event->getName(), 4)));
+
+        if (null === $eventName) {
+            $eventName = $event->getName();
+        }
+
+        $historyEntry->setUserAction(strtolower(substr($eventName, 4)));
 
         if (null !== $token = $this->tokenStorage->getToken()) {
             $historyEntry->setUserName($token->getUsername());

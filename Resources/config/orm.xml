@@ -21,8 +21,6 @@
 
         <service id="asm_translation_loader.translation.entity_manager"
             class="Doctrine\Common\Persistence\ObjectManager"
-            factory-service="doctrine"
-            factory-method="getManager"
             public="false">
 
             <argument>%asm_translation_loader.database.entity_manager%</argument>

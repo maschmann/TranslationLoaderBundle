@@ -4,6 +4,7 @@ CHANGELOG
 1.1.0
 -----
 
+* Add support for Symfony 3.x.
 * added config options that allow to change the entity class names
 * Add Administration GUI
 * drop symfony 2.2 support (moved to travis allow failures)
