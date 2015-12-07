@@ -35,11 +35,9 @@ matrix:
     - php: hhvm
 
 before_install:
+  - if [ "$COVERAGE" != "yes" -a "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi
 
 install:
   - if [ "$deps" = "" ]; then composer install; fi
   - if [ "$deps" = "low" ]; then composer update --prefer-lowest; fi
-
-before_script:
-  - if [ "$COVERAGE" != "yes" -a "$TRAVIS_PHP_VERSION" != "hhvm" ]; then phpenv config-rm xdebug.ini; fi
