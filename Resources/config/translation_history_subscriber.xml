@@ -14,7 +14,7 @@
             class="%asm_translation_loader.history.subscriber.class%">
 
             <argument type="service" id="asm_translation_loader.translation_history_manager" />
-            <argument type="service" id="security.context" />
+            <argument /> <!-- token storage -->
             <tag
                 name="asm_translation_loader.event_listener"
                 event="postPersist"

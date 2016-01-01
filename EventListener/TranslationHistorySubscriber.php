@@ -13,6 +13,7 @@ namespace Asm\TranslationLoaderBundle\EventListener;
 use Asm\TranslationLoaderBundle\Event\TranslationEvent;
 use Asm\TranslationLoaderBundle\Model\TranslationHistoryInterface;
 use Asm\TranslationLoaderBundle\Model\TranslationHistoryManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -29,20 +30,25 @@ class TranslationHistorySubscriber
     private $translationHistoryManager;
 
     /**
-     * @var SecurityContextInterface
+     * @var SecurityContextInterface|TokenStorageInterface
      */
-    private $securityContext;
+    private $tokenStorage;
 
     /**
-     * @param TranslationHistoryManagerInterface $translationHistoryManager
-     * @param SecurityContextInterface $securityContext
+     * @param TranslationHistoryManagerInterface             $translationHistoryManager
+     * @param SecurityContextInterface|TokenStorageInterface $tokenStorage
      */
     public function __construct(
         TranslationHistoryManagerInterface $translationHistoryManager,
-        SecurityContextInterface $securityContext
+        $tokenStorage
     ) {
         $this->translationHistoryManager = $translationHistoryManager;
-        $this->securityContext = $securityContext;
+
+        if (!$tokenStorage instanceof SecurityContextInterface && !$tokenStorage instanceof TokenStorageInterface) {
+            throw new \InvalidArgumentException('Token storage must be an instance of Symfony\Component\Security\Core\SecurityContextInterface or Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface.');
+        }
+
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -63,7 +69,7 @@ class TranslationHistorySubscriber
         $historyEntry->setTranslation($translation->getTranslation());
         $historyEntry->setUserAction(strtolower(substr($event->getName(), 4)));
 
-        if (null !== $token = $this->securityContext->getToken()) {
+        if (null !== $token = $this->tokenStorage->getToken()) {
             $historyEntry->setUserName($token->getUsername());
         } else {
             $historyEntry->setUserName('anonymous');

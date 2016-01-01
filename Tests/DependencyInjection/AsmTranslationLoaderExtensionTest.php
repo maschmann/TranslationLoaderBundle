@@ -100,11 +100,20 @@ class AsmTranslationLoaderExtensionTest extends AbstractExtensionTestCase
             0,
             new Reference('asm_translation_loader.translation_history_manager')
         );
-        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
-            'asm_translation_loader.history.subscriber',
-            1,
-            new Reference('security.context')
-        );
+
+        if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
+            $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+                'asm_translation_loader.history.subscriber',
+                1,
+                new Reference('security.token_storage')
+            );
+        } else {
+            $this->assertContainerBuilderHasServiceDefinitionWithArgument(
+                'asm_translation_loader.history.subscriber',
+                1,
+                new Reference('security.context')
+            );
+        }
 
         foreach (array('postPersist', 'postUpdate', 'postRemove') as $event) {
             $this->assertContainerBuilderHasServiceDefinitionWithTag(
