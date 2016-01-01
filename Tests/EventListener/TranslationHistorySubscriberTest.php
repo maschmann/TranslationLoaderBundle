@@ -120,7 +120,7 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
      */
     private function createAnonymousSecurityContext()
     {
-        return $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
+        return $this->mockTokenStorage();
     }
 
     /**
@@ -133,13 +133,13 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getUsername')
             ->will($this->returnValue('the username'));
-        $securityContext = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
-        $securityContext
+        $tokenStorage = $this->mockTokenStorage();
+        $tokenStorage
             ->expects($this->any())
             ->method('getToken')
             ->will($this->returnValue($token));
 
-        return $securityContext;
+        return $tokenStorage;
     }
 
     private function createRandomDummyTranslation()
@@ -151,6 +151,15 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
         $translation->setTranslation(md5(uniqid()));
 
         return $translation;
+    }
+
+    private function mockTokenStorage()
+    {
+        if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
+            return $this->getMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
+        } else {
+            return $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
+        }
     }
 }
 

@@ -6,6 +6,7 @@ namespace Asm\TranslationLoaderBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -60,6 +61,14 @@ class AsmTranslationLoaderExtension extends Extension
         // check if history feature is enabled
         if (isset($config['history']['enabled']) && true === $config['history']['enabled']) {
             $loader->load('translation_history_subscriber.xml');
+
+            $definition = $container->getDefinition('asm_translation_loader.history.subscriber');
+
+            if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
+                $definition->replaceArgument(1, new Reference('security.token_storage'));
+            } else {
+                $definition->replaceArgument(1, new Reference('security.context'));
+            }
         }
 
 
