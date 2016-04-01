@@ -71,7 +71,10 @@ class AsmTranslationLoaderExtension extends Extension
             }
         }
 
+        $container->setParameter('asm_translation_loader.translation_manager.class', $config['translation_manager']);
+        $container->setParameter('asm_translation_loader.translation_history_manager.class', $config['translation_history_manager']);
         $container->setParameter('asm_translation_loader.model.translation.class', $config['translation_class']);
+        $container->setParameter('asm_translation_loader.model.translation_history.class', $config['translation_history_class']);
 
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');

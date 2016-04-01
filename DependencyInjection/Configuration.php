@@ -127,8 +127,17 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('translation_manager')
+                    ->defaultValue('Asm\TranslationLoaderBundle\Doctrine\TranslationManager')
+                ->end()
+                ->scalarNode('translation_history_manager')
+                    ->defaultValue('Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager')
+                ->end()
                 ->scalarNode('translation_class')
                     ->defaultValue('Asm\TranslationLoaderBundle\Entity\Translation')
+                ->end()
+                ->scalarNode('translation_history_class')
+                    ->defaultValue('Asm\TranslationLoaderBundle\Entity\TranslationHistory')
                 ->end()
             ->end();
 
