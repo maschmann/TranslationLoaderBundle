@@ -7,7 +7,7 @@
     <parameters>
         <parameter key="asm_translation_loader.translation_manager.class">Asm\TranslationLoaderBundle\Doctrine\TranslationManager</parameter>
         <parameter key="asm_translation_loader.translation_history_manager.class">Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager</parameter>
-        <parameter key="asm_translation_loader.model.translation.class">Asm\TranslationLoaderBundle\Entity\Translation</parameter>
+        <!-- <parameter key="asm_translation_loader.model.translation.class">Asm\TranslationLoaderBundle\Entity\Translation</parameter> -->
         <parameter key="asm_translation_loader.model.translation_history.class">Asm\TranslationLoaderBundle\Entity\TranslationHistory</parameter>
     </parameters>
 

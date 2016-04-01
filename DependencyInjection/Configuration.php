@@ -127,6 +127,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('translation_class')
+                    ->defaultValue('Asm\TranslationLoaderBundle\Entity\Translation')
+                ->end()
             ->end();
 
         return $treeBuilder;

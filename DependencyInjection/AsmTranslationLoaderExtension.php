@@ -71,6 +71,7 @@ class AsmTranslationLoaderExtension extends Extension
             }
         }
 
+        $container->setParameter('asm_translation_loader.model.translation.class', $config['translation_class']);
 
         if ('orm' == $config['driver']) {
             $loader->load('orm.xml');
