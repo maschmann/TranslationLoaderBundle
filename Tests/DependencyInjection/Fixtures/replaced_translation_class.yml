@@ -1,0 +1,2 @@
+asm_translation_loader:
+    translation_class: translation_class.foo
