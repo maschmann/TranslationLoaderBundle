@@ -1,0 +1,24 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2016-04-03T07:43:07Z
+
+@quentinsikana Thanks for this PR. The changes look valid to (we should probably get rid of the class parameters in a future release, but that's nothing we can change right now). Can you also update the tests so that they pass again? Adding another test case that makes sure that we can actually change the parameters through the config would be great.
+
+---------------------------------------------------------------------------
+
+by quentinsikana at 2016-04-04T08:23:23Z
+
+@xabbuh Sure!
+But I must confess I'm still not familiar with Symfony2 testing. Could you give me an idea on how to do this?
+
+---------------------------------------------------------------------------
+
+by quentinsikana at 2016-04-05T08:16:56Z
+
+@xabbuh Old tests are now passing and I added a new one as you suggested.
+
+---------------------------------------------------------------------------
+
+by quentinsikana at 2016-04-12T14:26:16Z
+
+Everything looks fine, let's merge? :)
