@@ -86,6 +86,10 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
                     'yaml' => 'translation.loader.yml',
                 ),
                 'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
             ),
             array(__DIR__.'/Fixtures/additional_loader.xml')
         );
@@ -103,6 +107,10 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
                     'yaml' => 'translation.loader.yml',
                 ),
                 'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
             ),
             array(__DIR__.'/Fixtures/additional_loader.yml')
         );
@@ -119,6 +127,10 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
                     'yaml' => 'translation.loader.foo',
                 ),
                 'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
             ),
             array(__DIR__.'/Fixtures/replaced_loader.xml')
         );
@@ -135,8 +147,80 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
                     'yaml' => 'translation.loader.foo',
                 ),
                 'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
             ),
             array(__DIR__.'/Fixtures/replaced_loader.yml')
+        );
+    }
+
+    public function testReplacedTranslationManagerFromYml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(),
+                'history' => array('enabled' => false),
+                'translation_manager' => 'translation_manager.foo',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
+            ),
+            array(__DIR__.'/Fixtures/replaced_translation_manager.yml')
+        );
+    }
+
+    public function testReplacedTranslationHistoryManagerFromYml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(),
+                'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'translation_history_manager.foo',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
+            ),
+            array(__DIR__.'/Fixtures/replaced_translation_history_manager.yml')
+        );
+    }
+
+    public function testReplacedTranslationClassFromYml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(),
+                'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'translation_class.foo',
+                'translation_history_class' => 'Asm\TranslationLoaderBundle\Entity\TranslationHistory',
+            ),
+            array(__DIR__.'/Fixtures/replaced_translation_class.yml')
+        );
+    }
+
+    public function testReplacedTranslationHistoryClassFromYml()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                'resources' => array(),
+                'driver' => 'orm',
+                'loaders' => array(),
+                'history' => array('enabled' => false),
+                'translation_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationManager',
+                'translation_history_manager' => 'Asm\TranslationLoaderBundle\Doctrine\TranslationHistoryManager',
+                'translation_class' => 'Asm\TranslationLoaderBundle\Entity\Translation',
+                'translation_history_class' => 'translation_history_class.foo',
+            ),
+            array(__DIR__.'/Fixtures/replaced_translation_history_class.yml')
         );
     }
 
