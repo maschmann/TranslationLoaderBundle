@@ -55,13 +55,9 @@ abstract class TranslationTestCase extends WebTestCase
     {
         $container = static::$kernel->getContainer();
 
-        $this->translationManager = $this->getMock(
-            'Asm\TranslationLoaderBundle\Model\TranslationManager',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->translationManager = $this->getMockBuilder('Asm\TranslationLoaderBundle\Model\TranslationManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $container->set(
             'asm_translation_loader.translation_manager',

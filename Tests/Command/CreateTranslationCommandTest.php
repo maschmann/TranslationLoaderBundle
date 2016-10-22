@@ -22,7 +22,7 @@ class CreateTranslationCommandTest extends CommandTest
     public function testCommand()
     {
         /** @var \Asm\TranslationLoaderBundle\Model\Translation|\PHPUnit_Framework_MockObject_MockObject $translation */
-        $translation = $this->getMock('Asm\TranslationLoaderBundle\Model\Translation');
+        $translation = $this->getMockBuilder('Asm\TranslationLoaderBundle\Model\Translation')->getMock();
         $translation->setTransKey('foo');
         $translation->setTransLocale('de_DE');
         $translation->setMessageDomain('messages');
@@ -60,7 +60,7 @@ class CreateTranslationCommandTest extends CommandTest
     }
     public function testCommandWithExistingTranslation()
     {
-        $translation = $this->getMock('Asm\TranslationLoaderBundle\Model\Translation');
+        $translation = $this->getMockBuilder('Asm\TranslationLoaderBundle\Model\Translation')->getMock();
         $this->translationManager
             ->expects($this->once())
             ->method('findTranslationBy')

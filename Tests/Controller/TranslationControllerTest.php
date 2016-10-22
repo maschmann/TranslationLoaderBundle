@@ -492,6 +492,6 @@ class TranslationControllerTest extends TranslationTestCase
 
     private function createFormFactory()
     {
-        $this->formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $this->formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactoryInterface')->getMock();
     }
 }

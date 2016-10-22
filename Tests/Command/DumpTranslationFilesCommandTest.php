@@ -28,7 +28,7 @@ class DumpTranslationFilesCommandTest extends CommandTest
     {
         parent::setUp();
 
-        $this->translationWriter = $this->getMock('Symfony\Component\Translation\Writer\TranslationWriter');
+        $this->translationWriter = $this->getMockBuilder('Symfony\Component\Translation\Writer\TranslationWriter')->getMock();
         static::$kernel->getContainer()->set('translation.writer', $this->translationWriter);
     }
 
