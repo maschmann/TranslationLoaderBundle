@@ -172,19 +172,15 @@ class TranslationManagerTest extends BaseTranslationManagerTest
 
     private function createRepository()
     {
-        $this->repository = $this->getMock(
-            'Doctrine\ORM\EntityRepository',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     private function createObjectManager()
     {
         $this->createRepository();
-        $this->objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $this->objectManager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')->getMock();
         $this->objectManager
             ->expects($this->any())
             ->method('getRepository')
@@ -196,6 +192,6 @@ class TranslationManagerTest extends BaseTranslationManagerTest
      */
     private function createTranslation()
     {
-        return $this->getMock('Asm\TranslationLoaderBundle\Entity\Translation');
+        return $this->getMockBuilder('Asm\TranslationLoaderBundle\Entity\Translation')->getMock();
     }
 }

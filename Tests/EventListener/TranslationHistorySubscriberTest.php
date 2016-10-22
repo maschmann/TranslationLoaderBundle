@@ -110,7 +110,7 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
      */
     private function createTranslationHistoryManager()
     {
-        $manager = $this->getMock('Asm\TranslationLoaderBundle\Model\TranslationHistoryManagerInterface');
+        $manager = $this->getMockBuilder('Asm\TranslationLoaderBundle\Model\TranslationHistoryManagerInterface')->getMock();
         $manager
             ->expects($this->any())
             ->method('createTranslationHistory')
@@ -132,7 +132,7 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
      */
     private function createAuthenticatedSecurityContext()
     {
-        $token = $this->getMock('Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
+        $token = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->getMock();
         $token
             ->expects($this->any())
             ->method('getUsername')
@@ -160,9 +160,9 @@ class TranslationHistorySubscriberTest extends \PHPUnit_Framework_TestCase
     private function mockTokenStorage()
     {
         if (interface_exists('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')) {
-            return $this->getMock('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface');
+            return $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
         } else {
-            return $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
+            return $this->getMockBuilder('Symfony\Component\Security\Core\SecurityContextInterface')->getMock();
         }
     }
 }

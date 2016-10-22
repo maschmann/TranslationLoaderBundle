@@ -59,14 +59,9 @@ class TranslationManagerResourceTest extends \PHPUnit_Framework_TestCase
 
     private function createDatabaseLoader()
     {
-        $this->databaseLoader = $this->getMock(
-            '\Asm\TranslationLoaderBundle\Translation\DatabaseLoader',
-            array(
-                'isFresh'
-            ),
-            array(),
-            '',
-            false
-        );
+        $this->databaseLoader = $this->getMockBuilder('\Asm\TranslationLoaderBundle\Translation\DatabaseLoader')
+            ->disableOriginalConstructor()
+            ->setMethods(array('isFresh'))
+            ->getMock();
     }
 }

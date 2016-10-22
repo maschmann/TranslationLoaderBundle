@@ -89,19 +89,15 @@ class TranslationHistoryManagerTest extends \PHPUnit_Framework_TestCase
 
     private function createRepository()
     {
-        $this->repository = $this->getMock(
-            'Doctrine\ORM\EntityRepository',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->repository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     private function createObjectManager()
     {
         $this->createRepository();
-        $this->objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $this->objectManager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')->getMock();
         $this->objectManager
             ->expects($this->any())
             ->method('getRepository')
@@ -113,6 +109,6 @@ class TranslationHistoryManagerTest extends \PHPUnit_Framework_TestCase
      */
     private function createTranslationHistory()
     {
-        return $this->getMock('Asm\TranslationLoaderBundle\Entity\TranslationHistory');
+        return $this->getMockBuilder('Asm\TranslationLoaderBundle\Entity\TranslationHistory')->getMock();
     }
 }

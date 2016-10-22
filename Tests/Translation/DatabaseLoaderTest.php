@@ -107,13 +107,9 @@ class DatabaseLoaderTest extends \PHPUnit_Framework_TestCase
 
     private function createTranslationManager()
     {
-        $this->translationManager = $this->getMock(
-            'Asm\TranslationLoaderBundle\Model\TranslationManager',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->translationManager = $this->getMockBuilder('Asm\TranslationLoaderBundle\Model\TranslationManager')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->translationManager
             ->expects($this->once())
             ->method('findTranslationsByLocaleAndDomain')

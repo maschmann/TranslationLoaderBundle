@@ -95,10 +95,9 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutTranslator()
     {
-        $container = $this->getMock(
-            '\Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('getParameter', 'findDefinition')
-        );
+        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->setMethods(array('getParameter', 'findDefinition'))
+            ->getMock();
         $container
             ->expects($this->once())
             ->method('findDefinition')
@@ -115,10 +114,9 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
 
     public function testWithoutTranslatorAndWithoutLocales()
     {
-        $container = $this->getMock(
-            '\Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('getParameter', 'findDefinition')
-        );
+        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->setMethods(array('getParameter', 'findDefinition'))
+            ->getMock();
         $container
             ->expects($this->once())
             ->method('findDefinition')
@@ -137,11 +135,10 @@ class AddResourcePassTest extends \PHPUnit_Framework_TestCase
      */
     private function createContainer()
     {
-        $container = $this->getMock(
-            '\Symfony\Component\DependencyInjection\ContainerBuilder',
-            array('getParameter', 'findDefinition')
-        );
-        $this->translator = $this->getMock('\Symfony\Component\DependencyInjection\Definition');
+        $container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerBuilder')
+            ->setMethods(array('getParameter', 'findDefinition'))
+            ->getMock();
+        $this->translator = $this->getMockBuilder('\Symfony\Component\DependencyInjection\Definition')->getMock();
         $container
             ->expects($this->any())
             ->method('findDefinition')
