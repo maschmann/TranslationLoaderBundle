@@ -8,13 +8,13 @@ cache:
 
 env:
   global:
-    - deps=""
+    - COMPOSER_OPTIONS="--prefer-stable"
 
 matrix:
   fast_finish: true
   include:
     - php: 5.3
-      env: deps="low"
+      env: COMPOSER_OPTIONS="--prefer-lowest"
     - php: 5.4
     - php: 5.5
     - php: 5.6
@@ -24,6 +24,7 @@ matrix:
     - php: 5.6
       env: SYMFONY_VERSION="3.1.x"
     - php: 7.0
+      env: COMPOSER_OPTIONS=""
     - php: hhvm
 
 before_install:
@@ -33,5 +34,7 @@ before_install:
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require symfony/symfony:${SYMFONY_VERSION} --dev --no-update; fi
 
 install:
-  - if [ "$deps" = "" ]; then composer install; fi
-  - if [ "$deps" = "low" ]; then composer update --prefer-lowest --prefer-stable --prefer-dist; fi
+  - composer update $COMPOSER_OPTIONS
+
+script:
+  - vendor/bin/phpunit
