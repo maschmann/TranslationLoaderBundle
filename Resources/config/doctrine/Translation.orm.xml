@@ -10,7 +10,7 @@
         repository-class="Asm\TranslationLoaderBundle\Entity\TranslationRepository"
     >
         <id name="transKey" type="string" column="trans_key" length="255" />
-        <id name="transLocale" type="string" column="trans_locale" length="5" />
+        <id name="transLocale" type="string" column="trans_locale" length="9" />
         <id name="messageDomain" type="string" column="message_domain" length="255" />
         <field name="translation" type="text" />
         <field name="dateCreated" column="date_created" type="datetime" />
